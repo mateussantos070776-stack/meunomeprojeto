@@ -2,29 +2,45 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MÍDIA NETFLIX</title>
     <style>
-        body { background-color: #141414; color: white; font-family: Arial, sans-serif; margin: 0; display: flex; }
+        body { background-color: #141414; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; }
+        
+        /* Barra Lateral */
         .sidebar { width: 240px; background: #000; height: 100vh; position: fixed; border-right: 1px solid #333; z-index: 100; }
-        .sidebar-logo { color: #E50914; font-size: 24px; font-weight: bold; padding: 20px; display: block; text-decoration: none; cursor: pointer; }
-        .sidebar-btn { display: block; width: 100%; padding: 15px 20px; color: #b3b3b3; border: none; background: none; text-align: left; cursor: pointer; font-size: 16px; }
-        .sidebar-btn:hover { color: white; background: #333; }
-        .main-content { margin-left: 240px; width: 100%; padding: 50px; text-align: center; }
+        .sidebar-logo { color: #E50914; font-size: 26px; font-weight: bold; padding: 25px 20px; display: block; text-decoration: none; cursor: pointer; }
+        .sidebar-btn { display: block; width: 100%; padding: 15px 20px; color: #b3b3b3; border: none; background: none; text-align: left; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        .sidebar-btn:hover { color: white; background: #222; padding-left: 30px; }
         
-        /* Telas e Modais */
-        .screen { display: none; flex-direction: column; align-items: center; gap: 20px; }
-        .box { background: rgba(0,0,0,0.8); padding: 40px; border-radius: 8px; border: 1px solid #333; width: 350px; }
-        input { padding: 15px; border-radius: 4px; border: none; background: #333; color: white; width: 80%; margin-bottom: 10px; text-align: center; font-size: 18px; }
-        button { padding: 15px; background: #E50914; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; }
-        button:hover { background: #b20710; }
+        /* Área Principal */
+        .main-content { margin-left: 240px; width: calc(100% - 240px); padding: 50px; display: flex; justify-content: center; }
         
-        /* Estilo da Chave */
-        .key-display { font-size: 32px; font-weight: bold; color: #E50914; letter-spacing: 5px; margin-bottom: 10px; min-height: 40px; }
-        .copy-btn { background: #444; font-size: 12px; padding: 10px; width: auto; cursor: pointer; border-radius: 4px; border: none; color: white; }
-        .copy-btn:hover { background: #666; }
+        /* Telas */
+        .screen { display: none; flex-direction: column; align-items: center; gap: 20px; width: 100%; max-width: 600px; }
+        .box { background: rgba(0,0,0,0.85); padding: 40px; border-radius: 12px; border: 1px solid #333; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        /* Elementos de Formulário */
+        h2 { margin-top: 0; color: #fff; }
+        input { padding: 15px; border-radius: 4px; border: 1px solid #444; background: #333; color: white; width: calc(100% - 32px); margin-bottom: 15px; font-size: 16px; }
+        button { padding: 15px 25px; background: #E50914; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; transition: 0.2s; }
+        button:hover { background: #f40612; transform: scale(1.02); }
+        
+        /* Botões Secundários */
+        .btn-secondary { background: #444; margin-top: 5px; }
+        .btn-secondary:hover { background: #666; }
+        
+        /* Grid de Ações ADM */
+        .adm-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; width: 100%; margin-top: 20px; }
+        
+        /* Estilo da Chave Gerada */
+        .key-display { font-size: 38px; font-weight: bold; color: #E50914; letter-spacing: 6px; margin: 20px 0; padding: 10px; background: #222; border-radius: 8px; text-align: center; }
+        
+        .back-link { cursor: pointer; color: #b3b3b3; font-size: 13px; text-decoration: underline; margin-top: 20px; display: inline-block; }
     </style>
 </head>
 <body>
+
     <div class="sidebar">
         <a class="sidebar-logo" onclick="location.reload()">MÍDIA NETFLIX</a>
         <button class="sidebar-btn" onclick="showScreen('membros-login')">Membros</button>
@@ -33,52 +49,84 @@
 
     <div class="main-content">
         <div id="welcome" class="screen" style="display: flex;">
-            <h1 style="color: #E50914;">MÍDIA NETFLIX</h1>
-            <p>Selecione uma opção ao lado.</p>
+            <h1 style="color: #E50914; font-size: 48px;">MÍDIA NETFLIX</h1>
+            <p style="font-size: 18px; color: #b3b3b3;">Gestão de Acessos e Conteúdo Protegido.</p>
         </div>
 
         <div id="login-adm" class="screen">
             <div class="box">
-                <h2>Login ADM</h2>
+                <h2>Acesso Restrito ADM</h2>
                 <input type="text" id="adm-user" placeholder="Usuário">
                 <input type="password" id="adm-pass" placeholder="Senha">
-                <button onclick="checkAdm()">Entrar</button>
+                <button onclick="checkAdm()">ENTRAR NO PAINEL</button>
             </div>
         </div>
 
         <div id="panel-adm" class="screen">
             <h1>Painel de Controle</h1>
-            <button style="width: 250px; margin-bottom: 20px;" onclick="showScreen('gerar-chave-screen')">Gerar Chaves de Acesso</button>
-            
-            <div style="display: flex; gap: 10px; justify-content: center;">
-                <button class="copy-btn" style="width: 100px;" onclick="alert('Módulo de Cadastro em breve...')">Cadastros</button>
-                <button class="copy-btn" style="width: 100px;" onclick="alert('Módulo de Busca em breve...')">Buscar</button>
-                <button class="copy-btn" style="width: 100px;" onclick="alert('Módulo de Exclusão em breve...')">Deletar</button>
+            <div class="box" style="text-align: center;">
+                <button style="width: 100%; font-size: 18px;" onclick="showScreen('gerar-chave-screen')">🔑 GERAR NOVA CHAVE</button>
+                
+                <div class="adm-actions">
+                    <button class="btn-secondary" onclick="showScreen('screen-cadastros')">CADASTROS</button>
+                    <button class="btn-secondary" onclick="showScreen('screen-buscar')">BUSCAR</button>
+                    <button class="btn-secondary" onclick="showScreen('screen-deletar')">DELETAR</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-cadastros" class="screen">
+            <div class="box">
+                <h2>Gerenciar Cadastros</h2>
+                <p>Lista de usuários ativos aparecerá aqui.</p>
+                <button class="btn-secondary" onclick="showScreen('panel-adm')">VOLTAR AO PAINEL</button>
+            </div>
+        </div>
+
+        <div id="screen-buscar" class="screen">
+            <div class="box">
+                <h2>Buscar Usuário/Chave</h2>
+                <input type="text" placeholder="Digite o nome ou código...">
+                <button onclick="alert('Busca realizada!')">PESQUISAR</button>
+                <a class="back-link" onclick="showScreen('panel-adm')">Voltar</a>
+            </div>
+        </div>
+
+        <div id="screen-deletar" class="screen">
+            <div class="box">
+                <h2>Remover Acessos</h2>
+                <input type="text" placeholder="ID ou Chave para remover">
+                <button style="background: #b20710;" onclick="confirm('Deseja realmente deletar?')">EXCLUIR PERMANENTEMENTE</button>
+                <a class="back-link" onclick="showScreen('panel-adm')">Voltar</a>
             </div>
         </div>
 
         <div id="gerar-chave-screen" class="screen">
-            <div class="box">
-                <h2>Gerador de Chaves</h2>
+            <div class="box" style="text-align: center;">
+                <h2>Gerador Inteligente</h2>
                 <div class="key-display" id="generated-key">------</div>
-                <button onclick="generateKey()">GERAR CHAVE</button>
-                <button class="copy-btn" style="margin-top: 10px; width: 100%;" onclick="copyKey()">Copiar Código</button>
-                <p onclick="showScreen('panel-adm')" style="cursor:pointer; font-size:12px; margin-top:15px; color: #b3b3b3;">VOLTAR</p>
+                <button onclick="generateKey()" style="width: 100%;">CRIAR CÓDIGO DE ACESSO</button>
+                <button class="btn-secondary" style="width: 100%; margin-top: 10px;" onclick="copyKey()">COPIAR CÓDIGO</button>
+                <a class="back-link" onclick="showScreen('panel-adm')">VOLTAR AO PAINEL</a>
             </div>
         </div>
 
         <div id="membros-login" class="screen">
             <div class="box">
                 <h2>Área de Membros</h2>
-                <input type="text" id="member-key" placeholder="Digite sua Chave">
-                <button onclick="checkMemberKey()">Acessar Conteúdo</button>
+                <p>Insira sua chave de acesso para visualizar o conteúdo.</p>
+                <input type="text" id="member-key" placeholder="000000">
+                <button onclick="checkMemberKey()">ACESSAR AGORA</button>
             </div>
         </div>
 
         <div id="content-live" class="screen">
-            <h1 style="color: #E50914;">Acesso Liberado!</h1>
-            <p>Bem-vindo ao catálogo de vídeos.</p>
-            <div style="width: 200px; height: 120px; background: #333; display: flex; align-items: center; justify-content: center; border-radius: 8px;">VÍDEO 1</div>
+            <h1 style="color: #E50914;">Acesso Confirmado</h1>
+            <div class="box" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+                <div style="width: 200px; height: 110px; background: #333; border-radius: 8px; display: flex; align-items: center; justify-content: center;">VÍDEO 1</div>
+                <div style="width: 200px; height: 110px; background: #333; border-radius: 8px; display: flex; align-items: center; justify-content: center;">VÍDEO 2</div>
+            </div>
+            <button class="btn-secondary" onclick="location.reload()">SAIR</button>
         </div>
     </div>
 
@@ -87,15 +135,18 @@
 
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-            document.getElementById(id).style.display = 'flex';
+            const target = document.getElementById(id);
+            target.style.display = 'flex';
         }
 
         function checkAdm() {
-            const user = document.getElementById('adm-user').value;
-            const pass = document.getElementById('adm-pass').value;
-            if(user === "1515" && pass === "151") {
+            const u = document.getElementById('adm-user').value;
+            const p = document.getElementById('adm-pass').value;
+            if(u === "1515" && p === "151") {
                 showScreen('panel-adm');
-            } else { alert("Acesso Negado!"); }
+            } else {
+                alert("Credenciais de Administrador Inválidas!");
+            }
         }
 
         function generateKey() {
@@ -106,13 +157,13 @@
         function copyKey() {
             const txt = document.getElementById('generated-key').innerText;
             if(txt !== "------") {
-                const tempInput = document.createElement("input");
-                tempInput.value = txt;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand("copy");
-                document.body.removeChild(tempInput);
-                alert("Chave copiada: " + txt);
+                const el = document.createElement('textarea');
+                el.value = txt;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+                alert("Chave " + txt + " copiada para a área de transferência!");
             }
         }
 
@@ -121,7 +172,7 @@
             if(input === chaveMestra.toString() && input !== "") {
                 showScreen('content-live');
             } else {
-                alert("Chave Inválida ou Expirada!");
+                alert("Chave incorreta ou não gerada pelo ADM!");
             }
         }
     </script>
