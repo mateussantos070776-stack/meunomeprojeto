@@ -16,10 +16,12 @@
         .box { background: rgba(0,0,0,0.8); padding: 40px; border-radius: 8px; border: 1px solid #333; width: 350px; }
         input { padding: 15px; border-radius: 4px; border: none; background: #333; color: white; width: 80%; margin-bottom: 10px; text-align: center; font-size: 18px; }
         button { padding: 15px; background: #E50914; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; }
+        button:hover { background: #b20710; }
         
         /* Estilo da Chave */
         .key-display { font-size: 32px; font-weight: bold; color: #E50914; letter-spacing: 5px; margin-bottom: 10px; min-height: 40px; }
-        .copy-btn { background: #444; font-size: 12px; padding: 5px; width: auto; margin-left: 10px; display: inline-block; }
+        .copy-btn { background: #444; font-size: 12px; padding: 10px; width: auto; cursor: pointer; border-radius: 4px; border: none; color: white; }
+        .copy-btn:hover { background: #666; }
     </style>
 </head>
 <body>
@@ -46,8 +48,13 @@
 
         <div id="panel-adm" class="screen">
             <h1>Painel de Controle</h1>
-            <button style="width: 200px; margin-bottom: 20px;" onclick="showScreen('gerar-chave-screen')">Gerar Chaves de Acesso</button>
-            <p>Outras opções: Cadastros | Buscar | Deletar</p>
+            <button style="width: 250px; margin-bottom: 20px;" onclick="showScreen('gerar-chave-screen')">Gerar Chaves de Acesso</button>
+            
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="copy-btn" style="width: 100px;" onclick="alert('Módulo de Cadastro em breve...')">Cadastros</button>
+                <button class="copy-btn" style="width: 100px;" onclick="alert('Módulo de Busca em breve...')">Buscar</button>
+                <button class="copy-btn" style="width: 100px;" onclick="alert('Módulo de Exclusão em breve...')">Deletar</button>
+            </div>
         </div>
 
         <div id="gerar-chave-screen" class="screen">
@@ -55,15 +62,15 @@
                 <h2>Gerador de Chaves</h2>
                 <div class="key-display" id="generated-key">------</div>
                 <button onclick="generateKey()">GERAR CHAVE</button>
-                <button class="copy-btn" onclick="copyKey()">Copiar Código</button>
-                <p onclick="showScreen('panel-adm')" style="cursor:pointer; font-size:12px; margin-top:15px;">VOLTAR</p>
+                <button class="copy-btn" style="margin-top: 10px; width: 100%;" onclick="copyKey()">Copiar Código</button>
+                <p onclick="showScreen('panel-adm')" style="cursor:pointer; font-size:12px; margin-top:15px; color: #b3b3b3;">VOLTAR</p>
             </div>
         </div>
 
         <div id="membros-login" class="screen">
             <div class="box">
                 <h2>Área de Membros</h2>
-                <input type="text" id="member-key" placeholder="Digite sua Chave de 6 dígitos">
+                <input type="text" id="member-key" placeholder="Digite sua Chave">
                 <button onclick="checkMemberKey()">Acessar Conteúdo</button>
             </div>
         </div>
@@ -71,7 +78,7 @@
         <div id="content-live" class="screen">
             <h1 style="color: #E50914;">Acesso Liberado!</h1>
             <p>Bem-vindo ao catálogo de vídeos.</p>
-            <div style="width: 200px; height: 120px; background: #333; margin: auto;">VÍDEO 1</div>
+            <div style="width: 200px; height: 120px; background: #333; display: flex; align-items: center; justify-content: center; border-radius: 8px;">VÍDEO 1</div>
         </div>
     </div>
 
@@ -84,13 +91,14 @@
         }
 
         function checkAdm() {
-            if(document.getElementById('adm-user').value === "1515" && document.getElementById('adm-pass').value === "151") {
+            const user = document.getElementById('adm-user').value;
+            const pass = document.getElementById('adm-pass').value;
+            if(user === "1515" && pass === "151") {
                 showScreen('panel-adm');
             } else { alert("Acesso Negado!"); }
         }
 
         function generateKey() {
-            // Gera número entre 111111 e 999999
             chaveMestra = Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111;
             document.getElementById('generated-key').innerText = chaveMestra;
         }
@@ -98,7 +106,12 @@
         function copyKey() {
             const txt = document.getElementById('generated-key').innerText;
             if(txt !== "------") {
-                navigator.clipboard.writeText(txt);
+                const tempInput = document.createElement("input");
+                tempInput.value = txt;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
                 alert("Chave copiada: " + txt);
             }
         }
@@ -108,7 +121,7 @@
             if(input === chaveMestra.toString() && input !== "") {
                 showScreen('content-live');
             } else {
-                alert("Senha Incorreta!");
+                alert("Chave Inválida ou Expirada!");
             }
         }
     </script>
