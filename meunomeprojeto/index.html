@@ -81,7 +81,6 @@
     </div>
 
     <script>
-        // CONFIGURAÇÃO DO SEU FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyA-uzWKwZ5aW-t40uamPDpHLqx3Yd4ei8g",
             authDomain: "kerix-midia.firebaseapp.com",
@@ -98,7 +97,7 @@
         let currentUser = "";
         let nomeUsuario = "";
 
-        // Sincroniza Chave e Chat
+        // Escuta as mudanças de acesso em tempo real
         db.ref('acesso').on('value', (s) => {
             const data = s.val();
             if(data) {
@@ -128,27 +127,37 @@
         function generateKey() {
             const u = Math.floor(Math.random() * 899999 + 111111).toString();
             const k = Math.floor(Math.random() * 899999 + 111111).toString();
-            db.ref('acesso').set({ usuario: u, chave: k });
+            db.ref('acesso').set({ usuario: u, chave: k }).then(() => {
+                alert("✅ Novo acesso exclusivo gerado no banco!");
+            });
         }
 
         function realizarLoginMembro() {
             const n = document.getElementById('member-name').value;
             const u = document.getElementById('member-user').value;
             const k = document.getElementById('member-key').value;
-            if (n && u === currentUser && k === currentKey) {
+
+            // Log para debug se necessário
+            console.log("Tentando login com:", u, k);
+            console.log("Corretos no banco:", currentUser, currentKey);
+
+            if (n && u === currentUser && k === currentKey && currentUser !== "") {
                 nomeUsuario = n;
                 db.ref('usuarios').push({ nome: n });
                 document.getElementById('welcome-msg').innerText = `✅ Olá, ${n}!`;
                 showScreen('content-live');
                 alert("✅ Sinal verde: Bem-vindo ao Kerix Mídia!");
-            } else { alert("Dados incorretos!"); }
+            } else { 
+                alert("❌ Dados incorretos! Gere uma nova chave no ADM primeiro."); 
+            }
         }
 
         function enviarMsg(autor) {
-            const txt = autor === 'ADM' ? document.getElementById('msg-adm').value : document.getElementById('msg-membro').value;
+            const input = autor === 'ADM' ? document.getElementById('msg-adm') : document.getElementById('msg-membro');
+            const txt = input.value;
             if(txt) {
                 db.ref('mensagens').push({ autor: autor, texto: txt });
-                document.getElementById('msg-adm').value = "";
+                input.value = "";
             }
         }
 
