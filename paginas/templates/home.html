@@ -4,77 +4,111 @@
     <meta charset="UTF-8">
     <title>MÍDIA NETFLIX</title>
     <style>
-        body { background-color: #141414; color: white; font-family: Arial, sans-serif; margin: 0; display: flex; overflow-x: hidden; }
+        body { background-color: #141414; color: white; font-family: Arial, sans-serif; margin: 0; display: flex; }
         .sidebar { width: 240px; background: #000; height: 100vh; position: fixed; border-right: 1px solid #333; z-index: 100; }
         .sidebar-logo { color: #E50914; font-size: 24px; font-weight: bold; padding: 20px; display: block; text-decoration: none; cursor: pointer; }
         .sidebar-btn { display: block; width: 100%; padding: 15px 20px; color: #b3b3b3; border: none; background: none; text-align: left; cursor: pointer; font-size: 16px; }
         .sidebar-btn:hover { color: white; background: #333; }
-        .main-content { margin-left: 240px; width: 100%; padding: 50px; }
+        .main-content { margin-left: 240px; width: 100%; padding: 50px; text-align: center; }
         
-        /* Modal de Login */
-        #login-screen {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;
-        }
-        .login-box { background: rgba(0,0,0,0.8); padding: 60px; border-radius: 8px; width: 300px; display: flex; flex-direction: column; gap: 20px; border: 1px solid #333; }
-        .login-box input { padding: 15px; border-radius: 4px; border: none; background: #333; color: white; }
-        .login-box button { padding: 15px; background: #E50914; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
-
-        /* Painel ADM */
-        #admin-panel { display: none; flex-direction: column; gap: 30px; margin-top: 20px; }
-        .grid-adm { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .card-adm { background: #222; padding: 30px; border-radius: 8px; text-align: center; cursor: pointer; transition: 0.3s; border: 1px solid #444; }
-        .card-adm:hover { background: #333; transform: translateY(-5px); border-color: #E50914; }
+        /* Telas e Modais */
+        .screen { display: none; flex-direction: column; align-items: center; gap: 20px; }
+        .box { background: rgba(0,0,0,0.8); padding: 40px; border-radius: 8px; border: 1px solid #333; width: 350px; }
+        input { padding: 15px; border-radius: 4px; border: none; background: #333; color: white; width: 80%; margin-bottom: 10px; text-align: center; font-size: 18px; }
+        button { padding: 15px; background: #E50914; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; }
+        
+        /* Estilo da Chave */
+        .key-display { font-size: 32px; font-weight: bold; color: #E50914; letter-spacing: 5px; margin-bottom: 10px; min-height: 40px; }
+        .copy-btn { background: #444; font-size: 12px; padding: 5px; width: auto; margin-left: 10px; display: inline-block; }
     </style>
 </head>
 <body>
     <div class="sidebar">
         <a class="sidebar-logo" onclick="location.reload()">MÍDIA NETFLIX</a>
-        <button class="sidebar-btn" onclick="alert('Área de Membros em breve!')">Membros</button>
-        <button class="sidebar-btn" onclick="abrirLogin()">Sala ADM</button>
-    </div>
-
-    <div id="login-screen">
-        <div class="login-box">
-            <h2>Entrar ADM</h2>
-            <input type="text" id="user" placeholder="Usuário">
-            <input type="password" id="pass" placeholder="Senha">
-            <button onclick="validarLogin()">Entrar</button>
-            <span style="color: #aaa; cursor: pointer; text-align: center; font-size: 12px;" onclick="fecharLogin()">VOLTAR</span>
-        </div>
+        <button class="sidebar-btn" onclick="showScreen('membros-login')">Membros</button>
+        <button class="sidebar-btn" onclick="showScreen('login-adm')">Sala ADM</button>
     </div>
 
     <div class="main-content">
-        <div id="site-welcome">
-            <h1 style="color: #E50914;">Bem-vindo à Mídia Netflix</h1>
-            <p>Selecione uma opção na barra lateral para começar.</p>
+        <div id="welcome" class="screen" style="display: flex;">
+            <h1 style="color: #E50914;">MÍDIA NETFLIX</h1>
+            <p>Selecione uma opção ao lado.</p>
         </div>
 
-        <div id="admin-panel">
-            <h1>Painel de Controle ADM</h1>
-            <div class="grid-adm">
-                <div class="card-adm" onclick="alert('Abrindo Cadastros...')"><h3>Cadastros</h3></div>
-                <div class="card-adm" onclick="alert('Gerando Chaves...')"><h3>Gerar Chaves de Acesso</h3></div>
-                <div class="card-adm" onclick="alert('Buscando Usuários...')"><h3>Buscar Usuários</h3></div>
-                <div class="card-adm" onclick="alert('Deletar Usuários...')"><h3>Deletar Usuários</h3></div>
+        <div id="login-adm" class="screen">
+            <div class="box">
+                <h2>Login ADM</h2>
+                <input type="text" id="adm-user" placeholder="Usuário">
+                <input type="password" id="adm-pass" placeholder="Senha">
+                <button onclick="checkAdm()">Entrar</button>
             </div>
-            <button onclick="location.reload()" style="margin-top:20px; background:none; border:1px solid #E50914; color:white; padding:10px; cursor:pointer;">Sair do Painel</button>
+        </div>
+
+        <div id="panel-adm" class="screen">
+            <h1>Painel de Controle</h1>
+            <button style="width: 200px; margin-bottom: 20px;" onclick="showScreen('gerar-chave-screen')">Gerar Chaves de Acesso</button>
+            <p>Outras opções: Cadastros | Buscar | Deletar</p>
+        </div>
+
+        <div id="gerar-chave-screen" class="screen">
+            <div class="box">
+                <h2>Gerador de Chaves</h2>
+                <div class="key-display" id="generated-key">------</div>
+                <button onclick="generateKey()">GERAR CHAVE</button>
+                <button class="copy-btn" onclick="copyKey()">Copiar Código</button>
+                <p onclick="showScreen('panel-adm')" style="cursor:pointer; font-size:12px; margin-top:15px;">VOLTAR</p>
+            </div>
+        </div>
+
+        <div id="membros-login" class="screen">
+            <div class="box">
+                <h2>Área de Membros</h2>
+                <input type="text" id="member-key" placeholder="Digite sua Chave de 6 dígitos">
+                <button onclick="checkMemberKey()">Acessar Conteúdo</button>
+            </div>
+        </div>
+
+        <div id="content-live" class="screen">
+            <h1 style="color: #E50914;">Acesso Liberado!</h1>
+            <p>Bem-vindo ao catálogo de vídeos.</p>
+            <div style="width: 200px; height: 120px; background: #333; margin: auto;">VÍDEO 1</div>
         </div>
     </div>
 
     <script>
-        function abrirLogin() { document.getElementById('login-screen').style.display = 'flex'; }
-        function fecharLogin() { document.getElementById('login-screen').style.display = 'none'; }
-        
-        function validarLogin() {
-            const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
-            if(u === "1515" && p === "151") {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('site-welcome').style.display = 'none';
-                document.getElementById('admin-panel').style.display = 'flex';
+        let chaveMestra = "";
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function checkAdm() {
+            if(document.getElementById('adm-user').value === "1515" && document.getElementById('adm-pass').value === "151") {
+                showScreen('panel-adm');
+            } else { alert("Acesso Negado!"); }
+        }
+
+        function generateKey() {
+            // Gera número entre 111111 e 999999
+            chaveMestra = Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111;
+            document.getElementById('generated-key').innerText = chaveMestra;
+        }
+
+        function copyKey() {
+            const txt = document.getElementById('generated-key').innerText;
+            if(txt !== "------") {
+                navigator.clipboard.writeText(txt);
+                alert("Chave copiada: " + txt);
+            }
+        }
+
+        function checkMemberKey() {
+            const input = document.getElementById('member-key').value;
+            if(input === chaveMestra.toString() && input !== "") {
+                showScreen('content-live');
             } else {
-                alert("Usuário ou Senha incorretos!");
+                alert("Senha Incorreta!");
             }
         }
     </script>
