@@ -3,49 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KERIX MÍDIA - ACESSO EXCLUSIVO</title>
+    <title>KERIX MÍDIA - CENTRALIZADO</title>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #000; color: #fff; text-align: center; padding: 20px; }
-        .screen { display: none; max-width: 400px; margin: 0 auto; background: #111; padding: 25px; border-radius: 15px; border: 1px solid #333; box-shadow: 0 0 20px rgba(229, 9, 20, 0.2); }
-        input { width: 90%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #444; background: #222; color: #fff; }
-        button { width: 95%; padding: 14px; margin: 10px 0; cursor: pointer; border-radius: 8px; border: none; font-weight: bold; transition: 0.3s; }
+        /* Estilo para manter tudo centralizado e responsivo */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #000; 
+            color: #fff; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .screen { 
+            display: none; 
+            width: 90%;
+            max-width: 400px; 
+            background: #111; 
+            padding: 30px; 
+            border-radius: 20px; 
+            border: 1px solid #333; 
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            margin: 10px 0; 
+            border-radius: 8px; 
+            border: 1px solid #444; 
+            background: #222; 
+            color: #fff; 
+            box-sizing: border-box; /* Garante que o padding não quebre a largura */
+        }
+        button { 
+            width: 100%; 
+            padding: 14px; 
+            margin: 10px 0; 
+            cursor: pointer; 
+            border-radius: 8px; 
+            border: none; 
+            font-weight: bold; 
+            font-size: 1rem;
+            transition: 0.3s; 
+        }
         .btn-red { background: #E50914; color: white; }
-        .btn-green { background: #008000; color: white; box-shadow: 0 0 10px rgba(0, 128, 0, 0.5); }
+        .btn-green { background: #008000; color: white; }
         .btn-gray { background: #333; color: white; }
         button:hover { opacity: 0.8; transform: scale(1.02); }
-        h2 { color: #E50914; margin-bottom: 20px; }
-        .data-display { background: #000; padding: 15px; border-radius: 10px; border: 1px dashed #00ff00; margin: 15px 0; }
-        #generated-user, #generated-key { color: #00ff00; font-family: monospace; font-size: 1.4em; letter-spacing: 2px; }
+        
+        .data-box { 
+            background: #000; 
+            padding: 15px; 
+            border-radius: 10px; 
+            border: 1px solid #00ff00; 
+            margin: 20px 0; 
+        }
+        #generated-user, #generated-key { 
+            color: #00ff00; 
+            font-family: monospace; 
+            font-size: 1.5em; 
+        }
+        h1 { color: #E50914; margin-bottom: 30px; }
     </style>
 </head>
 <body>
 
     <div id="screen-home" class="screen" style="display:block;">
         <h1>KERIX MÍDIA</h1>
-        <button class="btn-red" onclick="showScreen('screen-membros')">Acessar Área de Membros</button>
-        <button class="btn-gray" onclick="showScreen('screen-adm-login')">Painel Administrativo</button>
+        <button class="btn-red" onclick="showScreen('screen-membros')">Área de Membros</button>
+        <button class="btn-gray" onclick="showScreen('screen-adm-login')">Painel ADM</button>
     </div>
 
     <div id="screen-adm-login" class="screen">
         <h2>Acesso ADM</h2>
-        <input type="text" id="adm-user" placeholder="Usuário ADM">
-        <input type="password" id="adm-pass" placeholder="Senha ADM">
+        <input type="text" id="adm-user" placeholder="Usuário">
+        <input type="password" id="adm-pass" placeholder="Senha">
         <button class="btn-red" onclick="checkAdm()">ENTRAR</button>
         <button class="btn-gray" onclick="showScreen('screen-home')">Voltar</button>
     </div>
 
     <div id="screen-adm-panel" class="screen">
-        <h2>Gerador de Acessos</h2>
-        <div class="data-display">
-            <p>👤 USUÁRIO: <br><strong id="generated-user">------</strong></p>
-            <p>🔑 CHAVE: <br><strong id="generated-key">------</strong></p>
+        <h2>Gerador Exclusivo</h2>
+        <div class="data-box">
+            <p>👤 USUÁRIO:<br><strong id="generated-user">------</strong></p>
+            <p>🔑 CHAVE:<br><strong id="generated-key">------</strong></p>
         </div>
-        <button class="btn-green" onclick="generateKey()">GERAR ACESSO EXCLUSIVO</button>
+        <button class="btn-green" onclick="generateKey()">GERAR NOVO ACESSO</button>
         <button class="btn-gray" onclick="showScreen('screen-home')">Sair</button>
     </div>
 
     <div id="screen-membros" class="screen">
-        <h2>Login de Membro</h2>
+        <h2>Acesso Membro</h2>
         <input type="text" id="member-user" placeholder="Digite seu Usuário">
         <input type="text" id="member-key" placeholder="Digite sua Chave">
         <button class="btn-green" onclick="realizarLoginMembro()">ENTRAR NO SITE</button>
@@ -55,14 +106,10 @@
     <div id="content-live" class="screen">
         <h2 style="color: #00ff00;">✅ ACESSO LIBERADO</h2>
         <p>Bem-vindo ao Kerix Mídia!</p>
-        <div style="padding: 40px; border: 1px solid #333; background: #000; border-radius: 10px;">
-            <p>Seu conteúdo exclusivo aparece aqui.</p>
-        </div>
-        <button class="btn-red" onclick="location.reload()" style="margin-top: 20px;">SAIR</button>
+        <button class="btn-red" onclick="location.reload()">SAIR</button>
     </div>
 
     <script>
-        // Sistema de memória do navegador
         let chaveMestra = localStorage.getItem('chaveMestra') || "";
         let usuarioMestre = localStorage.getItem('usuarioMestre') || "";
 
@@ -73,30 +120,24 @@
             }
         };
 
-        // Gerador: Cria usuário e chave com 6 caracteres cada
         function generateKey() {
             usuarioMestre = Math.floor(Math.random() * 899999 + 111111).toString();
             chaveMestra = Math.floor(Math.random() * 899999 + 111111).toString();
-            
             localStorage.setItem('usuarioMestre', usuarioMestre);
             localStorage.setItem('chaveMestra', chaveMestra);
-            
             document.getElementById('generated-user').innerText = usuarioMestre;
             document.getElementById('generated-key').innerText = chaveMestra;
-            
-            alert("✅ Par de acesso exclusivo gerado!");
+            alert("✅ Novo acesso exclusivo gerado!");
         }
 
-        // Login com notificação push verde solicitada
         function realizarLoginMembro() {
             const u = document.getElementById('member-user').value;
             const k = document.getElementById('member-key').value;
-
             if (u === usuarioMestre && k === chaveMestra && chaveMestra !== "") {
                 alert("✅ Sinal Verde: Bem-vindo ao Kerix Mídia!"); 
                 showScreen('content-live');
             } else {
-                alert("❌ Erro: Usuário ou Chave não conferem!");
+                alert("❌ Erro: Dados incorretos!");
             }
         }
 
@@ -106,9 +147,8 @@
         }
 
         function checkAdm() {
-            const u = document.getElementById('adm-user').value;
-            const p = document.getElementById('adm-pass').value;
-            if(u === "1515" && p === "151") {
+            if(document.getElementById('adm-user').value === "1515" && 
+               document.getElementById('adm-pass').value === "151") {
                 showScreen('screen-adm-panel');
             } else {
                 alert("Acesso Negado!");
