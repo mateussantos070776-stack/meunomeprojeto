@@ -4,152 +4,163 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KERIX MÍDIA - CENTRALIZADO</title>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #000; 
-            color: #fff; 
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-        .screen { 
-            display: none; 
-            width: 90%;
-            max-width: 400px; 
-            background: #111; 
-            padding: 30px; 
-            border-radius: 20px; 
-            border: 1px solid #333; 
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        input { 
-            width: 100%; 
-            padding: 12px; 
-            margin: 10px 0; 
-            border-radius: 8px; 
-            border: 1px solid #444; 
-            background: #222; 
-            color: #fff; 
-            box-sizing: border-box; 
-        }
-        button { 
-            width: 100%; 
-            padding: 14px; 
-            margin: 10px 0; 
-            cursor: pointer; 
-            border-radius: 8px; 
-            border: none; 
-            font-weight: bold; 
-            font-size: 1rem;
-            transition: 0.3s; 
-        }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #000; color: #fff; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+        .screen { display: none; width: 90%; max-width: 400px; background: #111; padding: 30px; border-radius: 20px; border: 1px solid #333; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #444; background: #222; color: #fff; box-sizing: border-box; }
+        button { width: 100%; padding: 14px; margin: 10px 0; cursor: pointer; border-radius: 8px; border: none; font-weight: bold; transition: 0.3s; }
         .btn-red { background: #E50914; color: white; }
         .btn-green { background: #008000; color: white; }
         .btn-blue { background: #007bff; color: white; }
         .btn-gray { background: #333; color: white; }
-        button:hover { opacity: 0.8; transform: scale(1.02); }
-        
-        .data-box { 
-            background: #000; 
-            padding: 15px; 
-            border-radius: 10px; 
-            border: 1px solid #00ff00; 
-            margin: 20px 0; 
-        }
-        #generated-user, #generated-key { 
-            color: #00ff00; 
-            font-family: monospace; 
-            font-size: 1.5em; 
-        }
-        h1 { color: #E50914; margin-bottom: 30px; }
+        .data-box { background: #000; padding: 15px; border-radius: 10px; border: 1px solid #00ff00; margin: 20px 0; max-height: 200px; overflow-y: auto; text-align: left; }
     </style>
 </head>
 <body>
-
-    <div id="screen-home" class="screen" style="display:block;">
-        <h1>KERIX MÍDIA</h1>
-        <button class="btn-red" onclick="showScreen('screen-membros')">Área de Membros</button>
-        <button class="btn-gray" onclick="showScreen('screen-adm-login')">Painel ADM</button>
-    </div>
 
     <div id="screen-adm-login" class="screen">
         <h2>Acesso ADM</h2>
         <input type="text" id="adm-user" placeholder="Usuário">
         <input type="password" id="adm-pass" placeholder="Senha">
         <button class="btn-red" onclick="checkAdm()">ENTRAR</button>
-        <button class="btn-gray" onclick="showScreen('screen-home')">Voltar</button>
+        <button class="btn-gray" onclick="location.reload()">Sair</button>
     </div>
 
     <div id="screen-adm-panel" class="screen">
-        <h2>Gerador Exclusivo</h2>
-        <div class="data-box">
-            <p>👤 USUÁRIO:<br><strong id="generated-user">------</strong></p>
-            <p>🔑 CHAVE:<br><strong id="generated-key">------</strong></p>
-        </div>
-        <button class="btn-green" onclick="generateKey()">GERAR NOVO ACESSO</button>
-        <button id="btn-copy" class="btn-blue" onclick="copyAccess()" style="display:none;">COPIAR ACESSO COMPLETO</button>
-        <button class="btn-gray" onclick="showScreen('screen-home')">Sair</button>
+        <h2>Painel ADM Kerix</h2>
+        <button class="btn-blue" onclick="showScreen('screen-gen')">Gerador Exclusivo</button>
+        <button class="btn-blue" onclick="showScreen('screen-list-users')">Usuários Cadastrados</button>
+        <button class="btn-blue" onclick="showScreen('screen-adm-chat')">Conversar com Membro</button>
+        <button class="btn-gray" onclick="location.reload()">Sair</button>
     </div>
 
-    <div id="screen-membros" class="screen">
+    <div id="screen-gen" class="screen">
+        <h2>Gerador Exclusivo</h2>
+        <div class="data-box" style="text-align: center;">
+            <p>👤 USUÁRIO: <strong id="generated-user">------</strong></p>
+            <p>🔑 CHAVE: <strong id="generated-key">------</strong></p>
+        </div>
+        <button class="btn-green" onclick="generateKey()">GERAR NOVO ACESSO</button>
+        <button class="btn-blue" id="btn-copy" style="display:none;" onclick="copyAccess()">COPIAR ACESSO</button>
+        <button class="btn-gray" onclick="showScreen('screen-adm-panel')">Voltar</button>
+    </div>
+
+    <div id="screen-list-users" class="screen">
+        <h2>Usuários</h2>
+        <div id="user-list" class="data-box">Buscando usuários...</div>
+        <button class="btn-red" onclick="removerUsuario()">REMOVER TODOS</button>
+        <button class="btn-gray" onclick="showScreen('screen-adm-panel')">Voltar</button>
+    </div>
+
+    <div id="screen-adm-chat" class="screen">
+        <h2>Chat Privado</h2>
+        <div id="chat-box-adm" class="data-box"></div>
+        <textarea id="msg-adm" placeholder="Digite sua mensagem..."></textarea>
+        <button class="btn-green" onclick="enviarMsg('ADM')">ENVIAR</button>
+        <button class="btn-gray" onclick="showScreen('screen-adm-panel')">Voltar</button>
+    </div>
+
+    <div id="screen-membros" class="screen" style="display:block;">
+        <h1>KERIX MÍDIA</h1>
         <h2>Acesso Membro</h2>
-        <input type="text" id="member-user" placeholder="Digite seu Usuário">
-        <input type="text" id="member-key" placeholder="Digite sua Chave">
+        <input type="text" id="member-name" placeholder="Seu Nome Completo">
+        <input type="text" id="member-user" placeholder="Usuário">
+        <input type="text" id="member-key" placeholder="Chave">
         <button class="btn-green" onclick="realizarLoginMembro()">ENTRAR NO SITE</button>
-        <button class="btn-gray" onclick="showScreen('screen-home')">Voltar</button>
+        <button class="btn-gray" onclick="showScreen('screen-adm-login')">Sou ADM</button>
     </div>
 
     <div id="content-live" class="screen">
-        <h2 style="color: #00ff00;">✅ ACESSO LIBERADO</h2>
-        <p>Bem-vindo ao Kerix Mídia!</p>
+        <h2 id="welcome-msg">Bem-vindo</h2>
+        <div id="chat-box-membro" class="data-box"></div>
+        <textarea id="msg-membro" placeholder="Escreva aqui..."></textarea>
+        <button class="btn-green" onclick="enviarMsgMembro()">ENVIAR RESPOSTA</button>
         <button class="btn-red" onclick="location.reload()">SAIR</button>
     </div>
 
     <script>
-        let chaveMestra = localStorage.getItem('chaveMestra') || "";
-        let usuarioMestre = localStorage.getItem('usuarioMestre') || "";
+        // CONFIGURAÇÃO DO SEU FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyA-uzWKwZ5aW-t40uamPDpHLqx3Yd4ei8g",
+            authDomain: "kerix-midia.firebaseapp.com",
+            databaseURL: "https://kerix-midia-default-rtdb.firebaseio.com",
+            projectId: "kerix-midia",
+            storageBucket: "kerix-midia.firebasestorage.app",
+            messagingSenderId: "1009939877055",
+            appId: "1:1009939877055:web:42b9c88989f9e17cffca0a"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
 
-        window.onload = function() {
-            if (chaveMestra && usuarioMestre) {
-                document.getElementById('generated-key').innerText = chaveMestra;
-                document.getElementById('generated-user').innerText = usuarioMestre;
+        let currentKey = "";
+        let currentUser = "";
+        let nomeUsuario = "";
+
+        // Sincroniza Chave e Chat
+        db.ref('acesso').on('value', (s) => {
+            const data = s.val();
+            if(data) {
+                currentKey = data.chave;
+                currentUser = data.usuario;
+                document.getElementById('generated-user').innerText = currentUser;
+                document.getElementById('generated-key').innerText = currentKey;
                 document.getElementById('btn-copy').style.display = 'block';
             }
-        };
+        });
+
+        db.ref('mensagens').on('value', (s) => {
+            let html = "";
+            s.forEach(m => {
+                html += `<div><b>${m.val().autor}:</b> ${m.val().texto}</div>`;
+            });
+            document.getElementById('chat-box-adm').innerHTML = html;
+            document.getElementById('chat-box-membro').innerHTML = html;
+        });
+
+        db.ref('usuarios').on('value', (s) => {
+            let html = "";
+            s.forEach(u => { html += `<div>👤 ${u.val().nome}</div>`; });
+            document.getElementById('user-list').innerHTML = html || "Nenhum usuário online";
+        });
 
         function generateKey() {
-            usuarioMestre = Math.floor(Math.random() * 899999 + 111111).toString();
-            chaveMestra = Math.floor(Math.random() * 899999 + 111111).toString();
-            localStorage.setItem('usuarioMestre', usuarioMestre);
-            localStorage.setItem('chaveMestra', chaveMestra);
-            document.getElementById('generated-user').innerText = usuarioMestre;
-            document.getElementById('generated-key').innerText = chaveMestra;
-            document.getElementById('btn-copy').style.display = 'block';
-            alert("✅ Novo acesso exclusivo gerado!");
-        }
-
-        function copyAccess() {
-            const textToCopy = `━━━━━━━━━━━━━━━\n🎥 *KERIX MÍDIA - ACESSO*\n━━━━━━━━━━━━━━━\n👤 USUÁRIO: ${usuarioMestre}\n🔑 CHAVE: ${chaveMestra}\n━━━━━━━━━━━━━━━`;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alert("✅ Acesso copiado com sucesso!");
-            });
+            const u = Math.floor(Math.random() * 899999 + 111111).toString();
+            const k = Math.floor(Math.random() * 899999 + 111111).toString();
+            db.ref('acesso').set({ usuario: u, chave: k });
         }
 
         function realizarLoginMembro() {
+            const n = document.getElementById('member-name').value;
             const u = document.getElementById('member-user').value;
             const k = document.getElementById('member-key').value;
-            if (u === usuarioMestre && k === chaveMestra && chaveMestra !== "") {
-                alert("✅ Sinal Verde: Bem-vindo ao Kerix Mídia!"); 
+            if (n && u === currentUser && k === currentKey) {
+                nomeUsuario = n;
+                db.ref('usuarios').push({ nome: n });
+                document.getElementById('welcome-msg').innerText = `✅ Olá, ${n}!`;
                 showScreen('content-live');
-            } else {
-                alert("❌ Erro: Dados incorretos!");
+                alert("✅ Sinal verde: Bem-vindo ao Kerix Mídia!");
+            } else { alert("Dados incorretos!"); }
+        }
+
+        function enviarMsg(autor) {
+            const txt = autor === 'ADM' ? document.getElementById('msg-adm').value : document.getElementById('msg-membro').value;
+            if(txt) {
+                db.ref('mensagens').push({ autor: autor, texto: txt });
+                document.getElementById('msg-adm').value = "";
             }
         }
+
+        function enviarMsgMembro() {
+            const txt = document.getElementById('msg-membro').value;
+            if(txt) {
+                db.ref('mensagens').push({ autor: nomeUsuario, texto: txt });
+                document.getElementById('msg-membro').value = "";
+            }
+        }
+
+        function removerUsuario() { db.ref('usuarios').remove(); }
 
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
@@ -157,12 +168,15 @@
         }
 
         function checkAdm() {
-            if(document.getElementById('adm-user').value === "1515" && 
-               document.getElementById('adm-pass').value === "151") {
+            if(document.getElementById('adm-user').value === "1515" && document.getElementById('adm-pass').value === "151") {
                 showScreen('screen-adm-panel');
-            } else {
-                alert("Acesso Negado!");
-            }
+            } else { alert("Acesso negado!"); }
+        }
+
+        function copyAccess() {
+            const text = `🎥 *KERIX MÍDIA*\n👤 USUÁRIO: ${currentUser}\n🔑 CHAVE: ${currentKey}`;
+            navigator.clipboard.writeText(text);
+            alert("✅ Copiado!");
         }
     </script>
 </body>
