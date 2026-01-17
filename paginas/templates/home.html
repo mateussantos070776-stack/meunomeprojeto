@@ -4,89 +4,58 @@
     <meta charset="UTF-8">
     <title>MÍDIA NETFLIX</title>
     <style>
-        body {
-            background-color: #141414;
-            color: white;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            margin: 0;
-            display: flex; /* Cria espaço para a barra lateral */
+        body { background-color: #141414; color: white; font-family: Arial, sans-serif; margin: 0; display: flex; }
+        .sidebar { width: 240px; background: #000; height: 100vh; position: fixed; border-right: 1px solid #333; z-index: 100; }
+        .sidebar-logo { color: #E50914; font-size: 24px; font-weight: bold; padding: 20px; display: block; text-decoration: none; }
+        .sidebar-btn { display: block; width: 100%; padding: 15px 20px; color: #b3b3b3; border: none; background: none; text-align: left; cursor: pointer; font-size: 16px; }
+        .sidebar-btn:hover { color: white; background: #333; }
+        .main-content { margin-left: 240px; width: 100%; }
+        
+        /* Modal de Login Estilo Netflix */
+        #login-screen {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;
         }
-        /* Barra Lateral */
-        .sidebar {
-            width: 240px;
-            background-color: #000;
-            height: 100vh;
-            position: fixed;
-            padding-top: 20px;
-            border-right: 1px solid #333;
+        .login-box {
+            background: rgba(0,0,0,0.75); padding: 60px; border-radius: 8px; width: 300px;
+            display: flex; flex-direction: column; gap: 20px;
         }
-        .sidebar-logo {
-            color: #E50914;
-            font-size: 24px;
-            font-weight: bold;
-            padding: 20px;
-            display: block;
-            text-decoration: none;
+        .login-box h2 { margin-top: 0; }
+        .login-box input {
+            padding: 15px; border-radius: 4px; border: none; background: #333; color: white;
         }
-        .sidebar-btn {
-            display: block;
-            width: 100%;
-            padding: 15px 20px;
-            color: #b3b3b3;
-            text-decoration: none;
-            font-size: 16px;
-            transition: 0.3s;
-            border: none;
-            background: none;
-            text-align: left;
-            cursor: pointer;
+        .login-box button {
+            padding: 15px; background: #E50914; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;
         }
-        .sidebar-btn:hover {
-            color: white;
-            background-color: #333;
-        }
-        /* Conteúdo Principal */
-        .main-content {
-            margin-left: 240px; /* Empurra o conteúdo para o lado da barra */
-            width: 100%;
-        }
-        .hero {
-            height: 60vh;
-            background: linear-gradient(to top, #141414, transparent), 
-                        url('https://images.unsplash.com/photo-1504052434139-441ca3640078?q=80&w=2070') no-repeat center/cover;
-            display: flex;
-            align-items: center;
-            padding: 0 50px;
-        }
-        .row { padding: 20px 50px; }
-        .posters { display: flex; gap: 10px; overflow-x: auto; padding: 20px 0; }
-        .poster { flex: 0 0 200px; height: 120px; background: #333; border-radius: 4px; }
+        .close-btn { color: #aaa; font-size: 12px; cursor: pointer; text-align: center; }
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <a href="#" class="sidebar-logo">MÍDIA NETFLIX</a>
+        <a href="#" class="sidebar-logo" onclick="location.reload()">MÍDIA NETFLIX</a>
         <button class="sidebar-btn" onclick="alert('Área de Membros em breve!')">Membros</button>
-        <button class="sidebar-btn" onclick="alert('Acessando Sala ADM...')">Sala ADM</button>
+        <button class="sidebar-btn" onclick="abrirLogin()">Sala ADM</button>
+    </div>
+
+    <div id="login-screen">
+        <div class="login-box">
+            <h2>Entrar</h2>
+            <input type="text" placeholder="Usuário">
+            <input type="password" placeholder="Senha">
+            <button onclick="alert('Sistema de login será conectado ao banco de dados em breve!')">Entrar</button>
+            <div class="close-btn" onclick="fecharLogin()">VOLTAR AO SITE</div>
+        </div>
     </div>
 
     <div class="main-content">
-        <header class="hero">
-            <div>
-                <h1>A Bíblia Explicada</h1>
-                <p>Estudos detalhados para membros e administradores.</p>
-            </div>
+        <header style="height: 60vh; background: linear-gradient(to top, #141414, transparent), url('https://images.unsplash.com/photo-1504052434139-441ca3640078?q=80&w=2070') center/cover; display: flex; align-items: center; padding: 0 50px;">
+            <h1>A Bíblia Explicada</h1>
         </header>
-
-        <div class="row">
-            <h2>Minha Lista</h2>
-            <div class="posters">
-                <div class="poster"></div>
-                <div class="poster"></div>
-                <div class="poster"></div>
-                <div class="poster"></div>
-            </div>
-        </div>
     </div>
+
+    <script>
+        function abrirLogin() { document.getElementById('login-screen').style.display = 'flex'; }
+        function fecharLogin() { document.getElementById('login-screen').style.display = 'none'; }
+    </script>
 </body>
 </html>
