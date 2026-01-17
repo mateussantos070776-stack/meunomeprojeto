@@ -4,58 +4,79 @@
     <meta charset="UTF-8">
     <title>MÍDIA NETFLIX</title>
     <style>
-        body { background-color: #141414; color: white; font-family: Arial, sans-serif; margin: 0; display: flex; }
+        body { background-color: #141414; color: white; font-family: Arial, sans-serif; margin: 0; display: flex; overflow-x: hidden; }
         .sidebar { width: 240px; background: #000; height: 100vh; position: fixed; border-right: 1px solid #333; z-index: 100; }
-        .sidebar-logo { color: #E50914; font-size: 24px; font-weight: bold; padding: 20px; display: block; text-decoration: none; }
+        .sidebar-logo { color: #E50914; font-size: 24px; font-weight: bold; padding: 20px; display: block; text-decoration: none; cursor: pointer; }
         .sidebar-btn { display: block; width: 100%; padding: 15px 20px; color: #b3b3b3; border: none; background: none; text-align: left; cursor: pointer; font-size: 16px; }
         .sidebar-btn:hover { color: white; background: #333; }
-        .main-content { margin-left: 240px; width: 100%; }
+        .main-content { margin-left: 240px; width: 100%; padding: 50px; }
         
-        /* Modal de Login Estilo Netflix */
+        /* Modal de Login */
         #login-screen {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;
         }
-        .login-box {
-            background: rgba(0,0,0,0.75); padding: 60px; border-radius: 8px; width: 300px;
-            display: flex; flex-direction: column; gap: 20px;
-        }
-        .login-box h2 { margin-top: 0; }
-        .login-box input {
-            padding: 15px; border-radius: 4px; border: none; background: #333; color: white;
-        }
-        .login-box button {
-            padding: 15px; background: #E50914; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;
-        }
-        .close-btn { color: #aaa; font-size: 12px; cursor: pointer; text-align: center; }
+        .login-box { background: rgba(0,0,0,0.8); padding: 60px; border-radius: 8px; width: 300px; display: flex; flex-direction: column; gap: 20px; border: 1px solid #333; }
+        .login-box input { padding: 15px; border-radius: 4px; border: none; background: #333; color: white; }
+        .login-box button { padding: 15px; background: #E50914; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
+
+        /* Painel ADM */
+        #admin-panel { display: none; flex-direction: column; gap: 30px; margin-top: 20px; }
+        .grid-adm { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .card-adm { background: #222; padding: 30px; border-radius: 8px; text-align: center; cursor: pointer; transition: 0.3s; border: 1px solid #444; }
+        .card-adm:hover { background: #333; transform: translateY(-5px); border-color: #E50914; }
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <a href="#" class="sidebar-logo" onclick="location.reload()">MÍDIA NETFLIX</a>
+        <a class="sidebar-logo" onclick="location.reload()">MÍDIA NETFLIX</a>
         <button class="sidebar-btn" onclick="alert('Área de Membros em breve!')">Membros</button>
         <button class="sidebar-btn" onclick="abrirLogin()">Sala ADM</button>
     </div>
 
     <div id="login-screen">
         <div class="login-box">
-            <h2>Entrar</h2>
-            <input type="text" placeholder="Usuário">
-            <input type="password" placeholder="Senha">
-            <button onclick="alert('Sistema de login será conectado ao banco de dados em breve!')">Entrar</button>
-            <div class="close-btn" onclick="fecharLogin()">VOLTAR AO SITE</div>
+            <h2>Entrar ADM</h2>
+            <input type="text" id="user" placeholder="Usuário">
+            <input type="password" id="pass" placeholder="Senha">
+            <button onclick="validarLogin()">Entrar</button>
+            <span style="color: #aaa; cursor: pointer; text-align: center; font-size: 12px;" onclick="fecharLogin()">VOLTAR</span>
         </div>
     </div>
 
     <div class="main-content">
-        <header style="height: 60vh; background: linear-gradient(to top, #141414, transparent), url('https://images.unsplash.com/photo-1504052434139-441ca3640078?q=80&w=2070') center/cover; display: flex; align-items: center; padding: 0 50px;">
-            <h1>A Bíblia Explicada</h1>
-        </header>
+        <div id="site-welcome">
+            <h1 style="color: #E50914;">Bem-vindo à Mídia Netflix</h1>
+            <p>Selecione uma opção na barra lateral para começar.</p>
+        </div>
+
+        <div id="admin-panel">
+            <h1>Painel de Controle ADM</h1>
+            <div class="grid-adm">
+                <div class="card-adm" onclick="alert('Abrindo Cadastros...')"><h3>Cadastros</h3></div>
+                <div class="card-adm" onclick="alert('Gerando Chaves...')"><h3>Gerar Chaves de Acesso</h3></div>
+                <div class="card-adm" onclick="alert('Buscando Usuários...')"><h3>Buscar Usuários</h3></div>
+                <div class="card-adm" onclick="alert('Deletar Usuários...')"><h3>Deletar Usuários</h3></div>
+            </div>
+            <button onclick="location.reload()" style="margin-top:20px; background:none; border:1px solid #E50914; color:white; padding:10px; cursor:pointer;">Sair do Painel</button>
+        </div>
     </div>
 
     <script>
         function abrirLogin() { document.getElementById('login-screen').style.display = 'flex'; }
         function fecharLogin() { document.getElementById('login-screen').style.display = 'none'; }
+        
+        function validarLogin() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            if(u === "1515" && p === "151") {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('site-welcome').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'flex';
+            } else {
+                alert("Usuário ou Senha incorretos!");
+            }
+        }
     </script>
 </body>
 </html>
