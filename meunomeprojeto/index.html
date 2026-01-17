@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KERIX MÍDIA - CENTRALIZADO</title>
     <style>
-        /* Estilo para manter tudo centralizado e responsivo */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background-color: #000; 
@@ -36,7 +35,7 @@
             border: 1px solid #444; 
             background: #222; 
             color: #fff; 
-            box-sizing: border-box; /* Garante que o padding não quebre a largura */
+            box-sizing: border-box; 
         }
         button { 
             width: 100%; 
@@ -51,6 +50,7 @@
         }
         .btn-red { background: #E50914; color: white; }
         .btn-green { background: #008000; color: white; }
+        .btn-blue { background: #007bff; color: white; }
         .btn-gray { background: #333; color: white; }
         button:hover { opacity: 0.8; transform: scale(1.02); }
         
@@ -92,6 +92,7 @@
             <p>🔑 CHAVE:<br><strong id="generated-key">------</strong></p>
         </div>
         <button class="btn-green" onclick="generateKey()">GERAR NOVO ACESSO</button>
+        <button id="btn-copy" class="btn-blue" onclick="copyAccess()" style="display:none;">COPIAR ACESSO COMPLETO</button>
         <button class="btn-gray" onclick="showScreen('screen-home')">Sair</button>
     </div>
 
@@ -117,6 +118,7 @@
             if (chaveMestra && usuarioMestre) {
                 document.getElementById('generated-key').innerText = chaveMestra;
                 document.getElementById('generated-user').innerText = usuarioMestre;
+                document.getElementById('btn-copy').style.display = 'block';
             }
         };
 
@@ -127,7 +129,15 @@
             localStorage.setItem('chaveMestra', chaveMestra);
             document.getElementById('generated-user').innerText = usuarioMestre;
             document.getElementById('generated-key').innerText = chaveMestra;
+            document.getElementById('btn-copy').style.display = 'block';
             alert("✅ Novo acesso exclusivo gerado!");
+        }
+
+        function copyAccess() {
+            const textToCopy = `━━━━━━━━━━━━━━━\n🎥 *KERIX MÍDIA - ACESSO*\n━━━━━━━━━━━━━━━\n👤 USUÁRIO: ${usuarioMestre}\n🔑 CHAVE: ${chaveMestra}\n━━━━━━━━━━━━━━━`;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("✅ Acesso copiado com sucesso!");
+            });
         }
 
         function realizarLoginMembro() {
