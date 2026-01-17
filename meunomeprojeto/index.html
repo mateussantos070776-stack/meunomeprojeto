@@ -3,176 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MÍDIA NETFLIX</title>
+    <title>MÍDIA NETFLIX - KERIX</title>
     <style>
-        body { background-color: #141414; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; }
-        
-        /* Barra Lateral */
-        .sidebar { width: 240px; background: #000; height: 100vh; position: fixed; border-right: 1px solid #333; z-index: 100; }
-        .sidebar-logo { color: #E50914; font-size: 26px; font-weight: bold; padding: 25px 20px; display: block; text-decoration: none; cursor: pointer; }
-        .sidebar-btn { display: block; width: 100%; padding: 15px 20px; color: #b3b3b3; border: none; background: none; text-align: left; cursor: pointer; font-size: 16px; transition: 0.3s; }
-        .sidebar-btn:hover { color: white; background: #222; padding-left: 30px; }
-        
-        /* Área Principal */
-        .main-content { margin-left: 240px; width: calc(100% - 240px); padding: 50px; display: flex; justify-content: center; }
-        
-        /* Telas */
-        .screen { display: none; flex-direction: column; align-items: center; gap: 20px; width: 100%; max-width: 600px; }
-        .box { background: rgba(0,0,0,0.85); padding: 40px; border-radius: 12px; border: 1px solid #333; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        
-        /* Elementos de Formulário */
-        h2 { margin-top: 0; color: #fff; }
-        input { padding: 15px; border-radius: 4px; border: 1px solid #444; background: #333; color: white; width: calc(100% - 32px); margin-bottom: 15px; font-size: 16px; }
-        button { padding: 15px 25px; background: #E50914; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; transition: 0.2s; }
-        button:hover { background: #f40612; transform: scale(1.02); }
-        
-        /* Botões Secundários */
-        .btn-secondary { background: #444; margin-top: 5px; }
-        .btn-secondary:hover { background: #666; }
-        
-        /* Grid de Ações ADM */
-        .adm-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; width: 100%; margin-top: 20px; }
-        
-        /* Estilo da Chave Gerada */
-        .key-display { font-size: 38px; font-weight: bold; color: #E50914; letter-spacing: 6px; margin: 20px 0; padding: 10px; background: #222; border-radius: 8px; text-align: center; }
-        
-        .back-link { cursor: pointer; color: #b3b3b3; font-size: 13px; text-decoration: underline; margin-top: 20px; display: inline-block; }
+        /* Estilo básico para o funcionamento das telas */
+        body { font-family: Arial, sans-serif; background-color: #000; color: #fff; text-align: center; padding: 20px; }
+        .screen { display: none; max-width: 400px; margin: 0 auto; background: #111; padding: 20px; border-radius: 15px; border: 1px solid #333; }
+        input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; }
+        button { width: 95%; padding: 12px; margin: 10px 0; cursor: pointer; border-radius: 5px; border: none; font-weight: bold; }
+        .btn-red { background: #E50914; color: white; }
+        .btn-green { background: #008000; color: white; }
+        .btn-gray { background: #333; color: white; }
+        h2 { color: #E50914; }
+        #generated-user, #generated-key { color: #00ff00; font-size: 1.2em; }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <a class="sidebar-logo" onclick="location.reload()">MÍDIA NETFLIX</a>
-        <button class="sidebar-btn" onclick="showScreen('membros-login')">Membros</button>
-        <button class="sidebar-btn" onclick="showScreen('login-adm')">Sala ADM</button>
+    <div id="screen-home" class="screen" style="display:block;">
+        <h1>MÍDIA NETFLIX</h1>
+        <button class="btn-red" onclick="showScreen('screen-membros')">Área de Membros</button>
+        <button class="btn-gray" onclick="showScreen('screen-adm-login')">Sala ADM</button>
     </div>
 
-    <div class="main-content">
-        <div id="welcome" class="screen" style="display: flex;">
-            <h1 style="color: #E50914; font-size: 48px;">MÍDIA NETFLIX</h1>
-            <p style="font-size: 18px; color: #b3b3b3;">Gestão de Acessos e Conteúdo Protegido.</p>
-        </div>
+    <div id="screen-adm-login" class="screen">
+        <h2>Acesso Restrito ADM</h2>
+        <input type="text" id="adm-user" placeholder="Usuário ADM">
+        <input type="password" id="adm-pass" placeholder="Senha ADM">
+        <button class="btn-red" onclick="checkAdm()">ENTRAR NO PAINEL</button>
+        <button class="btn-gray" onclick="showScreen('screen-home')">Voltar</button>
+    </div>
 
-        <div id="login-adm" class="screen">
-            <div class="box">
-                <h2>Acesso Restrito ADM</h2>
-                <input type="text" id="adm-user" placeholder="Usuário">
-                <input type="password" id="adm-pass" placeholder="Senha">
-                <button onclick="checkAdm()">ENTRAR NO PAINEL</button>
-            </div>
+    <div id="screen-adm-panel" class="screen">
+        <h2>Painel de Controle Kerix</h2>
+        <div style="background: #222; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+            <p>👤 Usuário Gerado: <strong id="generated-user">------</strong></p>
+            <p>🔑 Chave de Acesso: <strong id="generated-key">------</strong></p>
+            <button class="btn-green" onclick="generateKey()">GERAR NOVO ACESSO EXCLUSIVO</button>
         </div>
+        <button class="btn-gray" onclick="showScreen('screen-home')">Sair do Painel</button>
+    </div>
 
-        <div id="panel-adm" class="screen">
-            <h1>Painel de Controle</h1>
-            <div class="box" style="text-align: center;">
-                <button style="width: 100%; font-size: 18px;" onclick="showScreen('gerar-chave-screen')">🔑 GERAR NOVA CHAVE</button>
-                
-                <div class="adm-actions">
-                    <button class="btn-secondary" onclick="showScreen('screen-cadastros')">CADASTROS</button>
-                    <button class="btn-secondary" onclick="showScreen('screen-buscar')">BUSCAR</button>
-                    <button class="btn-secondary" onclick="showScreen('screen-deletar')">DELETAR</button>
-                </div>
-            </div>
-        </div>
+    <div id="screen-membros" class="screen">
+        <h2>Área de Membros</h2>
+        <p>Acesso Kerix Mídia</p>
+        <input type="text" id="member-user" placeholder="Digite seu Usuário">
+        <input type="text" id="member-key" placeholder="Digite sua Chave">
+        <button class="btn-green" onclick="realizarLoginMembro()">ENTRAR NO CONTEÚDO</button>
+        <button class="btn-gray" onclick="showScreen('screen-home')">Voltar</button>
+    </div>
 
-        <div id="screen-cadastros" class="screen">
-            <div class="box">
-                <h2>Gerenciar Cadastros</h2>
-                <p>Lista de usuários ativos aparecerá aqui.</p>
-                <button class="btn-secondary" onclick="showScreen('panel-adm')">VOLTAR AO PAINEL</button>
-            </div>
+    <div id="content-live" class="screen">
+        <h2 style="color: #00ff00;">✅ ACESSO LIBERADO</h2>
+        <p>Bem-vindo ao conteúdo exclusivo do Kerix Mídia!</p>
+        <div style="background: #222; height: 200px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+            <p>[Aqui entra seu conteúdo/vídeos]</p>
         </div>
-
-        <div id="screen-buscar" class="screen">
-            <div class="box">
-                <h2>Buscar Usuário/Chave</h2>
-                <input type="text" placeholder="Digite o nome ou código...">
-                <button onclick="alert('Busca realizada!')">PESQUISAR</button>
-                <a class="back-link" onclick="showScreen('panel-adm')">Voltar</a>
-            </div>
-        </div>
-
-        <div id="screen-deletar" class="screen">
-            <div class="box">
-                <h2>Remover Acessos</h2>
-                <input type="text" placeholder="ID ou Chave para remover">
-                <button style="background: #b20710;" onclick="confirm('Deseja realmente deletar?')">EXCLUIR PERMANENTEMENTE</button>
-                <a class="back-link" onclick="showScreen('panel-adm')">Voltar</a>
-            </div>
-        </div>
-
-        <div id="gerar-chave-screen" class="screen">
-            <div class="box" style="text-align: center;">
-                <h2>Gerador Inteligente</h2>
-                <div class="key-display" id="generated-key">------</div>
-                <button onclick="generateKey()" style="width: 100%;">CRIAR CÓDIGO DE ACESSO</button>
-                <button class="btn-secondary" style="width: 100%; margin-top: 10px;" onclick="copyKey()">COPIAR CÓDIGO</button>
-                <a class="back-link" onclick="showScreen('panel-adm')">VOLTAR AO PAINEL</a>
-            </div>
-        </div>
-
-        <div id="membros-login" class="screen">
-            <div class="box">
-                <h2>Área de Membros</h2>
-                <p>Insira sua chave de acesso para visualizar o conteúdo.</p>
-                <input type="text" id="member-key" placeholder="000000">
-                <button onclick="checkMemberKey()">ACESSAR AGORA</button>
-            </div>
-        </div>
-
-        <div id="content-live" class="screen">
-            <h1 style="color: #E50914;">Acesso Confirmado</h1>
-            <div class="box" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
-                <div style="width: 200px; height: 110px; background: #333; border-radius: 8px; display: flex; align-items: center; justify-content: center;">VÍDEO 1</div>
-                <div style="width: 200px; height: 110px; background: #333; border-radius: 8px; display: flex; align-items: center; justify-content: center;">VÍDEO 2</div>
-            </div>
-            <button class="btn-secondary" onclick="location.reload()">SAIR</button>
-        </div>
+        <button class="btn-red" onclick="showScreen('screen-home')" style="margin-top: 20px;">SAIR</button>
     </div>
 
     <script>
-        let chaveMestra = "";
+        // Variáveis globais carregando do navegador
+        let chaveMestra = localStorage.getItem('chaveMestra') || "";
+        let usuarioMestre = localStorage.getItem('usuarioMestre') || "";
 
-        function showScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-            const target = document.getElementById(id);
-            target.style.display = 'flex';
+        // Garante que os dados apareçam no painel ADM ao recarregar
+        window.onload = function() {
+            if (chaveMestra && usuarioMestre) {
+                if(document.getElementById('generated-key')) document.getElementById('generated-key').innerText = chaveMestra;
+                if(document.getElementById('generated-user')) document.getElementById('generated-user').innerText = usuarioMestre;
+            }
+        };
+
+        // Função para Gerar Usuário e Chave (6 dígitos cada)
+        function generateKey() {
+            usuarioMestre = Math.floor(Math.random() * 899999 + 111111).toString();
+            chaveMestra = Math.floor(Math.random() * 899999 + 111111).toString();
+            
+            // Salva no LocalStorage (memória do navegador)
+            localStorage.setItem('usuarioMestre', usuarioMestre);
+            localStorage.setItem('chaveMestra', chaveMestra);
+            
+            // Atualiza a tela
+            document.getElementById('generated-user').innerText = usuarioMestre;
+            document.getElementById('generated-key').innerText = chaveMestra;
+            
+            alert("✅ Novo par exclusivo gerado!");
         }
 
+        // Função de Login do Membro com Notificação Push
+        function realizarLoginMembro() {
+            const inputUser = document.getElementById('member-user').value;
+            const inputKey = document.getElementById('member-key').value;
+
+            // Validação de exclusividade
+            if (inputUser === usuarioMestre && inputKey === chaveMestra && chaveMestra !== "") {
+                alert("✅ Sinal Verde: Bem-vindo ao Kerix Mídia!"); 
+                showScreen('content-live');
+            } else {
+                alert("❌ Usuário ou Chave inválidos!");
+            }
+        }
+
+        // Troca de Telas
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+            document.getElementById(screenId).style.display = 'block';
+        }
+
+        // Validação ADM (Baseada em 1515 / 151)
         function checkAdm() {
             const u = document.getElementById('adm-user').value;
             const p = document.getElementById('adm-pass').value;
             if(u === "1515" && p === "151") {
-                showScreen('panel-adm');
+                showScreen('screen-adm-panel');
             } else {
-                alert("Credenciais de Administrador Inválidas!");
-            }
-        }
-
-        function generateKey() {
-            chaveMestra = Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111;
-            document.getElementById('generated-key').innerText = chaveMestra;
-        }
-
-        function copyKey() {
-            const txt = document.getElementById('generated-key').innerText;
-            if(txt !== "------") {
-                const el = document.createElement('textarea');
-                el.value = txt;
-                document.body.appendChild(el);
-                el.select();
-                document.execCommand('copy');
-                document.body.removeChild(el);
-                alert("Chave " + txt + " copiada para a área de transferência!");
-            }
-        }
-
-        function checkMemberKey() {
-            const input = document.getElementById('member-key').value;
-            if(input === chaveMestra.toString() && input !== "") {
-                showScreen('content-live');
-            } else {
-                alert("Chave incorreta ou não gerada pelo ADM!");
+                alert("Acesso negado!");
             }
         }
     </script>
