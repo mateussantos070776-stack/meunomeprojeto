@@ -1,0 +1,1 @@
+git add .; git commit -m "update"; git push origin main; cls; Write-Host "✅ SITE ATUALIZADO NO RENDER!" -ForegroundColor Cyan
