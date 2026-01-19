@@ -101,9 +101,9 @@
             margin-bottom: 10px; font-size: 14px;
         }
 
-        .msg { margin-bottom: 8px; padding: 8px 12px; border-radius: 8px; width: fit-content; max-width: 85%; }
-        .msg-adm { background: var(--primary-dark); color: white; margin-left: auto; }
-        .msg-mem { background: #222; color: #ccc; }
+        .msg { margin-bottom: 8px; padding: 8px 12px; border-radius: 8px; width: fit-content; max-width: 85%; line-height: 1.4; }
+        .msg-adm { background: var(--primary-dark); color: white; margin-left: auto; border-bottom-right-radius: 2px; }
+        .msg-mem { background: #222; color: #ccc; border-bottom-left-radius: 2px; }
         .msg-name { display: block; font-size: 10px; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; color: var(--primary); }
     </style>
 </head>
@@ -111,8 +111,8 @@
 
     <div class="main-container">
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('membros')">👤 MEMBROS</button>
-            <button class="tab-btn" onclick="switchTab('adm')">🔒 ADM</button>
+            <button class="tab-btn active" id="tab-btn-mem" onclick="switchTab('membros')">👤 MEMBROS</button>
+            <button class="tab-btn" id="tab-btn-adm" onclick="switchTab('adm')">🔒 ADM</button>
         </div>
 
         <div id="membros" class="content active">
@@ -125,10 +125,12 @@
             </div>
             
             <div id="area-logada" style="display:none;">
-                <h2 id="welcome-text">Olá!</h2>
+                <h2 id="welcome-text" style="font-size: 16px; color: var(--primary);">Olá!</h2>
                 <div class="chat-box" id="chat-mem"></div>
-                <textarea id="msg-mem-input" placeholder="Enviar mensagem para o ADM..."></textarea>
-                <button class="btn-main" onclick="enviarMsg('MEMBRO')">ENVIAR AO ADM</button>
+                <div style="background: #111; padding: 10px; border-radius: 12px; border: 1px solid #222;">
+                    <textarea id="msg-mem-input" placeholder="Escreva sua mensagem aqui..." style="margin-top: 0;"></textarea>
+                    <button class="btn-main" id="btn-enviar-mem" onclick="enviarMsg('MEMBRO')">ENVIAR AO ADM</button>
+                </div>
             </div>
         </div>
 
@@ -148,11 +150,13 @@
                 <button class="btn-main" onclick="generateKey()">GERAR NOVO ACESSO</button>
                 <button class="btn-outline" onclick="copyAccess()">COPIAR DADOS</button>
                 
-                <h3 style="font-size: 14px; margin-top: 20px;">CENTRAL DE MENSAGENS</h3>
+                <h3 style="font-size: 14px; margin-top: 20px; text-align: center;">CENTRAL DE MENSAGENS</h3>
                 <div class="chat-box" id="chat-adm-view"></div>
-                <textarea id="msg-adm-input" placeholder="Sua resposta..."></textarea>
-                <button class="btn-main" onclick="enviarMsg('ADM')">ENVIAR RESPOSTA</button>
-                <button class="btn-outline" onclick="limparTudo()" style="color: var(--primary);">LIMPAR CONVERSAS</button>
+                <div style="background: #111; padding: 10px; border-radius: 12px; border: 1px solid #222;">
+                    <textarea id="msg-adm-input" placeholder="Digite sua resposta..." style="margin-top: 0;"></textarea>
+                    <button class="btn-main" onclick="enviarMsg('ADM')">ENVIAR RESPOSTA</button>
+                </div>
+                <button class="btn-outline" onclick="limparTudo()" style="color: var(--primary); margin-top: 20px;">LIMPAR CONVERSAS</button>
             </div>
         </div>
     </div>
@@ -185,7 +189,6 @@
             s.forEach(m => {
                 const data = m.val();
                 const isAdm = data.autor === 'ADM';
-                // O ADM verá o nome de quem enviou acima da bolha cinza
                 h += `<div class="msg ${isAdm ? 'msg-adm' : 'msg-mem'}">
                         ${!isAdm ? `<span class="msg-name">${data.autor}</span>` : ''}
                         ${data.texto}
@@ -197,9 +200,11 @@
         });
 
         function switchTab(t) {
-            document.querySelectorAll('.content, .tab-btn').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(t).classList.add('active');
-            event.currentTarget.classList.add('active');
+            if(t === 'membros') document.getElementById('tab-btn-mem').classList.add('active');
+            else document.getElementById('tab-btn-adm').classList.add('active');
         }
 
         function loginAdm() {
