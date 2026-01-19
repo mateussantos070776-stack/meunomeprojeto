@@ -10,8 +10,9 @@
         :root { --primary: #ff0000; --bg: #050505; --card: #121212; --text: #ffffff; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
         
-        .main-container { width: 95%; max-width: 450px; background: var(--card); border-radius: 24px; border: 1px solid #222; overflow: hidden; display: flex; flex-direction: column; height: 90vh; }
+        .main-container { width: 95%; max-width: 450px; background: var(--card); border-radius: 24px; border: 1px solid #222; overflow: hidden; display: flex; flex-direction: column; height: 90vh; box-shadow: 0 20px 50px rgba(255, 0, 0, 0.1); }
         
+        /* ABAS FIXAS - DESIGN ORIGINAL */
         .tabs { display: flex; background: #000; border-bottom: 1px solid #222; }
         .tab-btn { flex: 1; padding: 18px; border: none; background: transparent; color: #666; cursor: pointer; font-weight: bold; }
         .tab-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); background: rgba(255, 0, 0, 0.05); }
@@ -19,59 +20,87 @@
         .content { flex: 1; display: none; flex-direction: column; overflow: hidden; }
         .content.active { display: flex; }
 
-        /* WHATSAPP STYLE */
+        /* PAINEL DE FUNÇÕES DENTRO DA ABA */
+        .functions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; background: #000; border-bottom: 1px solid #222; }
+        .func-btn { background: #1a1a1a; border: 1px solid #333; color: white; padding: 12px; border-radius: 12px; font-size: 11px; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-weight: bold; }
+        .func-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* CHAT WHATSAPP STYLE */
         .chat-container { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; background: #080808; }
-        .msg { padding: 10px; border-radius: 12px; max-width: 80%; font-size: 14px; }
-        .msg-mem { background: #222; align-self: flex-start; }
-        .msg-adm { background: #8b0000; align-self: flex-end; }
+        .msg { padding: 10px; border-radius: 12px; max-width: 80%; font-size: 13px; line-height: 1.4; position: relative; }
+        .msg-name { font-size: 9px; font-weight: bold; color: var(--primary); display: block; margin-bottom: 4px; }
+        .msg-mem { background: #222; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .msg-adm { background: #8b0000; align-self: flex-end; border-bottom-right-radius: 2px; color: white; }
         
+        .chat-img { max-width: 100%; border-radius: 8px; margin-top: 5px; }
+        audio { height: 35px; margin-top: 8px; filter: invert(1); width: 100%; }
+
+        /* INPUT AREA */
         .input-area { background: #111; padding: 12px; display: flex; align-items: center; gap: 10px; border-top: 1px solid #222; }
         .input-area textarea { flex: 1; background: #1a1a1a; border: none; padding: 10px; color: white; border-radius: 20px; height: 20px; resize: none; outline: none; }
+        .icon-btn { background: transparent; border: none; color: #888; font-size: 20px; cursor: pointer; }
         .btn-send { background: var(--primary); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
 
+        /* LOGIN */
         .login-screen { padding: 40px; text-align: center; }
-        input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 10px; border: 1px solid #333; background: #1a1a1a; color: white; }
-        .btn-large { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer; }
+        input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 10px; border: 1px solid #333; background: #1a1a1a; color: white; box-sizing: border-box; }
+        .btn-large { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="main-container">
         <div class="tabs">
-            <button class="tab-btn active" id="btn-tab-mem" onclick="switchTab('membros')">👤 MEMBROS</button>
-            <button class="tab-btn" id="btn-tab-adm" onclick="switchTab('adm')">🔒 ADM</button>
+            <button class="tab-btn active" id="tab-m" onclick="switchTab('membros')">👤 MEMBROS</button>
+            <button class="tab-btn" id="tab-a" onclick="switchTab('adm')">🔒 ADM</button>
         </div>
 
         <div id="membros" class="content active">
             <div id="login-mem" class="login-screen">
-                <h2 style="color:var(--primary)">Portal Membro</h2>
-                <input type="text" id="user-mem" placeholder="Usuário">
-                <input type="password" id="pass-mem" placeholder="Senha">
-                <button class="btn-large" onclick="auth('MEMBRO')">ENTRAR</button>
+                <h2 style="color:var(--primary)">Acesso Membro</h2>
+                <input type="text" id="u-mem" placeholder="Usuário">
+                <input type="password" id="p-mem" placeholder="Senha">
+                <button class="btn-large" onclick="autenticar('MEMBRO')">ACESSAR PAINEL</button>
             </div>
-            <div id="area-mem" style="display:none; flex-direction:column; height:100%">
+            
+            <div id="painel-mem" style="display:none; flex-direction:column; height:100%">
+                <div class="functions-grid">
+                    <button class="func-btn" onclick="alert('Funcionalidade 1')">Gerar Mídia</button>
+                    <button class="func-btn" onclick="alert('Funcionalidade 2')">Ver Salvos</button>
+                </div>
+                
                 <div class="chat-container" id="box-mem"></div>
+                
                 <div class="input-area">
-                    <label style="cursor:pointer">📷<input type="file" accept="image/*" style="display:none" onchange="upFile(this, 'MEMBRO')"></label>
-                    <textarea id="in-mem" placeholder="Mensagem..."></textarea>
-                    <button class="btn-send" onclick="send('MEMBRO')">➔</button>
+                    <label class="icon-btn">📷<input type="file" accept="image/*" style="display:none" onchange="upload(this, 'MEMBRO')"></label>
+                    <button class="icon-btn" onclick="handleAudio('MEMBRO')">🎤</button>
+                    <textarea id="in-mem" placeholder="Suporte VIP..."></textarea>
+                    <button class="btn-send" onclick="enviar('MEMBRO')">➔</button>
                 </div>
             </div>
         </div>
 
         <div id="adm" class="content">
             <div id="login-adm" class="login-screen">
-                <h2 style="color:var(--primary)">Painel ADM</h2>
-                <input type="text" id="user-adm" placeholder="Login">
-                <input type="password" id="pass-adm" placeholder="Senha">
-                <button class="btn-large" onclick="auth('ADM')">LOGAR</button>
+                <h2 style="color:var(--primary)">Painel Controle</h2>
+                <input type="text" id="u-adm" placeholder="Login">
+                <input type="password" id="p-adm" placeholder="Senha">
+                <button class="btn-large" onclick="autenticar('ADM')">AUTENTICAR</button>
             </div>
-            <div id="area-adm" style="display:none; flex-direction:column; height:100%">
+            
+            <div id="painel-adm" style="display:none; flex-direction:column; height:100%">
+                <div class="functions-grid">
+                    <button class="func-btn" style="color:var(--primary)" onclick="db.ref('mensagens').remove()">Limpar Chat</button>
+                    <button class="func-btn" onclick="alert('Usuário: 123 | Chave: 123')">Ver Logins</button>
+                </div>
+
                 <div class="chat-container" id="box-adm"></div>
+                
                 <div class="input-area">
-                    <label style="cursor:pointer">📷<input type="file" accept="image/*" style="display:none" onchange="upFile(this, 'ADM')"></label>
-                    <textarea id="in-adm" placeholder="Resposta..."></textarea>
-                    <button class="btn-send" onclick="send('ADM')">➔</button>
+                    <label class="icon-btn">📷<input type="file" accept="image/*" style="display:none" onchange="upload(this, 'ADM')"></label>
+                    <button class="icon-btn" onclick="handleAudio('ADM')">🎤</button>
+                    <textarea id="in-adm" placeholder="Resposta ADM..."></textarea>
+                    <button class="btn-send" onclick="enviar('ADM')">➔</button>
                 </div>
             </div>
         </div>
@@ -90,44 +119,64 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
+        let mediaRec, audioCh = [];
+
         function switchTab(t) {
             document.querySelectorAll('.content, .tab-btn').forEach(e => e.classList.remove('active'));
             document.getElementById(t).classList.add('active');
-            document.getElementById('btn-tab-' + t.substring(0,3)).classList.add('active');
+            document.getElementById(t === 'membros' ? 'tab-m' : 'tab-a').classList.add('active');
         }
 
-        function auth(tipo) {
-            const u = document.getElementById('user-' + tipo.toLowerCase()).value;
-            const p = document.getElementById('pass-' + tipo.toLowerCase()).value;
-            if((tipo==='MEMBRO' && u==='123' && p==='123') || (tipo==='ADM' && u==='1515' && p==='151')) {
+        function autenticar(tipo) {
+            const u = document.getElementById(tipo === 'ADM' ? 'u-adm' : 'u-mem').value;
+            const p = document.getElementById(tipo === 'ADM' ? 'p-adm' : 'p-mem').value;
+            
+            if((tipo === 'MEMBRO' && u === '123' && p === '123') || (tipo === 'ADM' && u === '1515' && p === '151')) {
                 document.getElementById('login-' + tipo.toLowerCase()).style.display = 'none';
-                document.getElementById('area-' + tipo.toLowerCase()).style.display = 'flex';
-            } else alert("Erro!");
+                document.getElementById('painel-' + tipo.toLowerCase()).style.display = 'flex';
+            } else { alert("Acesso Negado!"); }
         }
 
         db.ref('mensagens').on('value', s => {
             let h = "";
             s.forEach(m => {
                 const d = m.val();
-                h += `<div class="msg ${d.autor==='ADM'?'msg-adm':'msg-mem'}">
-                    <small style="display:block; font-size:9px; opacity:0.5">${d.autor}</small>
-                    ${d.texto || ''} ${d.img ? `<img src="${d.img}" style="max-width:100%; border-radius:8px">`:''}
-                </div>`;
+                h += `<div class="msg ${d.autor === 'ADM' ? 'msg-adm' : 'msg-mem'}">
+                        <span class="msg-name">${d.autor}</span>
+                        ${d.texto || ''}
+                        ${d.img ? `<img src="${d.img}" class="chat-img">` : ''}
+                        ${d.audio ? `<audio src="${d.audio}" controls></audio>` : ''}
+                      </div>`;
             });
             document.getElementById('box-mem').innerHTML = h;
             document.getElementById('box-adm').innerHTML = h;
             document.querySelectorAll('.chat-container').forEach(c => c.scrollTop = c.scrollHeight);
         });
 
-        function send(t) {
+        function enviar(t) {
             const i = document.getElementById('in-' + t.toLowerCase());
-            if(i.value) { db.ref('mensagens').push({ autor: t, texto: i.value }); i.value = ""; }
+            if(i.value.trim()) { db.ref('mensagens').push({ autor: t, texto: i.value }); i.value = ""; }
         }
 
-        function upFile(i, t) {
+        function upload(i, t) {
             const r = new FileReader();
             r.onload = e => db.ref('mensagens').push({ autor: t, img: e.target.result });
             r.readAsDataURL(i.files[0]);
+        }
+
+        async function handleAudio(t) {
+            if (!mediaRec || mediaRec.state === "inactive") {
+                const s = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRec = new MediaRecorder(s);
+                mediaRec.ondataavailable = e => audioCh.push(e.data);
+                mediaRec.onstop = () => {
+                    const reader = new FileReader();
+                    reader.onload = e => db.ref('mensagens').push({ autor: t, audio: e.target.result });
+                    reader.readAsDataURL(new Blob(audioCh, { type: 'audio/webm' }));
+                    audioCh = [];
+                };
+                mediaRec.start();
+            } else { mediaRec.stop(); }
         }
     </script>
 </body>
