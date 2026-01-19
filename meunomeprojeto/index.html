@@ -37,7 +37,6 @@
             box-shadow: 0 20px 50px rgba(255, 0, 0, 0.1);
         }
 
-        /* Abas Superiores */
         .tabs {
             display: flex;
             background: #000;
@@ -69,7 +68,6 @@
         .content { padding: 30px; display: none; }
         .content.active { display: block; }
 
-        /* Estilização de Elementos */
         h2 { margin-top: 0; font-size: 22px; text-align: center; }
         input, textarea {
             width: 100%; padding: 14px; margin: 8px 0;
@@ -106,6 +104,7 @@
         .msg { margin-bottom: 8px; padding: 8px 12px; border-radius: 8px; width: fit-content; max-width: 85%; }
         .msg-adm { background: var(--primary-dark); color: white; margin-left: auto; }
         .msg-mem { background: #222; color: #ccc; }
+        .msg-name { display: block; font-size: 10px; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; color: var(--primary); }
     </style>
 </head>
 <body>
@@ -117,16 +116,19 @@
         </div>
 
         <div id="membros" class="content active">
-            <h2>Acesso Exclusivo</h2>
-            <input type="text" id="mem-nome" placeholder="Seu Nome">
-            <input type="text" id="mem-user" placeholder="Usuário">
-            <input type="text" id="mem-key" placeholder="Chave de Acesso">
-            <button class="btn-main" onclick="loginMembro()">ENTRAR NO SISTEMA</button>
+            <div id="login-form-mem">
+                <h2>Acesso Exclusivo</h2>
+                <input type="text" id="mem-nome" placeholder="Seu Nome Completo">
+                <input type="text" id="mem-user" placeholder="Usuário">
+                <input type="text" id="mem-key" placeholder="Chave de Acesso">
+                <button class="btn-main" onclick="loginMembro()">ENTRAR NO SISTEMA</button>
+            </div>
             
             <div id="area-logada" style="display:none;">
+                <h2 id="welcome-text">Olá!</h2>
                 <div class="chat-box" id="chat-mem"></div>
-                <textarea id="msg-mem-input" placeholder="Sua mensagem..."></textarea>
-                <button class="btn-main" onclick="enviarMsg('MEMBRO')">ENVIAR</button>
+                <textarea id="msg-mem-input" placeholder="Enviar mensagem para o ADM..."></textarea>
+                <button class="btn-main" onclick="enviarMsg('MEMBRO')">ENVIAR AO ADM</button>
             </div>
         </div>
 
@@ -146,17 +148,16 @@
                 <button class="btn-main" onclick="generateKey()">GERAR NOVO ACESSO</button>
                 <button class="btn-outline" onclick="copyAccess()">COPIAR DADOS</button>
                 
-                <h3 style="font-size: 14px; margin-top: 20px;">CHAT DE SUPORTE</h3>
+                <h3 style="font-size: 14px; margin-top: 20px;">CENTRAL DE MENSAGENS</h3>
                 <div class="chat-box" id="chat-adm-view"></div>
-                <textarea id="msg-adm-input" placeholder="Resposta do ADM..."></textarea>
-                <button class="btn-main" onclick="enviarMsg('ADM')">RESPONDER</button>
-                <button class="btn-outline" onclick="limparTudo()" style="color: var(--primary);">LIMPAR TUDO</button>
+                <textarea id="msg-adm-input" placeholder="Sua resposta..."></textarea>
+                <button class="btn-main" onclick="enviarMsg('ADM')">ENVIAR RESPOSTA</button>
+                <button class="btn-outline" onclick="limparTudo()" style="color: var(--primary);">LIMPAR CONVERSAS</button>
             </div>
         </div>
     </div>
 
     <script>
-        // CONFIGURAÇÃO FIREBASE (Sua config original mantida para não quebrar)
         const firebaseConfig = {
             apiKey: "AIzaSyA-uzWKwZ5aW-t40uamPDpHLqx3Yd4ei8g",
             authDomain: "kerix-midia.firebaseapp.com",
@@ -169,9 +170,8 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let currentU = "", currentK = "", nomeUser = "";
+        let currentU = "", currentK = "", nomeUserLogado = "";
 
-        // Sincronização
         db.ref('acesso').on('value', s => {
             const d = s.val();
             if(d) {
@@ -183,15 +183,19 @@
         db.ref('mensagens').on('value', s => {
             let h = "";
             s.forEach(m => {
-                const isAdm = m.val().autor === 'ADM';
-                h += `<div class="msg ${isAdm ? 'msg-adm' : 'msg-mem'}"><b>${m.val().autor}:</b> ${m.val().texto}</div>`;
+                const data = m.val();
+                const isAdm = data.autor === 'ADM';
+                // O ADM verá o nome de quem enviou acima da bolha cinza
+                h += `<div class="msg ${isAdm ? 'msg-adm' : 'msg-mem'}">
+                        ${!isAdm ? `<span class="msg-name">${data.autor}</span>` : ''}
+                        ${data.texto}
+                      </div>`;
             });
             document.getElementById('chat-mem').innerHTML = h;
             document.getElementById('chat-adm-view').innerHTML = h;
             document.querySelectorAll('.chat-box').forEach(b => b.scrollTop = b.scrollHeight);
         });
 
-        // Funções
         function switchTab(t) {
             document.querySelectorAll('.content, .tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(t).classList.add('active');
@@ -215,17 +219,21 @@
             const n = document.getElementById('mem-nome').value;
             const u = document.getElementById('mem-user').value;
             const k = document.getElementById('mem-key').value;
-            if(n && u === currentU && k === currentK) {
-                nomeUser = n;
-                document.querySelectorAll('#membros input, #membros button:first-of-type').forEach(e => e.style.display = 'none');
+            if(n.trim() !== "" && u === currentU && k === currentK) {
+                nomeUserLogado = n;
+                document.getElementById('login-form-mem').style.display = 'none';
                 document.getElementById('area-logada').style.display = 'block';
-            } else { alert("Dados incorretos!"); }
+                document.getElementById('welcome-text').innerText = "Olá, " + n + "!";
+            } else { alert("Verifique os dados ou peça uma nova chave!"); }
         }
 
         function enviarMsg(tipo) {
             const input = tipo === 'ADM' ? document.getElementById('msg-adm-input') : document.getElementById('msg-mem-input');
-            if(input.value) {
-                db.ref('mensagens').push({ autor: tipo === 'ADM' ? 'ADM' : nomeUser, texto: input.value });
+            if(input.value.trim() !== "") {
+                db.ref('mensagens').push({ 
+                    autor: tipo === 'ADM' ? 'ADM' : nomeUserLogado, 
+                    texto: input.value 
+                });
                 input.value = "";
             }
         }
@@ -235,7 +243,7 @@
             alert("Copiado!");
         }
 
-        function limparTudo() { if(confirm("Deseja apagar todas as mensagens?")) db.ref('mensagens').remove(); }
+        function limparTudo() { if(confirm("Apagar histórico de conversas?")) db.ref('mensagens').remove(); }
     </script>
 </body>
 </html>
