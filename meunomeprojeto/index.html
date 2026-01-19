@@ -3,66 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KERIX MÍDIA - ADM PROFISSIONAL</title>
+    <title>KERIX MÍDIA - PREMIUM</title>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <style>
-        /* CORES E ESTILO BASE */
-        :root { --bg: #0a0a0a; --card: #161616; --blue: #007bff; --green: #28a745; --red: #dc3545; --text: #ffffff; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        
-        .screen { display: none; width: 90%; max-width: 400px; background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid #333; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #444; background: #222; color: #fff; box-sizing: border-box; }
-        button { width: 100%; padding: 14px; margin: 10px 0; cursor: pointer; border-radius: 8px; border: none; font-weight: bold; transition: 0.3s; color: white; }
-        
-        .btn-blue { background: var(--blue); }
-        .btn-green { background: var(--green); }
-        .btn-red { background: var(--red); }
-        .btn-gray { background: #333; }
-        .data-box { background: #000; padding: 15px; border-radius: 10px; border: 1px solid #333; margin: 15px 0; text-align: left; max-height: 200px; overflow-y: auto; }
+        :root {
+            --primary: #ff0000;
+            --primary-dark: #8b0000;
+            --bg: #050505;
+            --card: #121212;
+            --input: #1a1a1a;
+            --text: #ffffff;
+        }
 
-        /* PAINEL ADM EXPANDIDO */
-        #screen-adm-panel { max-width: 800px; }
-        .adm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .full-width { grid-column: span 2; }
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            width: 95%;
+            max-width: 450px;
+            background: var(--card);
+            border-radius: 24px;
+            border: 1px solid #222;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(255, 0, 0, 0.1);
+        }
+
+        /* Abas Superiores */
+        .tabs {
+            display: flex;
+            background: #000;
+            border-bottom: 1px solid #222;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 18px;
+            border: none;
+            background: transparent;
+            color: #666;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            background: rgba(255, 0, 0, 0.05);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .content { padding: 30px; display: none; }
+        .content.active { display: block; }
+
+        /* Estilização de Elementos */
+        h2 { margin-top: 0; font-size: 22px; text-align: center; }
+        input, textarea {
+            width: 100%; padding: 14px; margin: 8px 0;
+            border-radius: 12px; border: 1px solid #333;
+            background: var(--input); color: #fff; box-sizing: border-box;
+            outline: none; transition: 0.3s;
+        }
+        input:focus { border-color: var(--primary); }
+
+        button {
+            width: 100%; padding: 15px; margin: 10px 0;
+            border-radius: 12px; border: none; font-weight: 800;
+            cursor: pointer; transition: 0.3s; text-transform: uppercase;
+        }
+
+        .btn-main { background: var(--primary); color: white; }
+        .btn-main:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        
+        .btn-outline { background: transparent; border: 1px solid #333; color: #999; }
+        .btn-outline:hover { border-color: var(--primary); color: #fff; }
+
+        .data-display {
+            background: #000; border: 1px solid #222;
+            border-radius: 15px; padding: 15px; margin: 15px 0;
+            text-align: center;
+        }
+
+        .chat-box {
+            height: 250px; overflow-y: auto; background: #080808;
+            border-radius: 12px; padding: 10px; border: 1px solid #1a1a1a;
+            margin-bottom: 10px; font-size: 14px;
+        }
+
+        .msg { margin-bottom: 8px; padding: 8px 12px; border-radius: 8px; width: fit-content; max-width: 85%; }
+        .msg-adm { background: var(--primary-dark); color: white; margin-left: auto; }
+        .msg-mem { background: #222; color: #ccc; }
     </style>
 </head>
 <body>
 
-    <div id="screen-adm-login" class="screen" style="display:block;">
-        <h2 style="color: var(--blue);">Acesso Administrativo</h2>
-        <input type="text" id="adm-user" placeholder="Usuário">
-        <input type="password" id="adm-pass" placeholder="Senha">
-        <button class="btn-blue" onclick="checkAdm()">ENTRAR NO PAINEL</button>
-        <button class="btn-gray" onclick="window.location.href='/'">Voltar</button>
-    </div>
-
-    <div id="screen-adm-panel" class="screen">
-        <h2 style="border-bottom: 1px solid #333; padding-bottom: 10px;">Painel Kerix Pro</h2>
-        
-        <div class="adm-grid">
-            <div class="data-box" style="text-align: center;">
-                <small>USUÁRIO ATUAL</small>
-                <div id="adm-curr-user" style="font-size: 20px; font-weight: bold; color: var(--blue);">---</div>
-            </div>
-            <div class="data-box" style="text-align: center;">
-                <small>CHAVE ATUAL</small>
-                <div id="adm-curr-key" style="font-size: 20px; font-weight: bold; color: var(--blue);">---</div>
-            </div>
-            
-            <button class="btn-green full-width" onclick="generateKey()">GERAR NOVO ACESSO</button>
-            <button class="btn-blue" onclick="copyAccess()">COPIAR ACESSO</button>
-            <button class="btn-red" onclick="removerUsuario()">LIMPAR USUÁRIOS</button>
+    <div class="main-container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('membros')">👤 MEMBROS</button>
+            <button class="tab-btn" onclick="switchTab('adm')">🔒 ADM</button>
         </div>
 
-        <h3>Chat e Membros</h3>
-        <div id="chat-box-adm" class="data-box" style="height: 150px;"></div>
-        <textarea id="msg-adm" placeholder="Responder membro..."></textarea>
-        <button class="btn-blue" onclick="enviarMsg('ADM')">ENVIAR MENSAGEM</button>
-        <button class="btn-gray" onclick="location.reload()">SAIR</button>
+        <div id="membros" class="content active">
+            <h2>Acesso Exclusivo</h2>
+            <input type="text" id="mem-nome" placeholder="Seu Nome">
+            <input type="text" id="mem-user" placeholder="Usuário">
+            <input type="text" id="mem-key" placeholder="Chave de Acesso">
+            <button class="btn-main" onclick="loginMembro()">ENTRAR NO SISTEMA</button>
+            
+            <div id="area-logada" style="display:none;">
+                <div class="chat-box" id="chat-mem"></div>
+                <textarea id="msg-mem-input" placeholder="Sua mensagem..."></textarea>
+                <button class="btn-main" onclick="enviarMsg('MEMBRO')">ENVIAR</button>
+            </div>
+        </div>
+
+        <div id="adm" class="content">
+            <div id="adm-login">
+                <h2>Painel de Controle</h2>
+                <input type="text" id="adm-user-in" placeholder="Login ADM">
+                <input type="password" id="adm-pass-in" placeholder="Senha">
+                <button class="btn-main" onclick="loginAdm()">AUTENTICAR</button>
+            </div>
+
+            <div id="adm-panel" style="display:none;">
+                <div class="data-display">
+                    <p style="font-size: 12px; color: #666; margin: 0;">ACESSO ATIVO</p>
+                    <div id="display-acesso" style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 5px;">---</div>
+                </div>
+                <button class="btn-main" onclick="generateKey()">GERAR NOVO ACESSO</button>
+                <button class="btn-outline" onclick="copyAccess()">COPIAR DADOS</button>
+                
+                <h3 style="font-size: 14px; margin-top: 20px;">CHAT DE SUPORTE</h3>
+                <div class="chat-box" id="chat-adm-view"></div>
+                <textarea id="msg-adm-input" placeholder="Resposta do ADM..."></textarea>
+                <button class="btn-main" onclick="enviarMsg('ADM')">RESPONDER</button>
+                <button class="btn-outline" onclick="limparTudo()" style="color: var(--primary);">LIMPAR TUDO</button>
+            </div>
+        </div>
     </div>
 
     <script>
+        // CONFIGURAÇÃO FIREBASE (Sua config original mantida para não quebrar)
         const firebaseConfig = {
             apiKey: "AIzaSyA-uzWKwZ5aW-t40uamPDpHLqx3Yd4ei8g",
             authDomain: "kerix-midia.firebaseapp.com",
@@ -75,35 +169,40 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let currentKey = "";
-        let currentUser = "";
+        let currentU = "", currentK = "", nomeUser = "";
 
-        // Sincronização em tempo real
-        db.ref('acesso').on('value', (s) => {
-            const data = s.val();
-            if(data) {
-                currentKey = data.chave;
-                currentUser = data.usuario;
-                document.getElementById('adm-curr-user').innerText = currentUser;
-                document.getElementById('adm-curr-key').innerText = currentKey;
+        // Sincronização
+        db.ref('acesso').on('value', s => {
+            const d = s.val();
+            if(d) {
+                currentU = d.usuario; currentK = d.chave;
+                document.getElementById('display-acesso').innerText = `U: ${currentU} | K: ${currentK}`;
             }
         });
 
-        db.ref('mensagens').on('value', (s) => {
-            let html = "";
-            s.forEach(m => { html += `<div><b>${m.val().autor}:</b> ${m.val().texto}</div>`; });
-            const box = document.getElementById('chat-box-adm');
-            box.innerHTML = html;
-            box.scrollTop = box.scrollHeight;
+        db.ref('mensagens').on('value', s => {
+            let h = "";
+            s.forEach(m => {
+                const isAdm = m.val().autor === 'ADM';
+                h += `<div class="msg ${isAdm ? 'msg-adm' : 'msg-mem'}"><b>${m.val().autor}:</b> ${m.val().texto}</div>`;
+            });
+            document.getElementById('chat-mem').innerHTML = h;
+            document.getElementById('chat-adm-view').innerHTML = h;
+            document.querySelectorAll('.chat-box').forEach(b => b.scrollTop = b.scrollHeight);
         });
 
-        function checkAdm() {
-            const u = document.getElementById('adm-user').value;
-            const p = document.getElementById('adm-pass').value;
-            if(u === "1515" && p === "151") {
-                document.getElementById('screen-adm-login').style.display = 'none';
-                document.getElementById('screen-adm-panel').style.display = 'block';
-            } else { alert("Dados incorretos!"); }
+        // Funções
+        function switchTab(t) {
+            document.querySelectorAll('.content, .tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(t).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function loginAdm() {
+            if(document.getElementById('adm-user-in').value === "1515" && document.getElementById('adm-pass-in').value === "151") {
+                document.getElementById('adm-login').style.display = 'none';
+                document.getElementById('adm-panel').style.display = 'block';
+            } else { alert("Acesso Negado!"); }
         }
 
         function generateKey() {
@@ -112,21 +211,31 @@
             db.ref('acesso').set({ usuario: u, chave: k });
         }
 
-        function enviarMsg(autor) {
-            const input = document.getElementById('msg-adm');
+        function loginMembro() {
+            const n = document.getElementById('mem-nome').value;
+            const u = document.getElementById('mem-user').value;
+            const k = document.getElementById('mem-key').value;
+            if(n && u === currentU && k === currentK) {
+                nomeUser = n;
+                document.querySelectorAll('#membros input, #membros button:first-of-type').forEach(e => e.style.display = 'none');
+                document.getElementById('area-logada').style.display = 'block';
+            } else { alert("Dados incorretos!"); }
+        }
+
+        function enviarMsg(tipo) {
+            const input = tipo === 'ADM' ? document.getElementById('msg-adm-input') : document.getElementById('msg-mem-input');
             if(input.value) {
-                db.ref('mensagens').push({ autor: autor, texto: input.value });
+                db.ref('mensagens').push({ autor: tipo === 'ADM' ? 'ADM' : nomeUser, texto: input.value });
                 input.value = "";
             }
         }
 
-        function removerUsuario() { if(confirm("Limpar lista?")) db.ref('usuarios').remove(); }
-
         function copyAccess() {
-            const text = `🎥 KERIX MÍDIA\n👤 USUÁRIO: ${currentUser}\n🔑 CHAVE: ${currentKey}`;
-            navigator.clipboard.writeText(text);
+            navigator.clipboard.writeText(`👤 USUÁRIO: ${currentU}\n🔑 CHAVE: ${currentK}`);
             alert("Copiado!");
         }
+
+        function limparTudo() { if(confirm("Deseja apagar todas as mensagens?")) db.ref('mensagens').remove(); }
     </script>
 </body>
 </html>
