@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KERIX LUXURY | PRIVACY</title>
+    <title>KERIX LUXURY | AUTH</title>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -12,47 +12,49 @@
         * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: #fff; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
 
-        /* MOLDURA SMARTPHONE */
         .phone-frame { 
             width: 380px; height: 85vh; background: #050505; 
-            border: 6px solid #151515; border-radius: 40px; 
+            border: 6px solid #151515; border-radius: 45px; 
             position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.9);
             display: flex; flex-direction: column; overflow: hidden;
         }
 
-        /* FRONT PAGE ULTRA CLEAN */
-        .front-page { padding: 60px 20px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
-        .luxury-logo { cursor: pointer; }
-        .luxury-logo h1 { font-family: 'Syncopate', sans-serif; font-size: 14px; letter-spacing: 8px; color: var(--red); margin: 0; text-shadow: 0 0 20px rgba(255,0,0,0.2); }
+        /* FRONT PAGE: PORTAL DE ACESSO */
+        .front-page { padding: 60px 20px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .luxury-logo { cursor: pointer; margin-bottom: 50px; }
+        .luxury-logo h1 { font-family: 'Syncopate', sans-serif; font-size: 14px; letter-spacing: 8px; color: var(--red); margin: 0; }
         .luxury-logo p { font-size: 8px; color: #333; letter-spacing: 3px; margin-top: 10px; text-transform: uppercase; }
 
-        .security-badge { background: #080808; border: 1px solid var(--border); border-radius: 15px; padding: 25px; margin-top: 40px; }
-        .security-badge span { display: block; font-size: 9px; color: #444; letter-spacing: 2px; margin-bottom: 8px; }
-        .security-badge strong { font-family: 'Syncopate'; font-size: 13px; color: #fff; letter-spacing: 1px; }
+        /* BOX DE ENTRADA PREMIUM */
+        .auth-box { width: 100%; max-width: 280px; background: #080808; border: 1px solid var(--border); border-radius: 20px; padding: 30px 20px; }
+        .auth-box label { display: block; font-size: 9px; color: #444; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
+        
+        .key-input { 
+            width: 100%; background: transparent; border: none; border-bottom: 1px solid #222; 
+            color: #fff; font-family: 'Syncopate'; font-size: 22px; text-align: center; 
+            letter-spacing: 10px; outline: none; padding-bottom: 10px; margin-bottom: 25px;
+        }
+        .key-input:focus { border-color: var(--red); }
 
-        /* GHOST PANEL (AREA DO ADM) */
+        .btn-access { 
+            width: 100%; background: var(--red); border: none; border-radius: 12px; 
+            padding: 15px; color: #fff; font-size: 10px; font-weight: 700; 
+            letter-spacing: 2px; cursor: pointer; text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(255,0,0,0.2);
+        }
+        .btn-access:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+        /* GHOST PANEL (ADM) */
         #ghost-panel { position: absolute; inset: 0; background: #000; z-index: 1000; transform: translateY(100%); display: flex; flex-direction: column; padding: 20px; }
         #ghost-panel.active { transform: translateY(0); }
-        
         .ghost-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid #111; margin-bottom: 20px; }
-        .ghost-title { font-family: 'Syncopate'; font-size: 10px; color: var(--red); }
-
-        /* CONTROLES EXCLUSIVOS DO ADM */
         .adm-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .adm-btn { 
-            background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; 
-            padding: 15px; color: #666; font-size: 9px; font-weight: 700; cursor: pointer;
-            text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px;
-        }
+        .adm-btn { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 15px; color: #666; font-size: 9px; font-weight: 700; cursor: pointer; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .adm-btn:hover { border-color: var(--red); color: #fff; background: rgba(255,0,0,0.08); }
-        
-        .status-toggle { width: 100%; padding: 12px; border-radius: 30px; background: #080808; border: 1px solid #111; font-size: 10px; color: #0f0; cursor: pointer; margin-bottom: 20px; font-weight: bold; }
-
         .chat-container { flex: 1; background: #030303; border: 1px solid var(--border); border-radius: 20px; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
         .msg { padding: 10px 14px; border-radius: 15px; font-size: 11px; max-width: 85%; }
         .msg-mem { background: #111; align-self: flex-start; border: 1px solid #1a1a1a; }
         .msg-adm { background: linear-gradient(135deg, #400, #100); align-self: flex-end; color: #ffb3b3; }
-
         .input-bar { padding: 20px 0; display: flex; gap: 10px; }
         .input-bar input { flex: 1; background: #0c0c0c; border: 1px solid #1a1a1a; border-radius: 10px; padding: 12px; color: #fff; font-size: 12px; outline: none; }
         .send-btn { background: var(--red); border: none; width: 45px; border-radius: 10px; color: #fff; cursor: pointer; }
@@ -67,28 +69,27 @@
                 <p>Private Management</p>
             </div>
 
-            <div class="security-badge">
-                <span>ENCRYPTED ACCESS ID</span>
-                <strong id="val-client">U: 270507 | K: 448227</strong>
+            <div class="auth-box">
+                <label>Security Key Required</label>
+                <input type="text" maxlength="5" class="key-input" id="access-key" placeholder="•••••">
+                <button class="btn-access" onclick="validateKey()">Grant Access</button>
             </div>
             
-            <p style="margin-top: 50px; font-size: 10px; color: #1a1a1a; letter-spacing: 2px;">SECURE NODE ACTIVE</p>
+            <p style="margin-top: 50px; font-size: 10px; color: #1a1a1a; letter-spacing: 2px;">SECURE CONNECTION ACTIVE</p>
         </div>
 
         <div id="ghost-panel">
             <div class="ghost-header">
-                <span class="ghost-title">ROOT COMMAND CENTER</span>
-                <button onclick="closeRoot()" style="background:none; border:none; color:#444; font-size:9px; cursor:pointer; letter-spacing:1px;">CLOSE</button>
+                <span style="font-family:'Syncopate'; font-size:10px; color:var(--red)">COMMAND CENTER</span>
+                <button onclick="closeRoot()" style="background:none; border:none; color:#444; font-size:9px; cursor:pointer;">CLOSE</button>
             </div>
 
             <div class="adm-controls">
-                <button class="adm-btn" onclick="regenerate()"><span>🔑</span>Token Regen</button>
-                <button class="adm-btn" onclick="alert('Network: 28 Nodes Active')"><span>👥</span>Network</button>
-                <button class="adm-btn" onclick="alert('Uptime: 08:00 - 20:00')"><span>🕒</span>Schedule</button>
+                <button class="adm-btn" onclick="alert('Keys Active: 14')"><span>🔑</span>Keys Status</button>
+                <button class="adm-btn" onclick="alert('Network: Secure')"><span>👥</span>Network</button>
+                <button class="adm-btn" onclick="alert('Shift: 08-20')"><span>🕒</span>Schedule</button>
                 <button class="adm-btn" style="color:var(--red); border-color:rgba(255,0,0,0.2)" onclick="purge()"><span>⚠️</span>Purge</button>
             </div>
-
-            <button id="status-btn" class="status-toggle" onclick="toggleStatus()">🟢 SYSTEM ON DUTY</button>
 
             <div class="chat-container" id="box-admin"></div>
 
@@ -112,39 +113,24 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // ACESSO AO PAINEL GHOST
-        function openRoot() { if(prompt("IDENTIFICATION:") === "151") document.getElementById('ghost-panel').classList.add('active'); }
+        function validateKey() {
+            const key = document.getElementById('access-key').value;
+            if(key === "12345") { // Defina sua chave de acesso aqui
+                alert("ACCESS GRANTED");
+                // Aqui você pode redirecionar ou liberar funções
+            } else {
+                alert("INVALID KEY");
+            }
+        }
+
+        function openRoot() { if(prompt("ROOT IDENTIFICATION:") === "151") document.getElementById('ghost-panel').classList.add('active'); }
         function closeRoot() { document.getElementById('ghost-panel').classList.remove('active'); }
-
-        // FUNÇÕES DO ADM
-        function regenerate() { 
-            const u = Math.floor(100000+Math.random()*900000); 
-            const k = Math.floor(100000+Math.random()*900000);
-            document.getElementById('val-client').innerText = `U: ${u} | K: ${k}`;
-        }
-
-        let online = true;
-        function toggleStatus() {
-            online = !online;
-            const b = document.getElementById('status-btn');
-            b.innerHTML = online ? "🟢 SYSTEM ON DUTY" : "🔴 SYSTEM OFF DUTY";
-            b.style.color = online ? "#0f0" : "#f00";
-        }
-
-        function sendMsg() {
-            const i = document.getElementById('in-adm');
-            if(i.value.trim()) { db.ref('mensagens').push({ autor: 'ADM', texto: i.value }); i.value = ""; }
-        }
-
+        function sendMsg() { const i = document.getElementById('in-adm'); if(i.value.trim()){ db.ref('mensagens').push({autor:'ADM', texto:i.value}); i.value=""; } }
         function purge() { if(confirm("Wipe all data?")) db.ref('mensagens').remove(); }
 
-        // SYNC REALTIME
         db.ref('mensagens').on('value', s => {
             let h = "";
-            s.forEach(m => {
-                const d = m.val();
-                h += `<div class="msg ${d.autor === 'ADM' ? 'msg-adm' : 'msg-mem'}">${d.texto}</div>`;
-            });
+            s.forEach(m => { const d = m.val(); h += `<div class="msg ${d.autor==='ADM'?'msg-adm':'msg-mem'}">${d.texto}</div>`; });
             document.getElementById('box-admin').innerHTML = h;
             document.getElementById('box-admin').scrollTop = document.getElementById('box-admin').scrollHeight;
         });
