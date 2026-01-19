@@ -3,114 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KERIX MÍDIA - PREMIUM</title>
+    <title>KERIX - PREMIUM</title>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <style>
-        :root { --primary: #ff0000; --bg: #000000; --card: #0a0a0a; --text: #ffffff; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; }
+        :root { --primary: #ff1a1a; --bg: #050505; --card: #0d0d0d; --text: #e0e0e0; --border: #1a1a1a; }
         
-        .main-container { width: 100%; max-width: 450px; background: var(--card); height: 100vh; display: flex; flex-direction: column; position: relative; border-left: 1px solid #1a1a1a; border-right: 1px solid #1a1a1a; }
-        
-        /* ÁREA DE MEMBRO (CENTRALIZADA) */
-        .content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 20px; }
-        
-        .panel-functions { padding: 25px; display: flex; flex-direction: column; gap: 15px; }
-        .status-display { background: #000; padding: 18px; border-radius: 12px; border: 1px solid #222; text-align: center; }
-        .status-label { color: #666; font-size: 11px; letter-spacing: 1px; margin-bottom: 8px; display: block; }
-        .status-value { color: var(--primary); font-weight: bold; font-family: 'Courier New', Courier, monospace; font-size: 20px; }
-        
-        .btn-red { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 10px; font-weight: bold; cursor: pointer; text-transform: uppercase; width: 100%; font-size: 14px; transition: 0.3s; }
-        .btn-red:active { transform: scale(0.98); opacity: 0.8; }
-        .btn-dark { background: #121212; color: #fff; border: 1px solid #222; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 12px; }
+        body { 
+            font-family: 'Inter', -apple-system, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+        }
 
-        .section-title { text-align: center; font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 2px; margin: 20px 0 10px 0; }
-        .chat-box { flex: 1; min-height: 250px; background: #050505; border: 1px solid #1a1a1a; margin: 0 20px; border-radius: 15px; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
-        
-        .msg { padding: 12px; border-radius: 12px; max-width: 85%; font-size: 13px; line-height: 1.5; position: relative; }
-        .msg-mem { background: #1a1a1a; align-self: flex-start; border-bottom-left-radius: 2px; }
-        .msg-adm { background: #4a0000; align-self: flex-end; border-bottom-right-radius: 2px; }
-        .msg-tag { font-size: 9px; font-weight: bold; color: var(--primary); display: block; margin-bottom: 5px; }
+        /* CONTAINER CENTRALIZADO TIPO SMARTPHONE */
+        .app-container { 
+            width: 380px; 
+            height: 85vh; 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 24px; 
+            display: flex; 
+            flex-direction: column; 
+            position: relative; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
 
-        .input-group { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-        .msg-input { background: #0c0c0c; border: 1px solid #222; color: white; padding: 15px; border-radius: 10px; resize: none; height: 60px; outline: none; }
+        /* HEADER PREMIUM */
+        .header { 
+            padding: 20px; 
+            text-align: center; 
+            border-bottom: 1px solid var(--border); 
+            background: rgba(13, 13, 13, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .header h1 { font-size: 14px; letter-spacing: 3px; color: var(--primary); margin: 0; text-transform: uppercase; }
 
-        /* BOTÃO ADM REDONDO (INFERIOR ESQUERDO) */
-        .admin-float-btn { position: fixed; bottom: 20px; left: 20px; width: 50px; height: 50px; background: #1a1a1a; border: 1px solid #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 999; box-shadow: 0 0 15px rgba(255,0,0,0.2); transition: 0.3s; }
-        .admin-float-btn:hover { border-color: var(--primary); color: var(--primary); }
+        /* STATUS E BOTÕES COMPACTOS */
+        .panel { padding: 20px; }
+        .display-box { 
+            background: #000; 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 12px; 
+            text-align: center; 
+            margin-bottom: 15px; 
+        }
+        .label { font-size: 9px; color: #555; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+        .value { font-family: 'Monaco', monospace; font-size: 16px; font-weight: bold; color: #fff; }
 
-        /* MODAL ADM OVERLAY */
-        #adm-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #222; padding-bottom: 10px; }
+        .btn { 
+            width: 100%; 
+            padding: 12px; 
+            border-radius: 10px; 
+            border: none; 
+            font-size: 11px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            transition: 0.2s; 
+            margin-bottom: 8px;
+        }
+        .btn-main { background: var(--primary); color: white; }
+        .btn-main:hover { background: #cc0000; transform: translateY(-1px); }
+        .btn-sec { background: transparent; border: 1px solid var(--border); color: #888; }
+        .btn-sec:hover { color: #fff; border-color: #333; }
 
-        /* LOGIN */
-        .login-overlay { position: absolute; inset: 0; background: var(--bg); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 30px; }
-        .login-card { background: #0c0c0c; padding: 40px 30px; border-radius: 20px; width: 100%; text-align: center; border: 1px solid #1a1a1a; }
-        input { width: 100%; padding: 15px; margin-bottom: 15px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 10px; box-sizing: border-box; }
+        /* CHAT ESTILO MINIMALISTA */
+        .chat-area { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; background: #080808; }
+        .msg { padding: 10px 14px; border-radius: 14px; font-size: 12px; max-width: 80%; line-height: 1.4; }
+        .msg-mem { background: var(--border); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .msg-adm { background: #330000; align-self: flex-end; border-bottom-right-radius: 4px; color: #ffb3b3; }
+
+        /* INPUT PREMIUM */
+        .input-bar { padding: 15px; border-top: 1px solid var(--border); display: flex; gap: 10px; background: var(--card); }
+        .input-bar input { flex: 1; background: #151515; border: 1px solid var(--border); border-radius: 8px; padding: 10px; color: white; font-size: 12px; outline: none; }
+        .btn-send { background: var(--primary); border: none; width: 35px; border-radius: 8px; color: white; cursor: pointer; }
+
+        /* BOTÃO ADM DISCRETO */
+        .adm-trigger { position: fixed; bottom: 20px; left: 20px; font-size: 18px; opacity: 0.3; cursor: pointer; transition: 0.3s; }
+        .adm-trigger:hover { opacity: 1; color: var(--primary); }
+
+        /* MODAL ADM */
+        #adm-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; display: none; align-items: center; justify-content: center; }
+        .login-card { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--border); width: 300px; text-align: center; }
+
+        /* ESCONDER SCROLLBAR */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
-        <div id="membros" class="content">
-            <div class="login-overlay" id="log-m">
-                <div class="login-card">
-                    <h2 style="color:var(--primary)">KERIX LOGIN</h2>
-                    <input type="text" id="u-m" placeholder="Usuário">
-                    <input type="password" id="p-m" placeholder="Senha">
-                    <button class="btn-red" onclick="entrar('membros')">ENTRAR</button>
+    <div class="app-container">
+        <div class="header"><h1>KERIX PREMIUM</h1></div>
+
+        <div id="area-membro" class="panel">
+            <div id="login-m">
+                <div style="text-align: center; margin-top: 20px;">
+                    <input type="text" id="u-m" placeholder="Usuário" style="width: 80%; padding: 12px; margin-bottom: 10px; background: #111; border: 1px solid #222; color: #fff; border-radius: 8px;">
+                    <input type="password" id="p-m" placeholder="Senha" style="width: 80%; padding: 12px; margin-bottom: 20px; background: #111; border: 1px solid #222; color: #fff; border-radius: 8px;">
+                    <button class="btn btn-main" onclick="logar('MEM')" style="width: 85%;">Acessar Portal</button>
                 </div>
-            </div>
-            
-            <div class="panel-functions">
-                <div class="status-display">
-                    <span class="status-label">ACESSO ATIVO</span>
-                    <span class="status-value" id="val-m">U: 386273 | K: 618737</span>
-                </div>
-                <button class="btn-red" onclick="gerar('val-m')">GERAR NOVO ACESSO</button>
-                <button class="btn-dark" onclick="copiar('val-m')">COPIAR DADOS</button>
             </div>
 
-            <div class="section-title">Suporte ao Membro</div>
-            <div class="chat-box" id="box-m"></div>
-            <div class="input-group">
-                <textarea class="msg-input" id="in-m" placeholder="Dúvidas ou suporte..."></textarea>
-                <button class="btn-red" onclick="enviar('MEMBRO')">ENVIAR MENSAGEM</button>
+            <div id="cont-m" style="display:none">
+                <div class="display-box">
+                    <span class="label">STATUS DO ACESSO</span>
+                    <span class="value" id="val-m">U: 386273 | K: 618737</span>
+                </div>
+                <button class="btn btn-main" onclick="gerar('val-m')">Renovar Acesso</button>
+                <button class="btn btn-sec" onclick="copiar('val-m')">Copiar Credenciais</button>
+                
+                <p style="font-size: 10px; color: #444; text-align: center; margin-top: 20px; letter-spacing: 1px;">SUPORTE EXCLUSIVO</p>
+                <div class="chat-area" id="box-m" style="height: 200px;"></div>
+                <div class="input-bar">
+                    <input type="text" id="in-m" placeholder="Mensagem...">
+                    <button class="btn-send" onclick="enviar('MEM')">➔</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="admin-float-btn" onclick="abrirAdm()">🔒</div>
+    <div class="adm-trigger" onclick="abrirAdm()">🔒</div>
 
     <div id="adm-modal">
-        <div class="modal-header">
-            <h3 style="color:red; margin:0">PAINEL DE CONTROLE ADM</h3>
-            <button onclick="fecharAdm()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer">&times;</button>
+        <div class="login-card" id="log-a">
+            <h2 style="font-size:14px; color:red; margin-bottom:20px">PAINEL DE CONTROLE</h2>
+            <input type="password" id="p-a" placeholder="Senha Mestra" style="width: 90%; padding: 10px; background: #111; border: 1px solid #222; color: white; margin-bottom: 15px;">
+            <button class="btn btn-main" onclick="logar('ADM')">Entrar</button>
+            <button class="btn btn-sec" onclick="fecharAdm()">Fechar</button>
         </div>
-
-        <div id="log-a" style="display:block">
-            <div class="login-card">
-                <input type="text" id="u-a" placeholder="Login ADM">
-                <input type="password" id="p-a" placeholder="Senha ADM">
-                <button class="btn-red" onclick="entrar('adm')">AUTENTICAR</button>
+        
+        <div class="app-container" id="cont-a" style="display:none; height: 90vh;">
+            <div class="header"><h1>ADMINISTRAÇÃO</h1></div>
+            <div class="panel" style="padding: 10px;">
+                <button class="btn btn-sec" style="color:red; border-color: red; opacity: 0.6;" onclick="limpar()">Limpar Histórico</button>
             </div>
-        </div>
-
-        <div id="content-adm" style="display:none">
-            <div class="panel-functions">
-                <div class="status-display">
-                    <span class="status-label">VISUALIZAÇÃO ADM</span>
-                    <span class="status-value" id="val-a">GERENCIAMENTO ATIVO</span>
-                </div>
-                <button class="btn-red" style="background:#1a1a1a; color:red; border:1px solid red" onclick="limpar()">LIMPAR TODAS AS CONVERSAS</button>
+            <div class="chat-area" id="box-a"></div>
+            <div class="input-bar">
+                <input type="text" id="in-a" placeholder="Resposta oficial...">
+                <button class="btn-send" onclick="enviar('ADM')">➔</button>
             </div>
-
-            <div class="section-title">Monitoramento Global</div>
-            <div class="chat-box" id="box-a" style="min-height:350px"></div>
-            <div class="input-group">
-                <textarea class="msg-input" id="in-a" placeholder="Resposta oficial ADM..."></textarea>
-                <button class="btn-red" onclick="enviar('ADM')">RESPONDER COMO ADM</button>
-            </div>
+            <button class="btn btn-sec" onclick="fecharAdm()" style="margin: 10px;">Sair do Painel</button>
         </div>
     </div>
 
@@ -130,13 +170,18 @@
         function abrirAdm() { document.getElementById('adm-modal').style.display = 'flex'; }
         function fecharAdm() { document.getElementById('adm-modal').style.display = 'none'; }
 
-        function entrar(t) {
-            const u = document.getElementById(t === 'membros' ? 'u-m' : 'u-a').value;
-            const p = document.getElementById(t === 'membros' ? 'p-m' : 'p-a').value;
-            if((t==='membros' && u==='123' && p==='123') || (t==='adm' && u==='1515' && p==='151')) {
-                document.getElementById(t === 'membros' ? 'log-m' : 'log-a').style.display = 'none';
-                if(t==='adm') document.getElementById('content-adm').style.display = 'block';
-            } else { alert("Acesso Negado!"); }
+        function logar(tipo) {
+            if(tipo === 'MEM') {
+                if(document.getElementById('u-m').value === '123') {
+                    document.getElementById('login-m').style.display = 'none';
+                    document.getElementById('cont-m').style.display = 'block';
+                }
+            } else {
+                if(document.getElementById('p-a').value === '151') {
+                    document.getElementById('log-a').style.display = 'none';
+                    document.getElementById('cont-a').style.display = 'flex';
+                }
+            }
         }
 
         function gerar(id) {
@@ -158,18 +203,17 @@
             }
         }
 
-        function limpar() { if(confirm("Apagar histórico completo?")) db.ref('mensagens').remove(); }
+        function limpar() { if(confirm("Apagar tudo?")) db.ref('mensagens').remove(); }
 
         db.ref('mensagens').on('value', s => {
             let html = "";
             s.forEach(m => {
                 const d = m.val();
-                html += `<div class="msg ${d.autor === 'ADM' ? 'msg-adm' : 'msg-mem'}">
-                    <span class="msg-tag">${d.autor}</span>${d.texto}</div>`;
+                html += `<div class="msg ${d.autor === 'ADM' ? 'msg-adm' : 'msg-mem'}">${d.texto}</div>`;
             });
             document.getElementById('box-m').innerHTML = html;
             document.getElementById('box-a').innerHTML = html;
-            document.querySelectorAll('.chat-box').forEach(b => b.scrollTop = b.scrollHeight);
+            document.querySelectorAll('.chat-area').forEach(b => b.scrollTop = b.scrollHeight);
         });
     </script>
 </body>
