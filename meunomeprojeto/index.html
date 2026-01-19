@@ -7,81 +7,71 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <style>
-        :root { --primary: #ff0000; --primary-dark: #8b0000; --bg: #050505; --card: #121212; --text: #ffffff; }
+        :root { --primary: #ff0000; --bg: #050505; --card: #121212; --text: #ffffff; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
         
-        .main-container { width: 95%; max-width: 450px; background: var(--card); border-radius: 24px; border: 1px solid #222; overflow: hidden; display: flex; flex-direction: column; height: 90vh; box-shadow: 0 20px 50px rgba(255, 0, 0, 0.1); }
+        .main-container { width: 95%; max-width: 450px; background: var(--card); border-radius: 24px; border: 1px solid #222; overflow: hidden; display: flex; flex-direction: column; height: 90vh; }
         
-        /* TABS ORIGINAIS VOLTARAM */
         .tabs { display: flex; background: #000; border-bottom: 1px solid #222; }
-        .tab-btn { flex: 1; padding: 18px; border: none; background: transparent; color: #666; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .tab-btn { flex: 1; padding: 18px; border: none; background: transparent; color: #666; cursor: pointer; font-weight: bold; }
         .tab-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); background: rgba(255, 0, 0, 0.05); }
 
         .content { flex: 1; display: none; flex-direction: column; overflow: hidden; }
         .content.active { display: flex; }
 
-        /* CHAT WHATSAPP STYLE */
-        .chat-container { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; background: #080808; }
-        .msg { padding: 10px 14px; border-radius: 15px; max-width: 80%; font-size: 14px; line-height: 1.4; }
-        .msg-name { font-size: 10px; font-weight: bold; color: var(--primary); display: block; margin-bottom: 4px; text-transform: uppercase; }
-        .msg-mem { background: #222; align-self: flex-start; border-bottom-left-radius: 2px; }
-        .msg-adm { background: var(--primary-dark); align-self: flex-end; border-bottom-right-radius: 2px; }
+        /* WHATSAPP STYLE */
+        .chat-container { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; background: #080808; }
+        .msg { padding: 10px; border-radius: 12px; max-width: 80%; font-size: 14px; }
+        .msg-mem { background: #222; align-self: flex-start; }
+        .msg-adm { background: #8b0000; align-self: flex-end; }
         
-        .chat-img, .chat-video { max-width: 100%; border-radius: 10px; margin-top: 5px; }
-        audio { height: 35px; margin-top: 8px; filter: invert(1); width: 100%; }
-
-        /* ÁREA DE ENVIO */
         .input-area { background: #111; padding: 12px; display: flex; align-items: center; gap: 10px; border-top: 1px solid #222; }
-        .input-area textarea { flex: 1; background: #1a1a1a; border: 1px solid #333; padding: 12px; color: white; border-radius: 25px; resize: none; height: 20px; outline: none; }
-        .icon-btn { background: transparent; border: none; color: #888; font-size: 20px; cursor: pointer; }
-        .btn-send { background: var(--primary); color: white; border: none; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .input-area textarea { flex: 1; background: #1a1a1a; border: none; padding: 10px; color: white; border-radius: 20px; height: 20px; resize: none; outline: none; }
+        .btn-send { background: var(--primary); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
 
-        /* LOGIN */
         .login-screen { padding: 40px; text-align: center; }
-        input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 12px; border: 1px solid #333; background: #1a1a1a; color: white; box-sizing: border-box; }
-        .btn-large { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 12px; width: 100%; font-weight: bold; cursor: pointer; }
+        input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 10px; border: 1px solid #333; background: #1a1a1a; color: white; }
+        .btn-large { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="main-container">
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('membros')">👤 MEMBROS</button>
-            <button class="tab-btn" onclick="switchTab('adm')">🔒 ADM</button>
+            <button class="tab-btn active" id="btn-tab-mem" onclick="switchTab('membros')">👤 MEMBROS</button>
+            <button class="tab-btn" id="btn-tab-adm" onclick="switchTab('adm')">🔒 ADM</button>
         </div>
 
         <div id="membros" class="content active">
             <div id="login-mem" class="login-screen">
-                <h2>Portal de Membros</h2>
-                <input type="text" id="mem-user" placeholder="Usuário">
-                <input type="password" id="mem-pass" placeholder="Senha">
-                <button class="btn-large" onclick="loginMembro()">ENTRAR</button>
+                <h2 style="color:var(--primary)">Portal Membro</h2>
+                <input type="text" id="user-mem" placeholder="Usuário">
+                <input type="password" id="pass-mem" placeholder="Senha">
+                <button class="btn-large" onclick="auth('MEMBRO')">ENTRAR</button>
             </div>
-            <div id="chat-mem-area" style="display:none; flex-direction: column; height: 100%;">
+            <div id="area-mem" style="display:none; flex-direction:column; height:100%">
                 <div class="chat-container" id="box-mem"></div>
                 <div class="input-area">
-                    <label class="icon-btn">📷<input type="file" accept="image/*" style="display:none" onchange="sendFile(this, 'img', 'MEMBRO')"></label>
-                    <button class="icon-btn" id="rec-mem" onclick="handleAudio('MEMBRO')">🎤</button>
-                    <textarea id="input-mem" placeholder="Mensagem..."></textarea>
-                    <button class="btn-send" onclick="enviarMsg('MEMBRO')">➔</button>
+                    <label style="cursor:pointer">📷<input type="file" accept="image/*" style="display:none" onchange="upFile(this, 'MEMBRO')"></label>
+                    <textarea id="in-mem" placeholder="Mensagem..."></textarea>
+                    <button class="btn-send" onclick="send('MEMBRO')">➔</button>
                 </div>
             </div>
         </div>
 
         <div id="adm" class="content">
             <div id="login-adm" class="login-screen">
-                <h2>Painel ADM</h2>
-                <input type="text" id="adm-user-in" placeholder="Login">
-                <input type="password" id="adm-pass-in" placeholder="Senha">
-                <button class="btn-large" onclick="loginAdm()">LOGAR</button>
+                <h2 style="color:var(--primary)">Painel ADM</h2>
+                <input type="text" id="user-adm" placeholder="Login">
+                <input type="password" id="pass-adm" placeholder="Senha">
+                <button class="btn-large" onclick="auth('ADM')">LOGAR</button>
             </div>
-            <div id="chat-adm-area" style="display:none; flex-direction: column; height: 100%;">
+            <div id="area-adm" style="display:none; flex-direction:column; height:100%">
                 <div class="chat-container" id="box-adm"></div>
                 <div class="input-area">
-                    <label class="icon-btn">📷<input type="file" accept="image/*" style="display:none" onchange="sendFile(this, 'img', 'ADM')"></label>
-                    <button class="icon-btn" id="rec-adm" onclick="handleAudio('ADM')">🎤</button>
-                    <textarea id="input-adm" placeholder="Responder..."></textarea>
-                    <button class="btn-send" onclick="enviarMsg('ADM')">➔</button>
+                    <label style="cursor:pointer">📷<input type="file" accept="image/*" style="display:none" onchange="upFile(this, 'ADM')"></label>
+                    <textarea id="in-adm" placeholder="Resposta..."></textarea>
+                    <button class="btn-send" onclick="send('ADM')">➔</button>
                 </div>
             </div>
         </div>
@@ -100,80 +90,44 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let nomeLogado = "", mediaRecorder, audioChunks = [];
+        function switchTab(t) {
+            document.querySelectorAll('.content, .tab-btn').forEach(e => e.classList.remove('active'));
+            document.getElementById(t).classList.add('active');
+            document.getElementById('btn-tab-' + t.substring(0,3)).classList.add('active');
+        }
+
+        function auth(tipo) {
+            const u = document.getElementById('user-' + tipo.toLowerCase()).value;
+            const p = document.getElementById('pass-' + tipo.toLowerCase()).value;
+            if((tipo==='MEMBRO' && u==='123' && p==='123') || (tipo==='ADM' && u==='1515' && p==='151')) {
+                document.getElementById('login-' + tipo.toLowerCase()).style.display = 'none';
+                document.getElementById('area-' + tipo.toLowerCase()).style.display = 'flex';
+            } else alert("Erro!");
+        }
 
         db.ref('mensagens').on('value', s => {
             let h = "";
             s.forEach(m => {
                 const d = m.val();
-                const isAdm = d.autor === 'ADM';
-                h += `<div class="msg ${isAdm ? 'msg-adm' : 'msg-mem'}">
-                        ${!isAdm ? `<span class="msg-name">${d.autor}</span>` : ''}
-                        ${d.texto || ''}
-                        ${d.img ? `<img src="${d.img}" class="chat-img">` : ''}
-                        ${d.audio ? `<audio src="${d.audio}" controls></audio>` : ''}
-                      </div>`;
+                h += `<div class="msg ${d.autor==='ADM'?'msg-adm':'msg-mem'}">
+                    <small style="display:block; font-size:9px; opacity:0.5">${d.autor}</small>
+                    ${d.texto || ''} ${d.img ? `<img src="${d.img}" style="max-width:100%; border-radius:8px">`:''}
+                </div>`;
             });
             document.getElementById('box-mem').innerHTML = h;
             document.getElementById('box-adm').innerHTML = h;
             document.querySelectorAll('.chat-container').forEach(c => c.scrollTop = c.scrollHeight);
         });
 
-        function switchTab(t) {
-            document.querySelectorAll('.content, .tab-btn').forEach(e => e.classList.remove('active'));
-            document.getElementById(t).classList.add('active');
-            event.currentTarget.classList.add('active');
+        function send(t) {
+            const i = document.getElementById('in-' + t.toLowerCase());
+            if(i.value) { db.ref('mensagens').push({ autor: t, texto: i.value }); i.value = ""; }
         }
 
-        function loginMembro() {
-            if(document.getElementById('mem-user').value === "123" && document.getElementById('mem-pass').value === "123") {
-                nomeLogado = "Membro Teste";
-                document.getElementById('login-mem').style.display = 'none';
-                document.getElementById('chat-mem-area').style.display = 'flex';
-            } else { alert("Acesso negado!"); }
-        }
-
-        function loginAdm() {
-            if(document.getElementById('adm-user-in').value === "1515" && document.getElementById('adm-pass-in').value === "151") {
-                document.getElementById('login-adm').style.display = 'none';
-                document.getElementById('chat-adm-area').style.display = 'flex';
-            } else { alert("Acesso negado!"); }
-        }
-
-        function enviarMsg(tipo, midia = {}) {
-            const input = document.getElementById(tipo === 'ADM' ? 'input-adm' : 'input-mem');
-            if(input.value.trim() || midia.img || midia.audio) {
-                db.ref('mensagens').push({ autor: tipo === 'ADM' ? 'ADM' : nomeLogado, texto: input.value, ...midia });
-                input.value = "";
-            }
-        }
-
-        function sendFile(input, tipo, remetente) {
-            const reader = new FileReader();
-
-            reader.onload = e => {
-                const payload = {}; payload[tipo] = e.target.result;
-                enviarMsg(remetente, payload);
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-
-        async function handleAudio(tipo) {
-            const btn = document.getElementById(tipo === 'ADM' ? 'rec-adm' : 'rec-mem');
-            if (!mediaRecorder || mediaRecorder.state === "inactive") {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream);
-                mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-                mediaRecorder.onstop = () => {
-                    const reader = new FileReader();
-                    reader.onload = e => enviarMsg(tipo, { audio: e.target.result });
-                    reader.readAsDataURL(new Blob(audioChunks, { type: 'audio/webm' }));
-                    audioChunks = [];
-                    btn.innerText = "🎤";
-                };
-                mediaRecorder.start();
-                btn.innerText = "🛑";
-            } else { mediaRecorder.stop(); }
+        function upFile(i, t) {
+            const r = new FileReader();
+            r.onload = e => db.ref('mensagens').push({ autor: t, img: e.target.result });
+            r.readAsDataURL(i.files[0]);
         }
     </script>
 </body>
