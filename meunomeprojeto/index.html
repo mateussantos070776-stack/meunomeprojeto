@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KERIX LUXURY | AUTENTICAÇÃO</title>
+    <title>KERIX LUXURY | PRIVADO</title>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -19,13 +19,12 @@
             display: flex; flex-direction: column; overflow: hidden;
         }
 
-        /* TELA FRONTAL: PORTAL DE ACESSO */
+        /* TELA FRONTAL (USUÁRIO) */
         .front-page { padding: 60px 20px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .luxury-logo { cursor: pointer; margin-bottom: 50px; }
         .luxury-logo h1 { font-family: 'Syncopate', sans-serif; font-size: 14px; letter-spacing: 8px; color: var(--red); margin: 0; }
         .luxury-logo p { font-size: 8px; color: #333; letter-spacing: 3px; margin-top: 10px; text-transform: uppercase; }
 
-        /* BOX DE ENTRADA PREMIUM */
         .auth-box { width: 100%; max-width: 280px; background: #080808; border: 1px solid var(--border); border-radius: 20px; padding: 30px 20px; }
         .auth-box label { display: block; font-size: 9px; color: #444; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
         
@@ -42,15 +41,14 @@
             letter-spacing: 2px; cursor: pointer; text-transform: uppercase;
             box-shadow: 0 10px 20px rgba(255,0,0,0.2);
         }
-        .btn-access:hover { transform: scale(1.02); filter: brightness(1.1); }
 
-        /* PAINEL GHOST (ÁREA DO ADMINISTRADOR) */
+        /* PAINEL GHOST (ADMINISTRADOR) */
         #ghost-panel { position: absolute; inset: 0; background: #000; z-index: 1000; transform: translateY(100%); display: flex; flex-direction: column; padding: 20px; }
         #ghost-panel.active { transform: translateY(0); }
         .ghost-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid #111; margin-bottom: 20px; }
+        
         .adm-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .adm-btn { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 15px; color: #666; font-size: 9px; font-weight: 700; cursor: pointer; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .adm-btn:hover { border-color: var(--red); color: #fff; background: rgba(255,0,0,0.08); }
         
         .chat-container { flex: 1; background: #030303; border: 1px solid var(--border); border-radius: 20px; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
         .msg { padding: 10px 14px; border-radius: 15px; font-size: 11px; max-width: 85%; }
@@ -68,13 +66,13 @@
         <div class="front-page">
             <div class="luxury-logo" onclick="abrirAdmin()">
                 <h1>KERIX</h1>
-                <p>Gerenciamento Privado</p>
+                <p>Gestão Privada</p>
             </div>
 
             <div class="auth-box">
-                <label>Chave de Segurança Necessária</label>
+                <label>Chave de Acesso Necessária</label>
                 <input type="text" maxlength="5" class="key-input" id="access-key" placeholder="•••••">
-                <button class="btn-access" onclick="validarChave()">Garantir Acesso</button>
+                <button class="btn-access" onclick="validarChave()">Liberar Acesso</button>
             </div>
             
             <p style="margin-top: 50px; font-size: 10px; color: #1a1a1a; letter-spacing: 2px;">CONEXÃO SEGURA ATIVA</p>
@@ -82,21 +80,21 @@
 
         <div id="ghost-panel">
             <div class="ghost-header">
-                <span style="font-family:'Syncopate'; font-size:10px; color:var(--red)">CENTRO DE COMANDO</span>
+                <span style="font-family:'Syncopate'; font-size:10px; color:var(--red)">CENTRAL DE COMANDO</span>
                 <button onclick="fecharAdmin()" style="background:none; border:none; color:#444; font-size:9px; cursor:pointer;">FECHAR</button>
             </div>
 
             <div class="adm-controls">
-                <button class="adm-btn" onclick="alert('Chaves Ativas: 14')"><span>🔑</span>Status Chaves</button>
-                <button class="adm-btn" onclick="alert('Rede: Segura')"><span>👥</span>Rede</button>
-                <button class="adm-btn" onclick="alert('Turno: 08-20')"><span>🕒</span>Horários</button>
-                <button class="adm-btn" style="color:var(--red); border-color:rgba(255,0,0,0.2)" onclick="limparBanco()"><span>⚠️</span>Limpar</button>
+                <button class="adm-btn" onclick="alert('Sistema de Chaves Ativo')"><span>🔑</span>Status Chaves</button>
+                <button class="adm-btn" onclick="alert('Rede Protegida')"><span>👥</span>Rede</button>
+                <button class="adm-btn" onclick="alert('Turno Ativo: 08:00 - 20:00')"><span>🕒</span>Horários</button>
+                <button class="adm-btn" style="color:var(--red); border-color:rgba(255,0,0,0.2)" onclick="limparBanco()"><span>⚠️</span>Limpar Tudo</button>
             </div>
 
             <div class="chat-container" id="box-admin"></div>
 
             <div class="input-bar">
-                <input type="text" id="in-adm" placeholder="Comando Root...">
+                <input type="text" id="in-adm" placeholder="Enviar comando...">
                 <button class="send-btn" onclick="enviarMensagem()">❯</button>
             </div>
         </div>
@@ -116,16 +114,13 @@
         const db = firebase.database();
 
         function validarChave() {
-            const chave = document.getElementById('access-key').value;
-            if(chave === "12345") {
-                alert("ACESSO CONCEDIDO");
-            } else {
-                alert("CHAVE INVÁLIDA");
-            }
+            const c = document.getElementById('access-key').value;
+            if(c === "12345") alert("ACESSO CONCEDIDO");
+            else alert("CHAVE INVÁLIDA");
         }
 
         function abrirAdmin() { 
-            if(prompt("IDENTIFICAÇÃO ROOT:") === "151") {
+            if(prompt("IDENTIFICAÇÃO DO ADMINISTRADOR:") === "151") {
                 document.getElementById('ghost-panel').classList.add('active'); 
             }
         }
@@ -133,28 +128,22 @@
         function fecharAdmin() { document.getElementById('ghost-panel').classList.remove('active'); }
         
         function enviarMensagem() { 
-            const input = document.getElementById('in-adm'); 
-            if(input.value.trim()){ 
-                db.ref('mensagens').push({autor:'ADM', texto:input.value}); 
-                input.value=""; 
-            } 
+            const i = document.getElementById('in-adm'); 
+            if(i.value.trim()){ db.ref('mensagens').push({autor:'ADM', texto:i.value}); i.value=""; } 
         }
 
         function limparBanco() { 
-            if(confirm("Deseja apagar todos os dados do histórico?")) {
-                db.ref('mensagens').remove(); 
-            }
+            if(confirm("Deseja apagar todo o histórico de mensagens?")) db.ref('mensagens').remove(); 
         }
 
         db.ref('mensagens').on('value', s => {
-            let html = "";
+            let h = "";
             s.forEach(m => { 
                 const d = m.val(); 
-                html += `<div class="msg ${d.autor==='ADM'?'msg-adm':'msg-mem'}">${d.texto}</div>`; 
+                h += `<div class="msg ${d.autor==='ADM'?'msg-adm':'msg-mem'}">${d.texto}</div>`; 
             });
             const box = document.getElementById('box-admin');
-            box.innerHTML = html;
-            box.scrollTop = box.scrollHeight;
+            box.innerHTML = h; box.scrollTop = box.scrollHeight;
         });
     </script>
 </body>
