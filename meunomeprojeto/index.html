@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KERIX LUXURY | PRIVADO</title>
+    <title>KERIX LUXURY | SISTEMA</title>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -19,45 +19,30 @@
             display: flex; flex-direction: column; overflow: hidden;
         }
 
-        /* TELA FRONTAL (USUÁRIO) */
+        /* TELA DE LOGIN DO MEMBRO */
         .front-page { padding: 60px 20px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .luxury-logo { cursor: pointer; margin-bottom: 50px; }
         .luxury-logo h1 { font-family: 'Syncopate', sans-serif; font-size: 14px; letter-spacing: 8px; color: var(--red); margin: 0; }
-        .luxury-logo p { font-size: 8px; color: #333; letter-spacing: 3px; margin-top: 10px; text-transform: uppercase; }
-
+        
         .auth-box { width: 100%; max-width: 280px; background: #080808; border: 1px solid var(--border); border-radius: 20px; padding: 30px 20px; }
         .auth-box label { display: block; font-size: 9px; color: #444; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
-        
-        .key-input { 
-            width: 100%; background: transparent; border: none; border-bottom: 1px solid #222; 
-            color: #fff; font-family: 'Syncopate'; font-size: 22px; text-align: center; 
-            letter-spacing: 10px; outline: none; padding-bottom: 10px; margin-bottom: 25px;
-        }
-        .key-input:focus { border-color: var(--red); }
+        .key-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid #222; color: #fff; font-family: 'Syncopate'; font-size: 22px; text-align: center; letter-spacing: 10px; outline: none; padding-bottom: 10px; margin-bottom: 25px; }
+        .btn-access { width: 100%; background: var(--red); border: none; border-radius: 12px; padding: 15px; color: #fff; font-size: 10px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
 
-        .btn-access { 
-            width: 100%; background: var(--red); border: none; border-radius: 12px; 
-            padding: 15px; color: #fff; font-size: 10px; font-weight: 700; 
-            letter-spacing: 2px; cursor: pointer; text-transform: uppercase;
-            box-shadow: 0 10px 20px rgba(255,0,0,0.2);
-        }
-
-        /* PAINEL GHOST (ADMINISTRADOR) */
+        /* PAINEL ADMINISTRATIVO GHOST */
         #ghost-panel { position: absolute; inset: 0; background: #000; z-index: 1000; transform: translateY(100%); display: flex; flex-direction: column; padding: 20px; }
         #ghost-panel.active { transform: translateY(0); }
         .ghost-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid #111; margin-bottom: 20px; }
         
         .adm-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .adm-btn { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 15px; color: #666; font-size: 9px; font-weight: 700; cursor: pointer; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        
+        .adm-btn.highlight { border-color: var(--red); color: #fff; background: rgba(255,0,0,0.1); }
+
+        .key-display { background: #080808; border: 1px dashed #333; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; }
+        .key-display span { font-size: 9px; color: #555; display: block; margin-bottom: 5px; }
+        .key-display strong { font-family: 'Syncopate'; color: var(--red); font-size: 18px; }
+
         .chat-container { flex: 1; background: #030303; border: 1px solid var(--border); border-radius: 20px; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-        .msg { padding: 10px 14px; border-radius: 15px; font-size: 11px; max-width: 85%; }
-        .msg-mem { background: #111; align-self: flex-start; border: 1px solid #1a1a1a; }
-        .msg-adm { background: linear-gradient(135deg, #400, #100); align-self: flex-end; color: #ffb3b3; }
-        
-        .input-bar { padding: 20px 0; display: flex; gap: 10px; }
-        .input-bar input { flex: 1; background: #0c0c0c; border: 1px solid #1a1a1a; border-radius: 10px; padding: 12px; color: #fff; font-size: 12px; outline: none; }
-        .send-btn { background: var(--red); border: none; width: 45px; border-radius: 10px; color: #fff; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -66,16 +51,15 @@
         <div class="front-page">
             <div class="luxury-logo" onclick="abrirAdmin()">
                 <h1>KERIX</h1>
-                <p>Gestão Privada</p>
+                <p style="font-size: 8px; color:#333; letter-spacing: 3px; margin-top: 10px;">GESTÃO PRIVADA</p>
             </div>
 
             <div class="auth-box">
-                <label>Chave de Acesso Necessária</label>
-                <input type="text" maxlength="5" class="key-input" id="access-key" placeholder="•••••">
-                <button class="btn-access" onclick="validarChave()">Liberar Acesso</button>
+                <label>VALIDAÇÃO DE CHAVE</label>
+                <input type="text" maxlength="5" class="key-input" id="member-key" placeholder="•••••">
+                <button class="btn-access" onclick="validarAcessoMembro()">ENTRAR NO SISTEMA</button>
             </div>
-            
-            <p style="margin-top: 50px; font-size: 10px; color: #1a1a1a; letter-spacing: 2px;">CONEXÃO SEGURA ATIVA</p>
+            <p style="margin-top: 40px; font-size: 9px; color: #1a1a1a; letter-spacing: 2px;">CONEXÃO CRIPTOGRAFADA</p>
         </div>
 
         <div id="ghost-panel">
@@ -84,19 +68,19 @@
                 <button onclick="fecharAdmin()" style="background:none; border:none; color:#444; font-size:9px; cursor:pointer;">FECHAR</button>
             </div>
 
+            <div class="key-display">
+                <span>CHAVE ATUAL NO BANCO</span>
+                <strong id="current-db-key">AGUARDANDO...</strong>
+            </div>
+
             <div class="adm-controls">
-                <button class="adm-btn" onclick="alert('Sistema de Chaves Ativo')"><span>🔑</span>Status Chaves</button>
-                <button class="adm-btn" onclick="alert('Rede Protegida')"><span>👥</span>Rede</button>
-                <button class="adm-btn" onclick="alert('Turno Ativo: 08:00 - 20:00')"><span>🕒</span>Horários</button>
-                <button class="adm-btn" style="color:var(--red); border-color:rgba(255,0,0,0.2)" onclick="limparBanco()"><span>⚠️</span>Limpar Tudo</button>
+                <button class="adm-btn highlight" onclick="gerarNovaChave()"><span>🔄</span>Gerar Chave</button>
+                <button class="adm-btn" onclick="limparChaves()"><span>🗑️</span>Revogar Tudo</button>
+                <button class="adm-btn" onclick="alert('Rede Monitorada')"><span>👥</span>Rede</button>
+                <button class="adm-btn" style="color:var(--red)" onclick="limparChat()"><span>⚠️</span>Limpar Chat</button>
             </div>
 
             <div class="chat-container" id="box-admin"></div>
-
-            <div class="input-bar">
-                <input type="text" id="in-adm" placeholder="Enviar comando...">
-                <button class="send-btn" onclick="enviarMensagem()">❯</button>
-            </div>
         </div>
     </div>
 
@@ -113,37 +97,41 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        function validarChave() {
-            const c = document.getElementById('access-key').value;
-            if(c === "12345") alert("ACESSO CONCEDIDO");
-            else alert("CHAVE INVÁLIDA");
+        // --- LÓGICA DE GERENCIAMENTO DE CHAVES (ADM) ---
+        function gerarNovaChave() {
+            const novaChave = Math.floor(10000 + Math.random() * 90000).toString();
+            db.ref('chave_ativa').set(novaChave);
+            alert("NOVA CHAVE GERADA: " + novaChave);
         }
 
-        function abrirAdmin() { 
-            if(prompt("IDENTIFICAÇÃO DO ADMINISTRADOR:") === "151") {
-                document.getElementById('ghost-panel').classList.add('active'); 
+        function limparChaves() {
+            if(confirm("Deseja revogar o acesso de todos os membros?")) {
+                db.ref('chave_ativa').remove();
             }
         }
-        
-        function fecharAdmin() { document.getElementById('ghost-panel').classList.remove('active'); }
-        
-        function enviarMensagem() { 
-            const i = document.getElementById('in-adm'); 
-            if(i.value.trim()){ db.ref('mensagens').push({autor:'ADM', texto:i.value}); i.value=""; } 
-        }
 
-        function limparBanco() { 
-            if(confirm("Deseja apagar todo o histórico de mensagens?")) db.ref('mensagens').remove(); 
-        }
-
-        db.ref('mensagens').on('value', s => {
-            let h = "";
-            s.forEach(m => { 
-                const d = m.val(); 
-                h += `<div class="msg ${d.autor==='ADM'?'msg-adm':'msg-mem'}">${d.texto}</div>`; 
+        // --- LÓGICA DE VALIDAÇÃO (MEMBRO) ---
+        function validarAcessoMembro() {
+            const input = document.getElementById('member-key').value;
+            db.ref('chave_ativa').once('value', s => {
+                const chaveOficial = s.val();
+                if(input === chaveOficial && chaveOficial !== null) {
+                    alert("ACESSO AUTORIZADO! BEM-VINDO.");
+                } else {
+                    alert("CHAVE INVÁLIDA OU EXPIRADA.");
+                }
             });
-            const box = document.getElementById('box-admin');
-            box.innerHTML = h; box.scrollTop = box.scrollHeight;
+        }
+
+        // --- INTERFACE ---
+        function abrirAdmin() { if(prompt("IDENTIFICAÇÃO ROOT:") === "151") document.getElementById('ghost-panel').classList.add('active'); }
+        function fecharAdmin() { document.getElementById('ghost-panel').classList.remove('active'); }
+        function limparChat() { if(confirm("Limpar conversas?")) db.ref('mensagens').remove(); }
+
+        // SINCRONIZAÇÃO EM TEMPO REAL
+        db.ref('chave_ativa').on('value', s => {
+            const val = s.val();
+            document.getElementById('current-db-key').innerText = val ? val : "NENHUMA";
         });
     </script>
 </body>
