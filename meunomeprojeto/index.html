@@ -11,91 +11,51 @@
         
         body { 
             font-family: 'Inter', -apple-system, sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            margin: 0; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
+            background: var(--bg); color: var(--text); margin: 0; 
+            display: flex; align-items: center; justify-content: center; 
+            height: 100vh; overflow: hidden;
         }
 
-        /* CONTAINER CENTRALIZADO TIPO SMARTPHONE */
         .app-container { 
-            width: 380px; 
-            height: 85vh; 
-            background: var(--card); 
-            border: 1px solid var(--border); 
-            border-radius: 24px; 
-            display: flex; 
-            flex-direction: column; 
-            position: relative; 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
+            width: 380px; height: 90vh; background: var(--card); 
+            border: 1px solid var(--border); border-radius: 24px; 
+            display: flex; flex-direction: column; position: relative; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); overflow: hidden;
         }
 
-        /* HEADER PREMIUM */
         .header { 
-            padding: 20px; 
-            text-align: center; 
-            border-bottom: 1px solid var(--border); 
-            background: rgba(13, 13, 13, 0.8);
-            backdrop-filter: blur(10px);
+            padding: 15px; text-align: center; border-bottom: 1px solid var(--border); 
+            background: rgba(13, 13, 13, 0.8); backdrop-filter: blur(10px);
         }
-        .header h1 { font-size: 14px; letter-spacing: 3px; color: var(--primary); margin: 0; text-transform: uppercase; }
+        .header h1 { font-size: 12px; letter-spacing: 3px; color: var(--primary); margin: 0; text-transform: uppercase; }
 
-        /* STATUS E BOTÕES COMPACTOS */
-        .panel { padding: 20px; }
-        .display-box { 
-            background: #000; 
-            border: 1px solid var(--border); 
-            border-radius: 12px; 
-            padding: 12px; 
-            text-align: center; 
-            margin-bottom: 15px; 
-        }
+        .panel { padding: 15px; flex: 1; display: flex; flex-direction: column; }
+        .display-box { background: #000; border: 1px solid var(--border); border-radius: 12px; padding: 12px; text-align: center; margin-bottom: 15px; }
         .label { font-size: 9px; color: #555; letter-spacing: 1px; display: block; margin-bottom: 4px; }
         .value { font-family: 'Monaco', monospace; font-size: 16px; font-weight: bold; color: #fff; }
 
+        /* GRADE DE BOTÕES PREMIUM */
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
         .btn { 
-            width: 100%; 
-            padding: 12px; 
-            border-radius: 10px; 
-            border: none; 
-            font-size: 11px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            text-transform: uppercase; 
-            transition: 0.2s; 
-            margin-bottom: 8px;
+            padding: 12px; border-radius: 10px; border: none; font-size: 10px; 
+            font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.2s;
         }
         .btn-main { background: var(--primary); color: white; }
-        .btn-main:hover { background: #cc0000; transform: translateY(-1px); }
         .btn-sec { background: transparent; border: 1px solid var(--border); color: #888; }
-        .btn-sec:hover { color: #fff; border-color: #333; }
+        
+        .btn-work { width: 100%; margin-bottom: 15px; background: #000; border: 1px solid #222; font-size: 11px; }
 
-        /* CHAT ESTILO MINIMALISTA */
-        .chat-area { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; background: #080808; }
-        .msg { padding: 10px 14px; border-radius: 14px; font-size: 12px; max-width: 80%; line-height: 1.4; }
-        .msg-mem { background: var(--border); align-self: flex-start; border-bottom-left-radius: 4px; }
-        .msg-adm { background: #330000; align-self: flex-end; border-bottom-right-radius: 4px; color: #ffb3b3; }
+        .chat-area { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px; background: #080808; border-radius: 12px; border: 1px solid #111; }
+        .msg { padding: 8px 12px; border-radius: 12px; font-size: 12px; max-width: 85%; line-height: 1.4; }
+        .msg-mem { background: var(--border); align-self: flex-start; border-bottom-left-radius: 2px; }
+        .msg-adm { background: #330000; align-self: flex-end; border-bottom-right-radius: 2px; color: #ffb3b3; }
 
-        /* INPUT PREMIUM */
-        .input-bar { padding: 15px; border-top: 1px solid var(--border); display: flex; gap: 10px; background: var(--card); }
-        .input-bar input { flex: 1; background: #151515; border: 1px solid var(--border); border-radius: 8px; padding: 10px; color: white; font-size: 12px; outline: none; }
-        .btn-send { background: var(--primary); border: none; width: 35px; border-radius: 8px; color: white; cursor: pointer; }
+        .input-bar { padding: 12px 0; display: flex; gap: 8px; }
+        .input-bar input { flex: 1; background: #151515; border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; color: white; font-size: 12px; outline: none; }
+        .btn-send { background: var(--primary); border: none; width: 40px; border-radius: 8px; color: white; cursor: pointer; }
 
-        /* BOTÃO ADM DISCRETO */
-        .adm-trigger { position: fixed; bottom: 20px; left: 20px; font-size: 18px; opacity: 0.3; cursor: pointer; transition: 0.3s; }
-        .adm-trigger:hover { opacity: 1; color: var(--primary); }
-
-        /* MODAL ADM */
-        #adm-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; display: none; align-items: center; justify-content: center; }
-        .login-card { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--border); width: 300px; text-align: center; }
-
-        /* ESCONDER SCROLLBAR */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
+        .adm-trigger { position: fixed; bottom: 20px; left: 20px; font-size: 18px; opacity: 0.1; cursor: pointer; z-index: 100; }
+        #adm-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
@@ -103,29 +63,32 @@
     <div class="app-container">
         <div class="header"><h1>KERIX PREMIUM</h1></div>
 
-        <div id="area-membro" class="panel">
-            <div id="login-m">
-                <div style="text-align: center; margin-top: 20px;">
-                    <input type="text" id="u-m" placeholder="Usuário" style="width: 80%; padding: 12px; margin-bottom: 10px; background: #111; border: 1px solid #222; color: #fff; border-radius: 8px;">
-                    <input type="password" id="p-m" placeholder="Senha" style="width: 80%; padding: 12px; margin-bottom: 20px; background: #111; border: 1px solid #222; color: #fff; border-radius: 8px;">
-                    <button class="btn btn-main" onclick="logar('MEM')" style="width: 85%;">Acessar Portal</button>
+        <div id="panel-m" class="panel">
+            <div class="display-box">
+                <span class="label">ACESSO ATIVO</span>
+                <span class="value" id="val-m">U: 386273 | K: 618737</span>
+            </div>
+
+            <div class="btn-grid">
+                <button class="btn btn-main" onclick="gerar('val-m')">🔑 ACESSOS</button>
+                <button class="btn btn-main" onclick="tab('chat')">💬 CHAT</button>
+                <button class="btn btn-sec" onclick="tab('users')">👥 USUÁRIOS</button>
+                <button class="btn btn-sec" onclick="tab('hours')">🕒 HORÁRIOS</button>
+            </div>
+
+            <button id="btn-status" class="btn btn-work" onclick="toggleWork()" style="color: #00ff00;">🟢 EM TRABALHO</button>
+
+            <div id="view-chat" style="flex:1; display:flex; flex-direction:column;">
+                <div class="chat-area" id="box-m"></div>
+                <div class="input-bar">
+                    <input type="text" id="in-m" placeholder="Digite aqui...">
+                    <button class="btn-send" onclick="enviar('MEM')">➔</button>
                 </div>
             </div>
 
-            <div id="cont-m" style="display:none">
-                <div class="display-box">
-                    <span class="label">STATUS DO ACESSO</span>
-                    <span class="value" id="val-m">U: 386273 | K: 618737</span>
-                </div>
-                <button class="btn btn-main" onclick="gerar('val-m')">Renovar Acesso</button>
-                <button class="btn btn-sec" onclick="copiar('val-m')">Copiar Credenciais</button>
-                
-                <p style="font-size: 10px; color: #444; text-align: center; margin-top: 20px; letter-spacing: 1px;">SUPORTE EXCLUSIVO</p>
-                <div class="chat-area" id="box-m" style="height: 200px;"></div>
-                <div class="input-bar">
-                    <input type="text" id="in-m" placeholder="Mensagem...">
-                    <button class="btn-send" onclick="enviar('MEM')">➔</button>
-                </div>
+            <div id="view-info" style="display:none; text-align:center; padding:40px 20px; color:#666;">
+                <p id="info-text"></p>
+                <button class="btn btn-sec" onclick="tab('chat')">Voltar ao Chat</button>
             </div>
         </div>
     </div>
@@ -133,24 +96,17 @@
     <div class="adm-trigger" onclick="abrirAdm()">🔒</div>
 
     <div id="adm-modal">
-        <div class="login-card" id="log-a">
-            <h2 style="font-size:14px; color:red; margin-bottom:20px">PAINEL DE CONTROLE</h2>
-            <input type="password" id="p-a" placeholder="Senha Mestra" style="width: 90%; padding: 10px; background: #111; border: 1px solid #222; color: white; margin-bottom: 15px;">
-            <button class="btn btn-main" onclick="logar('ADM')">Entrar</button>
-            <button class="btn btn-sec" onclick="fecharAdm()">Fechar</button>
-        </div>
-        
-        <div class="app-container" id="cont-a" style="display:none; height: 90vh;">
-            <div class="header"><h1>ADMINISTRAÇÃO</h1></div>
-            <div class="panel" style="padding: 10px;">
-                <button class="btn btn-sec" style="color:red; border-color: red; opacity: 0.6;" onclick="limpar()">Limpar Histórico</button>
+        <div class="app-container" style="height: 80vh;">
+            <div class="header"><h1>PAINEL ADM</h1></div>
+            <div class="panel">
+                <button class="btn btn-sec" style="color:red; border-color:red; margin-bottom:10px" onclick="limpar()">LIMPAR TUDO</button>
+                <div class="chat-area" id="box-a"></div>
+                <div class="input-bar">
+                    <input type="text" id="in-a" placeholder="Resposta ADM...">
+                    <button class="btn-send" onclick="enviar('ADM')">➔</button>
+                </div>
+                <button class="btn btn-sec" onclick="fecharAdm()">Sair</button>
             </div>
-            <div class="chat-area" id="box-a"></div>
-            <div class="input-bar">
-                <input type="text" id="in-a" placeholder="Resposta oficial...">
-                <button class="btn-send" onclick="enviar('ADM')">➔</button>
-            </div>
-            <button class="btn btn-sec" onclick="fecharAdm()" style="margin: 10px;">Sair do Painel</button>
         </div>
     </div>
 
@@ -167,53 +123,40 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        function abrirAdm() { document.getElementById('adm-modal').style.display = 'flex'; }
-        function fecharAdm() { document.getElementById('adm-modal').style.display = 'none'; }
-
-        function logar(tipo) {
-            if(tipo === 'MEM') {
-                if(document.getElementById('u-m').value === '123') {
-                    document.getElementById('login-m').style.display = 'none';
-                    document.getElementById('cont-m').style.display = 'block';
-                }
-            } else {
-                if(document.getElementById('p-a').value === '151') {
-                    document.getElementById('log-a').style.display = 'none';
-                    document.getElementById('cont-a').style.display = 'flex';
-                }
+        function tab(t) {
+            const chat = document.getElementById('view-chat');
+            const info = document.getElementById('view-info');
+            const txt = document.getElementById('info-text');
+            if(t === 'chat') { chat.style.display = 'flex'; info.style.display = 'none'; }
+            else {
+                chat.style.display = 'none'; info.style.display = 'block';
+                txt.innerHTML = t === 'users' ? "👥 <b>14 Usuários</b> conectados agora." : "🕒 <b>Horário:</b> 08:00 - 18:00";
             }
         }
 
-        function gerar(id) {
-            const u = Math.floor(100000 + Math.random() * 900000);
-            const k = Math.floor(100000 + Math.random() * 900000);
-            document.getElementById(id).innerText = `U: ${u} | K: ${k}`;
+        let working = true;
+        function toggleWork() {
+            working = !working;
+            const b = document.getElementById('btn-status');
+            b.innerHTML = working ? "🟢 EM TRABALHO" : "🔴 EM PAUSA";
+            b.style.color = working ? "#00ff00" : "#ff0000";
         }
 
-        function copiar(id) {
-            navigator.clipboard.writeText(document.getElementById(id).innerText);
-            alert("Copiado!");
+        function abrirAdm() { const p = prompt("Senha:"); if(p==="151") document.getElementById('adm-modal').style.display='flex'; }
+        function fecharAdm() { document.getElementById('adm-modal').style.display='none'; }
+        function gerar(id) { document.getElementById(id).innerText = `U: ${Math.floor(100000+Math.random()*900000)} | K: ${Math.floor(100000+Math.random()*900000)}`; }
+        function enviar(a) {
+            const i = document.getElementById(a==='ADM'?'in-a':'in-m');
+            if(i.value.trim()){ db.ref('mensagens').push({autor:a, texto:i.value}); i.value=""; }
         }
-
-        function enviar(autor) {
-            const input = document.getElementById(autor === 'ADM' ? 'in-a' : 'in-m');
-            if(input.value.trim()) {
-                db.ref('mensagens').push({ autor: autor, texto: input.value });
-                input.value = "";
-            }
-        }
-
-        function limpar() { if(confirm("Apagar tudo?")) db.ref('mensagens').remove(); }
+        function limpar() { if(confirm("Limpar chat?")) db.ref('mensagens').remove(); }
 
         db.ref('mensagens').on('value', s => {
-            let html = "";
-            s.forEach(m => {
-                const d = m.val();
-                html += `<div class="msg ${d.autor === 'ADM' ? 'msg-adm' : 'msg-mem'}">${d.texto}</div>`;
-            });
-            document.getElementById('box-m').innerHTML = html;
-            document.getElementById('box-a').innerHTML = html;
-            document.querySelectorAll('.chat-area').forEach(b => b.scrollTop = b.scrollHeight);
+            let h = "";
+            s.forEach(m => { const d = m.val(); h += `<div class="msg ${d.autor==='ADM'?'msg-adm':'msg-mem'}">${d.texto}</div>`; });
+            document.getElementById('box-m').innerHTML = h;
+            document.getElementById('box-a').innerHTML = h;
+            document.querySelectorAll('.chat-area').forEach(c => c.scrollTop = c.scrollHeight);
         });
     </script>
 </body>
