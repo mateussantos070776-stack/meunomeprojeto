@@ -10,31 +10,24 @@
         :root { --primary: #ff0000; --bg: #000000; --card: #0a0a0a; --text: #ffffff; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; }
         
-        .main-container { width: 100%; max-width: 450px; background: var(--card); height: 100vh; display: flex; flex-direction: column; position: relative; }
+        .main-container { width: 100%; max-width: 450px; background: var(--card); height: 100vh; display: flex; flex-direction: column; position: relative; border-left: 1px solid #1a1a1a; border-right: 1px solid #1a1a1a; }
         
-        /* ABAS FIXAS NO TOPO */
-        .tabs { display: flex; background: #000; border-bottom: 2px solid #1a1a1a; }
-        .tab-btn { flex: 1; padding: 20px; border: none; background: transparent; color: #555; cursor: pointer; font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .tab-btn.active { color: #fff; background: linear-gradient(to bottom, transparent, rgba(255,0,0,0.1)); border-bottom: 3px solid var(--primary); }
-        .tab-btn i { font-size: 16px; }
-
-        .content { flex: 1; display: none; flex-direction: column; overflow-y: auto; padding-bottom: 20px; }
-        .content.active { display: flex; }
-
-        /* PAINEL DE FUNÇÕES (ESTILO IMAGEM ADM) */
+        /* ÁREA DE MEMBRO (CENTRALIZADA) */
+        .content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 20px; }
+        
         .panel-functions { padding: 25px; display: flex; flex-direction: column; gap: 15px; }
         .status-display { background: #000; padding: 18px; border-radius: 12px; border: 1px solid #222; text-align: center; }
         .status-label { color: #666; font-size: 11px; letter-spacing: 1px; margin-bottom: 8px; display: block; }
         .status-value { color: var(--primary); font-weight: bold; font-family: 'Courier New', Courier, monospace; font-size: 20px; }
         
-        .btn-red { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 10px; font-weight: bold; cursor: pointer; text-transform: uppercase; width: 100%; font-size: 14px; }
+        .btn-red { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 10px; font-weight: bold; cursor: pointer; text-transform: uppercase; width: 100%; font-size: 14px; transition: 0.3s; }
+        .btn-red:active { transform: scale(0.98); opacity: 0.8; }
         .btn-dark { background: #121212; color: #fff; border: 1px solid #222; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 12px; }
 
-        /* CENTRAL DE MENSAGENS */
         .section-title { text-align: center; font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 2px; margin: 20px 0 10px 0; }
         .chat-box { flex: 1; min-height: 250px; background: #050505; border: 1px solid #1a1a1a; margin: 0 20px; border-radius: 15px; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
         
-        .msg { padding: 12px; border-radius: 12px; max-width: 85%; font-size: 13px; line-height: 1.5; }
+        .msg { padding: 12px; border-radius: 12px; max-width: 85%; font-size: 13px; line-height: 1.5; position: relative; }
         .msg-mem { background: #1a1a1a; align-self: flex-start; border-bottom-left-radius: 2px; }
         .msg-adm { background: #4a0000; align-self: flex-end; border-bottom-right-radius: 2px; }
         .msg-tag { font-size: 9px; font-weight: bold; color: var(--primary); display: block; margin-bottom: 5px; }
@@ -42,25 +35,27 @@
         .input-group { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
         .msg-input { background: #0c0c0c; border: 1px solid #222; color: white; padding: 15px; border-radius: 10px; resize: none; height: 60px; outline: none; }
 
+        /* BOTÃO ADM REDONDO (INFERIOR ESQUERDO) */
+        .admin-float-btn { position: fixed; bottom: 20px; left: 20px; width: 50px; height: 50px; background: #1a1a1a; border: 1px solid #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 999; box-shadow: 0 0 15px rgba(255,0,0,0.2); transition: 0.3s; }
+        .admin-float-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* MODAL ADM OVERLAY */
+        #adm-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #222; padding-bottom: 10px; }
+
         /* LOGIN */
         .login-overlay { position: absolute; inset: 0; background: var(--bg); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 30px; }
         .login-card { background: #0c0c0c; padding: 40px 30px; border-radius: 20px; width: 100%; text-align: center; border: 1px solid #1a1a1a; }
-        .login-card h2 { color: var(--primary); margin-bottom: 30px; }
         input { width: 100%; padding: 15px; margin-bottom: 15px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 10px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
     <div class="main-container">
-        <div class="tabs">
-            <button class="tab-btn active" id="btn-m" onclick="toggle('membros')">👤 MEMBROS</button>
-            <button class="tab-btn" id="btn-a" onclick="toggle('adm')">🔒 ADM</button>
-        </div>
-
-        <div id="membros" class="content active">
+        <div id="membros" class="content">
             <div class="login-overlay" id="log-m">
                 <div class="login-card">
-                    <h2>KERIX LOGIN</h2>
+                    <h2 style="color:var(--primary)">KERIX LOGIN</h2>
                     <input type="text" id="u-m" placeholder="Usuário">
                     <input type="password" id="p-m" placeholder="Senha">
                     <button class="btn-red" onclick="entrar('membros')">ENTRAR</button>
@@ -76,38 +71,45 @@
                 <button class="btn-dark" onclick="copiar('val-m')">COPIAR DADOS</button>
             </div>
 
-            <div class="section-title">Central de Mensagens</div>
+            <div class="section-title">Suporte ao Membro</div>
             <div class="chat-box" id="box-m"></div>
             <div class="input-group">
-                <textarea class="msg-input" id="in-m" placeholder="Digite sua resposta..."></textarea>
-                <button class="btn-red" onclick="enviar('MEMBRO')">ENVIAR RESPOSTA</button>
+                <textarea class="msg-input" id="in-m" placeholder="Dúvidas ou suporte..."></textarea>
+                <button class="btn-red" onclick="enviar('MEMBRO')">ENVIAR MENSAGEM</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-float-btn" onclick="abrirAdm()">🔒</div>
+
+    <div id="adm-modal">
+        <div class="modal-header">
+            <h3 style="color:red; margin:0">PAINEL DE CONTROLE ADM</h3>
+            <button onclick="fecharAdm()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer">&times;</button>
+        </div>
+
+        <div id="log-a" style="display:block">
+            <div class="login-card">
+                <input type="text" id="u-a" placeholder="Login ADM">
+                <input type="password" id="p-a" placeholder="Senha ADM">
+                <button class="btn-red" onclick="entrar('adm')">AUTENTICAR</button>
             </div>
         </div>
 
-        <div id="adm" class="content">
-            <div class="login-overlay" id="log-a">
-                <div class="login-card">
-                    <h2>PAINEL ADM</h2>
-                    <input type="text" id="u-a" placeholder="Login">
-                    <input type="password" id="p-a" placeholder="Senha">
-                    <button class="btn-red" onclick="entrar('adm')">AUTENTICAR</button>
-                </div>
-            </div>
-
+        <div id="content-adm" style="display:none">
             <div class="panel-functions">
                 <div class="status-display">
-                    <span class="status-label">ULTIMO ACESSO GERADO</span>
-                    <span class="status-value" id="val-a">U: 386273 | K: 618737</span>
+                    <span class="status-label">VISUALIZAÇÃO ADM</span>
+                    <span class="status-value" id="val-a">GERENCIAMENTO ATIVO</span>
                 </div>
-                <button class="btn-red" onclick="gerar('val-a')">GERAR NOVO ACESSO</button>
-                <button class="btn-dark" style="color:red" onclick="limpar()">LIMPAR CONVERSAS</button>
+                <button class="btn-red" style="background:#1a1a1a; color:red; border:1px solid red" onclick="limpar()">LIMPAR TODAS AS CONVERSAS</button>
             </div>
 
-            <div class="section-title">Monitoramento de Chat</div>
-            <div class="chat-box" id="box-a"></div>
+            <div class="section-title">Monitoramento Global</div>
+            <div class="chat-box" id="box-a" style="min-height:350px"></div>
             <div class="input-group">
                 <textarea class="msg-input" id="in-a" placeholder="Resposta oficial ADM..."></textarea>
-                <button class="btn-red" onclick="enviar('ADM')">ENVIAR RESPOSTA</button>
+                <button class="btn-red" onclick="enviar('ADM')">RESPONDER COMO ADM</button>
             </div>
         </div>
     </div>
@@ -125,17 +127,15 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        function toggle(t) {
-            document.querySelectorAll('.content, .tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(t).classList.add('active');
-            document.getElementById(t === 'membros' ? 'btn-m' : 'btn-a').classList.add('active');
-        }
+        function abrirAdm() { document.getElementById('adm-modal').style.display = 'flex'; }
+        function fecharAdm() { document.getElementById('adm-modal').style.display = 'none'; }
 
         function entrar(t) {
             const u = document.getElementById(t === 'membros' ? 'u-m' : 'u-a').value;
             const p = document.getElementById(t === 'membros' ? 'p-m' : 'p-a').value;
             if((t==='membros' && u==='123' && p==='123') || (t==='adm' && u==='1515' && p==='151')) {
                 document.getElementById(t === 'membros' ? 'log-m' : 'log-a').style.display = 'none';
+                if(t==='adm') document.getElementById('content-adm').style.display = 'block';
             } else { alert("Acesso Negado!"); }
         }
 
@@ -158,7 +158,7 @@
             }
         }
 
-        function limpar() { if(confirm("Apagar tudo?")) db.ref('mensagens').remove(); }
+        function limpar() { if(confirm("Apagar histórico completo?")) db.ref('mensagens').remove(); }
 
         db.ref('mensagens').on('value', s => {
             let html = "";
