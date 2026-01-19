@@ -3,48 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KERIX MÍDIA - PREMIUM</title>
+    <title>KERIX MÍDIA - SUPORTE VIP</title>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <style>
-        :root { --primary: #ff0000; --bg: #050505; --card: #121212; --text: #ffffff; }
+        :root { --primary: #ff0000; --primary-dark: #8b0000; --bg: #050505; --card: #121212; --text: #ffffff; }
+        
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
         
-        .main-container { width: 95%; max-width: 450px; background: var(--card); border-radius: 24px; border: 1px solid #222; overflow: hidden; display: flex; flex-direction: column; height: 90vh; }
+        .main-container { width: 95%; max-width: 450px; background: var(--card); border-radius: 24px; border: 1px solid #222; overflow: hidden; display: flex; flex-direction: column; height: 90vh; box-shadow: 0 20px 50px rgba(255, 0, 0, 0.1); }
         
-        /* TABS */
         .tabs { display: flex; background: #000; border-bottom: 1px solid #222; }
-        .tab-btn { flex: 1; padding: 15px; border: none; background: transparent; color: #666; cursor: pointer; font-weight: bold; }
-        .tab-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+        .tab-btn { flex: 1; padding: 18px; border: none; background: transparent; color: #666; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .tab-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); background: rgba(255, 0, 0, 0.05); }
 
-        .content { flex: 1; display: none; flex-direction: column; padding: 20px; overflow: hidden; }
+        .content { flex: 1; display: none; flex-direction: column; overflow: hidden; }
         .content.active { display: flex; }
 
-        /* CHAT WHATSAPP STYLE */
-        .chat-container { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 10px; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-blend-mode: overlay; background-color: #050505; }
-        .msg { padding: 8px 12px; border-radius: 12px; max-width: 80%; position: relative; font-size: 14px; word-wrap: break-word; }
-        .msg-name { font-size: 10px; font-weight: bold; color: var(--primary); display: block; margin-bottom: 2px; }
-        .msg-mem { background: #202020; align-self: flex-start; border-bottom-left-radius: 2px; }
-        .msg-adm { background: #8b0000; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+        /* ESTILO WHATSAPP */
+        .chat-container { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; background: #080808; }
+        .msg { padding: 10px 14px; border-radius: 15px; max-width: 80%; font-size: 14px; position: relative; line-height: 1.4; }
+        .msg-name { font-size: 10px; font-weight: bold; color: var(--primary); display: block; margin-bottom: 4px; text-transform: uppercase; }
+        .msg-mem { background: #222; align-self: flex-start; border-bottom-left-radius: 2px; color: #eee; }
+        .msg-adm { background: var(--primary-dark); align-self: flex-end; border-bottom-right-radius: 2px; color: #fff; }
         
-        /* MÍDIAS NO CHAT */
-        .chat-img { max-width: 100%; border-radius: 8px; margin-top: 5px; }
-        .chat-video { max-width: 100%; border-radius: 8px; }
-        audio { height: 30px; margin-top: 5px; filter: invert(1); }
+        /* MÍDIAS */
+        .chat-img, .chat-video { max-width: 100%; border-radius: 10px; margin-top: 5px; border: 1px solid rgba(255,255,255,0.1); }
+        audio { height: 35px; margin-top: 8px; filter: invert(1) hue-rotate(180deg); width: 100%; }
 
-        /* INPUT AREA */
-        .input-area { background: #111; padding: 10px; display: flex; align-items: center; gap: 8px; border-top: 1px solid #222; }
-        .input-area textarea { flex: 1; background: #222; border: none; padding: 10px; color: white; border-radius: 20px; resize: none; height: 20px; outline: none; }
-        .action-btn { background: transparent; border: none; color: var(--primary); font-size: 20px; cursor: pointer; transition: 0.2s; }
-        .action-btn:hover { transform: scale(1.1); }
+        /* BARRA DE DIGITAÇÃO */
+        .input-area { background: #111; padding: 12px; display: flex; align-items: center; gap: 10px; border-top: 1px solid #222; }
+        .input-area textarea { flex: 1; background: #1a1a1a; border: 1px solid #333; padding: 12px; color: white; border-radius: 25px; resize: none; height: 20px; outline: none; font-size: 14px; }
+        .icon-btn { background: transparent; border: none; color: #888; font-size: 20px; cursor: pointer; transition: 0.2s; padding: 5px; }
+        .icon-btn:hover { color: var(--primary); transform: scale(1.1); }
+        .btn-send { background: var(--primary); color: white; border: none; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         
         input[type="file"] { display: none; }
-        .btn-send { background: var(--primary); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-        /* LOGIN */
-        .login-box { text-align: center; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #333; background: #1a1a1a; color: white; box-sizing: border-box; }
-        .btn-main { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; }
+        /* ACESSO */
+        .login-screen { padding: 40px; text-align: center; }
+        input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 12px; border: 1px solid #333; background: #1a1a1a; color: white; box-sizing: border-box; }
+        .btn-large { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 12px; width: 100%; font-weight: bold; cursor: pointer; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -56,19 +55,19 @@
         </div>
 
         <div id="membros" class="content active">
-            <div id="login-mem" class="login-box">
-                <h2>Acesso Membro</h2>
-                <input type="text" id="mem-nome" placeholder="Nome Completo">
+            <div id="login-mem" class="login-screen">
+                <h2>Portal de Membros</h2>
+                <input type="text" id="mem-nome" placeholder="Seu Nome">
                 <input type="text" id="mem-user" placeholder="Usuário">
-                <input type="text" id="mem-key" placeholder="Chave">
-                <button class="btn-main" onclick="loginMembro()">ENTRAR</button>
+                <input type="text" id="mem-key" placeholder="Chave de Acesso">
+                <button class="btn-large" onclick="loginMembro()">ACESSAR SUPORTE</button>
             </div>
             <div id="chat-mem-area" style="display:none; flex-direction: column; height: 100%;">
                 <div class="chat-container" id="box-mem"></div>
                 <div class="input-area">
-                    <label class="action-btn">📷<input type="file" accept="image/*" onchange="uploadFile(this, 'img')"></label>
-                    <label class="action-btn">🎥<input type="file" accept="video/*" onchange="uploadFile(this, 'video')"></label>
-                    <button class="action-btn" id="rec-mem" onclick="toggleRecording('MEMBRO')">🎤</button>
+                    <label class="icon-btn">📷<input type="file" accept="image/*" onchange="sendFile(this, 'img', 'MEMBRO')"></label>
+                    <label class="icon-btn">🎥<input type="file" accept="video/*" onchange="sendFile(this, 'video', 'MEMBRO')"></label>
+                    <button class="icon-btn" id="rec-mem" onclick="handleAudio('MEMBRO')">🎤</button>
                     <textarea id="input-mem" placeholder="Mensagem..."></textarea>
                     <button class="btn-send" onclick="enviarMsg('MEMBRO')">➔</button>
                 </div>
@@ -76,19 +75,21 @@
         </div>
 
         <div id="adm" class="content">
-            <div id="login-adm" class="login-box">
-                <h2>Painel ADM</h2>
+            <div id="login-adm" class="login-screen">
+                <h2>Acesso Restrito</h2>
                 <input type="text" id="adm-user" placeholder="Login">
                 <input type="password" id="adm-pass" placeholder="Senha">
-                <button class="btn-main" onclick="loginAdm()">LOGAR</button>
+                <button class="btn-large" onclick="loginAdm()">AUTENTICAR</button>
             </div>
             <div id="chat-adm-area" style="display:none; flex-direction: column; height: 100%;">
-                <button onclick="db.ref('mensagens').remove()" style="background:none; border:none; color:red; font-size:10px; cursor:pointer;">LIMPAR TUDO</button>
+                <div style="background:#000; padding:5px; text-align:center;">
+                    <button onclick="clearChat()" style="background:none; border:none; color:red; font-size:10px; cursor:pointer;">ESVAZIAR CHAT</button>
+                </div>
                 <div class="chat-container" id="box-adm"></div>
                 <div class="input-area">
-                    <label class="action-btn">📷<input type="file" accept="image/*" onchange="uploadFile(this, 'img')"></label>
-                    <label class="action-btn">🎥<input type="file" accept="video/*" onchange="uploadFile(this, 'video')"></label>
-                    <button class="action-btn" id="rec-adm" onclick="toggleRecording('ADM')">🎤</button>
+                    <label class="icon-btn">📷<input type="file" accept="image/*" onchange="sendFile(this, 'img', 'ADM')"></label>
+                    <label class="icon-btn">🎥<input type="file" accept="video/*" onchange="sendFile(this, 'video', 'ADM')"></label>
+                    <button class="icon-btn" id="rec-adm" onclick="handleAudio('ADM')">🎤</button>
                     <textarea id="input-adm" placeholder="Responder..."></textarea>
                     <button class="btn-send" onclick="enviarMsg('ADM')">➔</button>
                 </div>
@@ -109,9 +110,8 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let userLogado = "", currentU = "", currentK = "", mediaRecorder, audioChunks = [];
+        let nomeMembroLogado = "", currentU = "", currentK = "", mediaRecorder, audioChunks = [];
 
-        // Lógica de Sincronização e Login (Mantendo sua base original)
         db.ref('acesso').on('value', s => { const d = s.val(); if(d){ currentU=d.usuario; currentK=d.chave; } });
 
         db.ref('mensagens').on('value', s => {
@@ -122,14 +122,15 @@
                 h += `<div class="msg ${isAdm ? 'msg-adm' : 'msg-mem'}">
                         ${!isAdm ? `<span class="msg-name">${d.autor}</span>` : ''}
                         ${d.texto ? `<div>${d.texto}</div>` : ''}
-                        ${d.img ? `<img src="${d.img}" class="chat-img">` : ''}
+                        ${d.img ? `<img src="${d.img}" class="chat-img" onclick="window.open(this.src)">` : ''}
                         ${d.video ? `<video src="${d.video}" class="chat-video" controls></video>` : ''}
                         ${d.audio ? `<audio src="${d.audio}" controls></audio>` : ''}
                       </div>`;
             });
             document.getElementById('box-mem').innerHTML = h;
             document.getElementById('box-adm').innerHTML = h;
-            document.querySelectorAll('.chat-container').forEach(b => b.scrollTop = b.scrollHeight);
+            const containers = document.querySelectorAll('.chat-container');
+            containers.forEach(c => c.scrollTop = c.scrollHeight);
         });
 
         function switchTab(t) {
@@ -141,56 +142,61 @@
         function loginMembro() {
             const n = document.getElementById('mem-nome').value, u = document.getElementById('mem-user').value, k = document.getElementById('mem-key').value;
             if(n && u === currentU && k === currentK) {
-                userLogado = n; document.getElementById('login-mem').style.display='none'; document.getElementById('chat-mem-area').style.display='flex';
-            } else alert("Erro!");
+                nomeMembroLogado = n; document.getElementById('login-mem').style.display='none'; document.getElementById('chat-mem-area').style.display='flex';
+            } else alert("Dados inválidos!");
         }
 
         function loginAdm() {
             if(document.getElementById('adm-user').value==="1515" && document.getElementById('adm-pass').value==="151") {
                 document.getElementById('login-adm').style.display='none'; document.getElementById('chat-adm-area').style.display='flex';
-            } else alert("Erro!");
+            } else alert("Acesso negado!");
         }
 
         function enviarMsg(tipo, midia = {}) {
             const input = document.getElementById(tipo === 'ADM' ? 'input-adm' : 'input-mem');
-            if(input.value || midia.img || midia.video || midia.audio) {
-                db.ref('mensagens').push({ autor: tipo==='ADM'?'ADM':userLogado, texto: input.value, ...midia });
+            if(input.value.trim() || midia.img || midia.video || midia.audio) {
+                db.ref('mensagens').push({ 
+                    autor: tipo === 'ADM' ? 'ADM' : nomeMembroLogado, 
+                    texto: input.value, 
+                    ...midia 
+                });
                 input.value = "";
             }
         }
 
-        // Upload de Fotos e Vídeos (Base64 para demonstração simples)
-        function uploadFile(input, tipo) {
+        function sendFile(input, tipo, remetente) {
             const file = input.files[0];
+            if (file.size > 2000000) return alert("Arquivo muito grande! Máximo 2MB.");
             const reader = new FileReader();
             reader.onload = e => {
                 const payload = {}; payload[tipo] = e.target.result;
-                enviarMsg(userLogado ? 'MEMBRO' : 'ADM', payload);
+                enviarMsg(remetente, payload);
             };
             reader.readAsDataURL(file);
         }
 
-        // Gravação de Áudio
-        async function toggleRecording(tipo) {
+        async function handleAudio(tipo) {
             const btn = document.getElementById(tipo === 'ADM' ? 'rec-adm' : 'rec-mem');
             if (!mediaRecorder || mediaRecorder.state === "inactive") {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 mediaRecorder = new MediaRecorder(stream);
                 mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-                mediaRecorder.onstop = async () => {
+                mediaRecorder.onstop = () => {
                     const blob = new Blob(audioChunks, { type: 'audio/webm' });
                     const reader = new FileReader();
                     reader.onload = e => enviarMsg(tipo, { audio: e.target.result });
                     reader.readAsDataURL(blob);
                     audioChunks = [];
+                    btn.innerText = "🎤"; btn.style.color = "#888";
                 };
                 mediaRecorder.start();
-                btn.style.color = "yellow";
+                btn.innerText = "🛑"; btn.style.color = "red";
             } else {
                 mediaRecorder.stop();
-                btn.style.color = "var(--primary)";
             }
         }
+
+        function clearChat() { if(confirm("Limpar conversa?")) db.ref('mensagens').remove(); }
     </script>
 </body>
 </html>
