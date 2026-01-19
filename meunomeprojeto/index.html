@@ -3,116 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KERIX LUXURY | MANAGEMENT</title>
+    <title>KERIX LUXURY | COMMAND</title>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --red: #ff0000; --bg: #000000; --panel: rgba(15, 15, 15, 0.95); --border: rgba(255, 255, 255, 0.1); }
+        :root { --red: #ff0000; --bg: #000; --panel: #0a0a0a; --border: rgba(255, 255, 255, 0.05); }
         
         * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: #fff; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
 
-        /* MOLDURA DO SMARTPHONE PREMIUM */
+        /* FRAME SMARTPHONE PREMIUM */
         .phone-frame { 
-            width: 380px; height: 820px; background: #080808; 
-            border: 8px solid #1a1a1a; border-radius: 45px; 
-            position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,0,0,0.05);
+            width: 380px; height: 85vh; background: #050505; 
+            border: 6px solid #151515; border-radius: 40px; 
+            position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.9);
             display: flex; flex-direction: column; overflow: hidden;
         }
 
-        /* HEADER COM LOGO ESTILIZADA */
-        .luxury-header { padding: 40px 20px 20px; text-align: center; }
-        .luxury-header h1 { font-family: 'Syncopate', sans-serif; font-size: 14px; letter-spacing: 5px; color: var(--red); text-shadow: 0 0 15px rgba(255,0,0,0.4); margin: 0; }
+        /* ACESSO ADM CAMUFLADO NO HEADER */
+        .luxury-header { padding: 35px 20px 15px; text-align: center; cursor: pointer; }
+        .luxury-header h1 { font-family: 'Syncopate', sans-serif; font-size: 13px; letter-spacing: 5px; color: var(--red); margin: 0; }
+        .luxury-header p { font-size: 8px; color: #333; letter-spacing: 2px; margin: 5px 0 0; text-transform: uppercase; }
+        #adm-dot { width: 4px; height: 4px; background: #111; border-radius: 50%; margin: 8px auto; }
+        #adm-dot.online { background: var(--red); box-shadow: 0 0 10px var(--red); }
 
-        /* PAINEL DE ACESSO RÁPIDO */
-        .stat-card { background: linear-gradient(145deg, #0f0f0f, #050505); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin: 15px; text-align: center; }
-        .stat-card span { display: block; font-size: 10px; color: #444; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
-        .stat-card strong { font-family: 'Syncopate'; font-size: 14px; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        .panel-body { padding: 0 15px; flex: 1; display: flex; flex-direction: column; }
 
-        /* GRADE DE COMANDOS PREMIUM */
-        .command-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 15px; }
+        /* STATUS CARD */
+        .stat-card { background: #080808; border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 15px; text-align: center; }
+        .stat-card span { display: block; font-size: 9px; color: #444; letter-spacing: 1px; margin-bottom: 5px; }
+        .stat-card strong { font-family: 'Syncopate'; font-size: 12px; color: #eee; }
+
+        /* GRID DE COMANDOS */
+        .cmd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .cmd-btn { 
-            background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 15px; 
-            padding: 15px; color: #888; font-size: 10px; font-weight: 600; cursor: pointer;
-            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; 
+            padding: 12px; color: #666; font-size: 9px; font-weight: 700; cursor: pointer;
+            text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 5px;
         }
-        .cmd-btn:hover { background: rgba(255,0,0,0.1); border-color: var(--red); color: #fff; transform: translateY(-3px); }
-        .cmd-btn.active { background: var(--red); color: #fff; border: none; box-shadow: 0 10px 20px rgba(255,0,0,0.3); }
+        .cmd-btn:hover { border-color: var(--red); color: #fff; background: rgba(255,0,0,0.05); }
+        .cmd-btn.active { background: var(--red); color: #fff; border: none; box-shadow: 0 5px 15px rgba(255,0,0,0.3); }
 
-        /* BOTÃO DE STATUS FLUTUANTE */
-        .status-pill { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 12px; margin: 15px; border-radius: 50px; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 10px currentColor; }
+        /* CHAT PREMIUM */
+        .chat-container { flex: 1; background: #030303; border: 1px solid var(--border); border-radius: 20px; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg { padding: 10px 14px; border-radius: 15px; font-size: 11px; max-width: 85%; line-height: 1.4; }
+        .msg-mem { background: #111; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #1a1a1a; }
+        .msg-adm { background: linear-gradient(135deg, #400, #100); align-self: flex-end; border-bottom-right-radius: 2px; color: #ffb3b3; }
 
-        /* CHAT EXCLUSIVO */
-        .chat-container { flex: 1; background: rgba(0,0,0,0.3); margin: 10px 15px; border-radius: 25px; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; border: 1px solid rgba(255,255,255,0.02); }
-        .msg { padding: 12px 18px; border-radius: 18px; font-size: 12px; max-width: 85%; position: relative; }
-        .msg-mem { background: #111; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid var(--border); }
-        .msg-adm { background: linear-gradient(135deg, #4a0000, #220000); align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        /* INPUT BAR */
+        .input-bar { padding: 15px 0; display: flex; gap: 10px; }
+        .input-bar input { flex: 1; background: #0c0c0c; border: 1px solid #1a1a1a; border-radius: 10px; padding: 10px; color: #fff; font-size: 12px; outline: none; }
+        .btn-send { background: var(--red); border: none; width: 40px; border-radius: 10px; color: #fff; cursor: pointer; }
 
-        /* AREA DE ENTRADA DARK */
-        .input-wrapper { padding: 20px; display: flex; gap: 10px; background: #080808; }
-        .input-wrapper input { flex: 1; background: #121212; border: 1px solid #222; border-radius: 12px; padding: 12px; color: #fff; outline: none; font-size: 12px; }
-        .send-pill { background: var(--red); border: none; width: 45px; border-radius: 12px; cursor: pointer; color: #fff; font-size: 18px; }
-
-        /* EXCLUSIVIDADE ADM: O PAINEL GHOST */
-        #ghost-panel { position: absolute; inset: 0; background: #000; z-index: 1000; transform: translateY(100%); display: flex; flex-direction: column; }
+        /* GHOST PANEL ADM */
+        #ghost-panel { position: absolute; inset: 0; background: #000; z-index: 1000; transform: translateY(100%); display: flex; flex-direction: column; padding: 20px; }
         #ghost-panel.active { transform: translateY(0); }
-        .adm-header { padding: 40px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #111; }
+        .ghost-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid #111; margin-bottom: 20px; }
         
-        /* GATILHO DISCRETO */
-        .hidden-trigger { position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); width: 40px; height: 4px; background: #222; border-radius: 10px; cursor: pointer; opacity: 0.5; }
+        .status-work { width: 100%; padding: 10px; border-radius: 30px; background: #080808; border: 1px solid #111; font-size: 10px; color: #0f0; cursor: pointer; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
     <div class="phone-frame">
-        <div class="luxury-header"><h1>KERIX PREMIUM</h1></div>
-
-        <div class="stat-card">
-            <span>Security ID Active</span>
-            <strong id="val-m">U: 837070 | K: 676579</strong>
+        <div class="luxury-header" onclick="acessoRoot()">
+            <p>Secure Interface</p>
+            <h1>KERIX PREMIUM</h1>
+            <div id="adm-dot"></div>
         </div>
 
-        <div class="command-grid">
-            <button class="cmd-btn active" onclick="setView('chat')"><span>💬</span>CHAT ROOM</button>
-            <button class="cmd-btn" onclick="gerar('val-m')"><span>🔑</span>TOKEN REGEN</button>
-            <button class="cmd-btn" onclick="setView('users')"><span>👥</span>NETWORK</button>
-            <button class="cmd-btn" onclick="setView('hours')"><span>🕒</span>SCHEDULE</button>
-        </div>
+        <div class="panel-body">
+            <div class="stat-card">
+                <span>ENCRYPTED IDENTIFIER</span>
+                <strong id="val-m">U: 837070 | K: 676579</strong>
+            </div>
 
-        <div class="status-pill" onclick="toggleWork()">
-            <div id="dot" class="dot" style="background: #00ff00; color: #00ff00;"></div>
-            <span id="work-txt" style="font-size: 11px; font-weight: 700; letter-spacing: 1px;">ON DUTY</span>
-        </div>
+            <div class="cmd-grid">
+                <button class="cmd-btn active" onclick="tab('chat')">💬 Terminal</button>
+                <button class="cmd-btn" onclick="gerar()">🔑 Refresh</button>
+                <button class="cmd-btn" onclick="tab('net')">👥 Network</button>
+                <button class="cmd-btn" onclick="tab('time')">🕒 Uptime</button>
+            </div>
 
-        <div id="chat-view" class="chat-container"></div>
-        <div id="info-view" class="chat-container" style="display:none; justify-content:center; align-items:center; color:#444; font-size:12px; text-align:center;">
-            <p id="info-txt"></p>
-        </div>
+            <button id="work-btn" class="status-work" onclick="toggleWork()">🟢 SYSTEM ONLINE</button>
 
-        <div class="input-wrapper">
-            <input type="text" id="in-m" placeholder="Write message...">
-            <button class="send-pill" onclick="enviar('MEM')">❯</button>
-        </div>
+            <div id="view-chat" class="chat-container"></div>
+            <div id="view-info" class="chat-container" style="display:none; align-items:center; justify-content:center; text-align:center;">
+                <p id="info-txt" style="color:#444; font-size:12px; font-family:'Syncopate'"></p>
+            </div>
 
-        <div class="hidden-trigger" onclick="unlockAdm()"></div>
+            <div class="input-bar">
+                <input type="text" id="in-m" placeholder="Secure message...">
+                <button class="btn-send" onclick="enviar('MEM')">❯</button>
+            </div>
+        </div>
 
         <div id="ghost-panel">
-            <div class="adm-header">
-                <span style="font-family:'Syncopate'; font-size:10px; color:var(--red)">DASHBOARD / ROOT</span>
-                <button onclick="closeAdm()" style="background:none; border:none; color:#444; cursor:pointer">EXIT</button>
+            <div class="ghost-header">
+                <span style="font-family:'Syncopate'; font-size:10px; color:var(--red)">ROOT@KERIX_MANAGEMENT</span>
+                <button onclick="closeAdm()" style="background:none; border:none; color:#444; font-size:10px; cursor:pointer">DISCONNECT</button>
             </div>
-            
-            <div style="padding: 20px;">
-                <button class="cmd-btn" style="width:100%; border-color:var(--red); color:var(--red)" onclick="limpar()">WIPE ALL HISTORY (PURGE)</button>
-            </div>
-            
+            <button class="cmd-btn" style="width:100%; border-color:var(--red); color:var(--red); margin-bottom:15px" onclick="limpar()">PURGE ALL DATABASE DATA</button>
             <div class="chat-container" id="box-a"></div>
-            
-            <div class="input-wrapper">
-                <input type="text" id="in-a" placeholder="Root Response...">
-                <button class="send-pill" onclick="enviar('ADM')">❯</button>
+            <div class="input-bar">
+                <input type="text" id="in-a" placeholder="Root command...">
+                <button class="btn-send" onclick="enviar('ADM')">❯</button>
             </div>
         </div>
     </div>
@@ -130,39 +126,58 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        function setView(v) {
-            const cv = document.getElementById('chat-view');
-            const iv = document.getElementById('info-view');
+        // NAVEGAÇÃO
+        function tab(t) {
+            const cv = document.getElementById('view-chat');
+            const iv = document.getElementById('view-info');
             const it = document.getElementById('info-txt');
-            if(v === 'chat') { cv.style.display='flex'; iv.style.display='none'; }
+            if(t === 'chat') { cv.style.display='flex'; iv.style.display='none'; }
             else {
                 cv.style.display='none'; iv.style.display='flex';
-                it.innerHTML = v === 'users' ? "TOTAL CONNECTED<br><strong style='color:#fff; font-size:24px'>28</strong>" : "SHIFT TIME<br><strong style='color:#fff; font-size:20px'>08:00 - 20:00</strong>";
+                it.innerHTML = t === 'net' ? "NODE STATUS:<br><br><span style='color:#fff; font-size:20px'>28 ACTIVE</span>" : "SERVER UPTIME:<br><br><span style='color:#fff; font-size:20px'>99.9%</span>";
             }
         }
 
-        let isWork = true;
-        function toggleWork() {
-            isWork = !isWork;
-            document.getElementById('dot').style.background = isWork ? "#00ff00" : "#ff0000";
-            document.getElementById('dot').style.color = isWork ? "#00ff00" : "#ff0000";
-            document.getElementById('work-txt').innerText = isWork ? "ON DUTY" : "OFF DUTY";
+        // ACESSO ADM
+        function acessoRoot() {
+            if(prompt("ROOT ACCESS REQUIRED:") === "151") {
+                document.getElementById('ghost-panel').classList.add('active');
+                document.getElementById('adm-dot').classList.add('online');
+            }
         }
-
-        function unlockAdm() { const p = prompt("Root Access:"); if(p==="151") document.getElementById('ghost-panel').classList.add('active'); }
         function closeAdm() { document.getElementById('ghost-panel').classList.remove('active'); }
-        function gerar(id) { document.getElementById(id).innerText = `U: ${Math.floor(100000+Math.random()*900000)} | K: ${Math.floor(100000+Math.random()*900000)}`; }
-        function enviar(a) {
-            const i = document.getElementById(a==='ADM'?'in-a':'in-m');
-            if(i.value.trim()){ db.ref('mensagens').push({autor:a, texto:i.value}); i.value=""; }
-        }
-        function limpar() { if(confirm("Purge database?")) db.ref('mensagens').remove(); }
 
+        // SISTEMA DE STATUS
+        let isOnline = true;
+        function toggleWork() {
+            isOnline = !isOnline;
+            const btn = document.getElementById('work-btn');
+            btn.innerHTML = isOnline ? "🟢 SYSTEM ONLINE" : "🔴 MAINTENANCE MODE";
+            btn.style.color = isOnline ? "#0f0" : "#f00";
+        }
+
+        // LÓGICA DE DADOS
+        function gerar() { document.getElementById('val-m').innerText = `U: ${Math.floor(100000+Math.random()*900000)} | K: ${Math.floor(100000+Math.random()*900000)}`; }
+        
+        function enviar(autor) {
+            const input = document.getElementById(autor === 'ADM' ? 'in-a' : 'in-m');
+            if(input.value.trim()) {
+                db.ref('mensagens').push({ autor: autor, texto: input.value });
+                input.value = "";
+            }
+        }
+
+        function limpar() { if(confirm("Confirmar Purge?")) db.ref('mensagens').remove(); }
+
+        // SYNC REALTIME
         db.ref('mensagens').on('value', s => {
-            let h = "";
-            s.forEach(m => { const d = m.val(); h += `<div class="msg ${d.autor==='ADM'?'msg-adm':'msg-mem'}">${d.texto}</div>`; });
-            document.getElementById('chat-view').innerHTML = h;
-            document.getElementById('box-a').innerHTML = h;
+            let html = "";
+            s.forEach(m => {
+                const d = m.val();
+                html += `<div class="msg ${d.autor === 'ADM' ? 'msg-adm' : 'msg-mem'}">${d.texto}</div>`;
+            });
+            document.getElementById('view-chat').innerHTML = html;
+            document.getElementById('box-a').innerHTML = html;
             document.querySelectorAll('.chat-container').forEach(c => c.scrollTop = c.scrollHeight);
         });
     </script>
