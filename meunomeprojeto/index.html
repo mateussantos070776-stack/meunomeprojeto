@@ -7,156 +7,91 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <style>
-        :root {
-            --primary: #ff0000;
-            --primary-dark: #8b0000;
-            --bg: #050505;
-            --card: #121212;
-            --input: #1a1a1a;
-            --text: #ffffff;
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            width: 95%;
-            max-width: 450px;
-            background: var(--card);
-            border-radius: 24px;
-            border: 1px solid #222;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(255, 0, 0, 0.1);
-        }
-
-        .tabs {
-            display: flex;
-            background: #000;
-            border-bottom: 1px solid #222;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 18px;
-            border: none;
-            background: transparent;
-            color: #666;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .tab-btn.active {
-            color: var(--primary);
-            background: rgba(255, 0, 0, 0.05);
-            border-bottom: 2px solid var(--primary);
-        }
-
-        .content { padding: 30px; display: none; }
-        .content.active { display: block; }
-
-        h2 { margin-top: 0; font-size: 22px; text-align: center; }
-        input, textarea {
-            width: 100%; padding: 14px; margin: 8px 0;
-            border-radius: 12px; border: 1px solid #333;
-            background: var(--input); color: #fff; box-sizing: border-box;
-            outline: none; transition: 0.3s;
-        }
-        input:focus { border-color: var(--primary); }
-
-        button {
-            width: 100%; padding: 15px; margin: 10px 0;
-            border-radius: 12px; border: none; font-weight: 800;
-            cursor: pointer; transition: 0.3s; text-transform: uppercase;
-        }
-
-        .btn-main { background: var(--primary); color: white; }
-        .btn-main:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        :root { --primary: #ff0000; --bg: #050505; --card: #121212; --text: #ffffff; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
         
-        .btn-outline { background: transparent; border: 1px solid #333; color: #999; }
-        .btn-outline:hover { border-color: var(--primary); color: #fff; }
+        .main-container { width: 95%; max-width: 450px; background: var(--card); border-radius: 24px; border: 1px solid #222; overflow: hidden; display: flex; flex-direction: column; height: 90vh; }
+        
+        /* TABS */
+        .tabs { display: flex; background: #000; border-bottom: 1px solid #222; }
+        .tab-btn { flex: 1; padding: 15px; border: none; background: transparent; color: #666; cursor: pointer; font-weight: bold; }
+        .tab-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
 
-        .data-display {
-            background: #000; border: 1px solid #222;
-            border-radius: 15px; padding: 15px; margin: 15px 0;
-            text-align: center;
-        }
+        .content { flex: 1; display: none; flex-direction: column; padding: 20px; overflow: hidden; }
+        .content.active { display: flex; }
 
-        .chat-box {
-            height: 250px; overflow-y: auto; background: #080808;
-            border-radius: 12px; padding: 10px; border: 1px solid #1a1a1a;
-            margin-bottom: 10px; font-size: 14px;
-        }
+        /* CHAT WHATSAPP STYLE */
+        .chat-container { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 10px; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-blend-mode: overlay; background-color: #050505; }
+        .msg { padding: 8px 12px; border-radius: 12px; max-width: 80%; position: relative; font-size: 14px; word-wrap: break-word; }
+        .msg-name { font-size: 10px; font-weight: bold; color: var(--primary); display: block; margin-bottom: 2px; }
+        .msg-mem { background: #202020; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .msg-adm { background: #8b0000; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+        
+        /* MÍDIAS NO CHAT */
+        .chat-img { max-width: 100%; border-radius: 8px; margin-top: 5px; }
+        .chat-video { max-width: 100%; border-radius: 8px; }
+        audio { height: 30px; margin-top: 5px; filter: invert(1); }
 
-        .msg { margin-bottom: 8px; padding: 8px 12px; border-radius: 8px; width: fit-content; max-width: 85%; line-height: 1.4; }
-        .msg-adm { background: var(--primary-dark); color: white; margin-left: auto; border-bottom-right-radius: 2px; }
-        .msg-mem { background: #222; color: #ccc; border-bottom-left-radius: 2px; }
-        .msg-name { display: block; font-size: 10px; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; color: var(--primary); }
+        /* INPUT AREA */
+        .input-area { background: #111; padding: 10px; display: flex; align-items: center; gap: 8px; border-top: 1px solid #222; }
+        .input-area textarea { flex: 1; background: #222; border: none; padding: 10px; color: white; border-radius: 20px; resize: none; height: 20px; outline: none; }
+        .action-btn { background: transparent; border: none; color: var(--primary); font-size: 20px; cursor: pointer; transition: 0.2s; }
+        .action-btn:hover { transform: scale(1.1); }
+        
+        input[type="file"] { display: none; }
+        .btn-send { background: var(--primary); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+        /* LOGIN */
+        .login-box { text-align: center; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #333; background: #1a1a1a; color: white; box-sizing: border-box; }
+        .btn-main { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="main-container">
         <div class="tabs">
-            <button class="tab-btn active" id="tab-btn-mem" onclick="switchTab('membros')">👤 MEMBROS</button>
-            <button class="tab-btn" id="tab-btn-adm" onclick="switchTab('adm')">🔒 ADM</button>
+            <button class="tab-btn active" onclick="switchTab('membros')">👤 MEMBROS</button>
+            <button class="tab-btn" onclick="switchTab('adm')">🔒 ADM</button>
         </div>
 
         <div id="membros" class="content active">
-            <div id="login-form-mem">
-                <h2>Acesso Exclusivo</h2>
-                <input type="text" id="mem-nome" placeholder="Seu Nome Completo">
+            <div id="login-mem" class="login-box">
+                <h2>Acesso Membro</h2>
+                <input type="text" id="mem-nome" placeholder="Nome Completo">
                 <input type="text" id="mem-user" placeholder="Usuário">
-                <input type="text" id="mem-key" placeholder="Chave de Acesso">
-                <button class="btn-main" onclick="loginMembro()">ENTRAR NO SISTEMA</button>
+                <input type="text" id="mem-key" placeholder="Chave">
+                <button class="btn-main" onclick="loginMembro()">ENTRAR</button>
             </div>
-            
-            <div id="area-logada" style="display:none;">
-                <h2 id="welcome-text" style="font-size: 16px; color: var(--primary);">Olá!</h2>
-                <div class="chat-box" id="chat-mem"></div>
-                <div style="background: #111; padding: 10px; border-radius: 12px; border: 1px solid #222;">
-                    <textarea id="msg-mem-input" placeholder="Escreva sua mensagem aqui..." style="margin-top: 0;"></textarea>
-                    <button class="btn-main" id="btn-enviar-mem" onclick="enviarMsg('MEMBRO')">ENVIAR AO ADM</button>
+            <div id="chat-mem-area" style="display:none; flex-direction: column; height: 100%;">
+                <div class="chat-container" id="box-mem"></div>
+                <div class="input-area">
+                    <label class="action-btn">📷<input type="file" accept="image/*" onchange="uploadFile(this, 'img')"></label>
+                    <label class="action-btn">🎥<input type="file" accept="video/*" onchange="uploadFile(this, 'video')"></label>
+                    <button class="action-btn" id="rec-mem" onclick="toggleRecording('MEMBRO')">🎤</button>
+                    <textarea id="input-mem" placeholder="Mensagem..."></textarea>
+                    <button class="btn-send" onclick="enviarMsg('MEMBRO')">➔</button>
                 </div>
             </div>
         </div>
 
         <div id="adm" class="content">
-            <div id="adm-login">
-                <h2>Painel de Controle</h2>
-                <input type="text" id="adm-user-in" placeholder="Login ADM">
-                <input type="password" id="adm-pass-in" placeholder="Senha">
-                <button class="btn-main" onclick="loginAdm()">AUTENTICAR</button>
+            <div id="login-adm" class="login-box">
+                <h2>Painel ADM</h2>
+                <input type="text" id="adm-user" placeholder="Login">
+                <input type="password" id="adm-pass" placeholder="Senha">
+                <button class="btn-main" onclick="loginAdm()">LOGAR</button>
             </div>
-
-            <div id="adm-panel" style="display:none;">
-                <div class="data-display">
-                    <p style="font-size: 12px; color: #666; margin: 0;">ACESSO ATIVO</p>
-                    <div id="display-acesso" style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 5px;">---</div>
+            <div id="chat-adm-area" style="display:none; flex-direction: column; height: 100%;">
+                <button onclick="db.ref('mensagens').remove()" style="background:none; border:none; color:red; font-size:10px; cursor:pointer;">LIMPAR TUDO</button>
+                <div class="chat-container" id="box-adm"></div>
+                <div class="input-area">
+                    <label class="action-btn">📷<input type="file" accept="image/*" onchange="uploadFile(this, 'img')"></label>
+                    <label class="action-btn">🎥<input type="file" accept="video/*" onchange="uploadFile(this, 'video')"></label>
+                    <button class="action-btn" id="rec-adm" onclick="toggleRecording('ADM')">🎤</button>
+                    <textarea id="input-adm" placeholder="Responder..."></textarea>
+                    <button class="btn-send" onclick="enviarMsg('ADM')">➔</button>
                 </div>
-                <button class="btn-main" onclick="generateKey()">GERAR NOVO ACESSO</button>
-                <button class="btn-outline" onclick="copyAccess()">COPIAR DADOS</button>
-                
-                <h3 style="font-size: 14px; margin-top: 20px; text-align: center;">CENTRAL DE MENSAGENS</h3>
-                <div class="chat-box" id="chat-adm-view"></div>
-                <div style="background: #111; padding: 10px; border-radius: 12px; border: 1px solid #222;">
-                    <textarea id="msg-adm-input" placeholder="Digite sua resposta..." style="margin-top: 0;"></textarea>
-                    <button class="btn-main" onclick="enviarMsg('ADM')">ENVIAR RESPOSTA</button>
-                </div>
-                <button class="btn-outline" onclick="limparTudo()" style="color: var(--primary); margin-top: 20px;">LIMPAR CONVERSAS</button>
             </div>
         </div>
     </div>
@@ -174,81 +109,88 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let currentU = "", currentK = "", nomeUserLogado = "";
+        let userLogado = "", currentU = "", currentK = "", mediaRecorder, audioChunks = [];
 
-        db.ref('acesso').on('value', s => {
-            const d = s.val();
-            if(d) {
-                currentU = d.usuario; currentK = d.chave;
-                document.getElementById('display-acesso').innerText = `U: ${currentU} | K: ${currentK}`;
-            }
-        });
+        // Lógica de Sincronização e Login (Mantendo sua base original)
+        db.ref('acesso').on('value', s => { const d = s.val(); if(d){ currentU=d.usuario; currentK=d.chave; } });
 
         db.ref('mensagens').on('value', s => {
             let h = "";
             s.forEach(m => {
-                const data = m.val();
-                const isAdm = data.autor === 'ADM';
+                const d = m.val();
+                const isAdm = d.autor === 'ADM';
                 h += `<div class="msg ${isAdm ? 'msg-adm' : 'msg-mem'}">
-                        ${!isAdm ? `<span class="msg-name">${data.autor}</span>` : ''}
-                        ${data.texto}
+                        ${!isAdm ? `<span class="msg-name">${d.autor}</span>` : ''}
+                        ${d.texto ? `<div>${d.texto}</div>` : ''}
+                        ${d.img ? `<img src="${d.img}" class="chat-img">` : ''}
+                        ${d.video ? `<video src="${d.video}" class="chat-video" controls></video>` : ''}
+                        ${d.audio ? `<audio src="${d.audio}" controls></audio>` : ''}
                       </div>`;
             });
-            document.getElementById('chat-mem').innerHTML = h;
-            document.getElementById('chat-adm-view').innerHTML = h;
-            document.querySelectorAll('.chat-box').forEach(b => b.scrollTop = b.scrollHeight);
+            document.getElementById('box-mem').innerHTML = h;
+            document.getElementById('box-adm').innerHTML = h;
+            document.querySelectorAll('.chat-container').forEach(b => b.scrollTop = b.scrollHeight);
         });
 
         function switchTab(t) {
-            document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.content, .tab-btn').forEach(e => e.classList.remove('active'));
             document.getElementById(t).classList.add('active');
-            if(t === 'membros') document.getElementById('tab-btn-mem').classList.add('active');
-            else document.getElementById('tab-btn-adm').classList.add('active');
-        }
-
-        function loginAdm() {
-            if(document.getElementById('adm-user-in').value === "1515" && document.getElementById('adm-pass-in').value === "151") {
-                document.getElementById('adm-login').style.display = 'none';
-                document.getElementById('adm-panel').style.display = 'block';
-            } else { alert("Acesso Negado!"); }
-        }
-
-        function generateKey() {
-            const u = Math.floor(Math.random() * 899999 + 111111).toString();
-            const k = Math.floor(Math.random() * 899999 + 111111).toString();
-            db.ref('acesso').set({ usuario: u, chave: k });
+            event.currentTarget.classList.add('active');
         }
 
         function loginMembro() {
-            const n = document.getElementById('mem-nome').value;
-            const u = document.getElementById('mem-user').value;
-            const k = document.getElementById('mem-key').value;
-            if(n.trim() !== "" && u === currentU && k === currentK) {
-                nomeUserLogado = n;
-                document.getElementById('login-form-mem').style.display = 'none';
-                document.getElementById('area-logada').style.display = 'block';
-                document.getElementById('welcome-text').innerText = "Olá, " + n + "!";
-            } else { alert("Verifique os dados ou peça uma nova chave!"); }
+            const n = document.getElementById('mem-nome').value, u = document.getElementById('mem-user').value, k = document.getElementById('mem-key').value;
+            if(n && u === currentU && k === currentK) {
+                userLogado = n; document.getElementById('login-mem').style.display='none'; document.getElementById('chat-mem-area').style.display='flex';
+            } else alert("Erro!");
         }
 
-        function enviarMsg(tipo) {
-            const input = tipo === 'ADM' ? document.getElementById('msg-adm-input') : document.getElementById('msg-mem-input');
-            if(input.value.trim() !== "") {
-                db.ref('mensagens').push({ 
-                    autor: tipo === 'ADM' ? 'ADM' : nomeUserLogado, 
-                    texto: input.value 
-                });
+        function loginAdm() {
+            if(document.getElementById('adm-user').value==="1515" && document.getElementById('adm-pass').value==="151") {
+                document.getElementById('login-adm').style.display='none'; document.getElementById('chat-adm-area').style.display='flex';
+            } else alert("Erro!");
+        }
+
+        function enviarMsg(tipo, midia = {}) {
+            const input = document.getElementById(tipo === 'ADM' ? 'input-adm' : 'input-mem');
+            if(input.value || midia.img || midia.video || midia.audio) {
+                db.ref('mensagens').push({ autor: tipo==='ADM'?'ADM':userLogado, texto: input.value, ...midia });
                 input.value = "";
             }
         }
 
-        function copyAccess() {
-            navigator.clipboard.writeText(`👤 USUÁRIO: ${currentU}\n🔑 CHAVE: ${currentK}`);
-            alert("Copiado!");
+        // Upload de Fotos e Vídeos (Base64 para demonstração simples)
+        function uploadFile(input, tipo) {
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = e => {
+                const payload = {}; payload[tipo] = e.target.result;
+                enviarMsg(userLogado ? 'MEMBRO' : 'ADM', payload);
+            };
+            reader.readAsDataURL(file);
         }
 
-        function limparTudo() { if(confirm("Apagar histórico de conversas?")) db.ref('mensagens').remove(); }
+        // Gravação de Áudio
+        async function toggleRecording(tipo) {
+            const btn = document.getElementById(tipo === 'ADM' ? 'rec-adm' : 'rec-mem');
+            if (!mediaRecorder || mediaRecorder.state === "inactive") {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+                mediaRecorder.onstop = async () => {
+                    const blob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const reader = new FileReader();
+                    reader.onload = e => enviarMsg(tipo, { audio: e.target.result });
+                    reader.readAsDataURL(blob);
+                    audioChunks = [];
+                };
+                mediaRecorder.start();
+                btn.style.color = "yellow";
+            } else {
+                mediaRecorder.stop();
+                btn.style.color = "var(--primary)";
+            }
+        }
     </script>
 </body>
 </html>
