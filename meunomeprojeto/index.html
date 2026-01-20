@@ -115,6 +115,12 @@
             text-transform: uppercase; margin-top: 20px;
         }
         .btn-logout:hover { background: #ff3333; }
+        .btn-sair-dashboard {
+            background: rgba(0, 0, 0, 0.5); border: 2px solid var(--red); color: var(--red); 
+            padding: 8px 16px; border-radius: 8px; font-size: 9px; font-weight: 700; cursor: pointer; 
+            text-transform: uppercase; transition: all 0.3s;
+        }
+        .btn-sair-dashboard:hover { background: rgba(255, 0, 0, 0.1); border-color: #ff3333; }
     </style>
 </head>
 <body>
@@ -219,7 +225,7 @@
         <div id="janela-membro-logado">
             <div class="membro-header">
                 <span>KERIX DASHBOARD</span>
-                <button onclick="fazerLogout()" style="background:none; border:none; color:var(--red); font-size:12px; cursor:pointer; font-weight:700;">SAIR</button>
+                <button class="btn-sair-dashboard" onclick="fazerLogout()">SAIR</button>
             </div>
             <div class="membro-content">
                 <div class="membro-welcome">
