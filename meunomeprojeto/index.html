@@ -112,6 +112,14 @@
                 <label>VALIDAÇÃO DE CHAVE</label>
                 <input type="text" maxlength="5" class="key-input" id="member-key" placeholder="•••••">
                 <button class="btn-access" onclick="validarAcessoMembro()">ENTRAR NO SISTEMA</button>
+                
+                <!-- BOTÕES DE ACESSO ÀS JANELAS -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; margin-top: 15px;">
+                    <button class="member-btn" style="font-size:7px; padding:8px; background: rgba(0,150,255,0.1); border-color: rgba(0,150,255,0.3); border-width: 1px;" onclick="abrirJanelaMembro('janela-perfil')">👤</button>
+                    <button class="member-btn" style="font-size:7px; padding:8px; background: rgba(0,200,100,0.1); border-color: rgba(0,200,100,0.3); border-width: 1px;" onclick="abrirJanelaMembro('janela-historico')">📋</button>
+                    <button class="member-btn" style="font-size:7px; padding:8px; background: rgba(255,200,0,0.1); border-color: rgba(255,200,0,0.3); border-width: 1px;" onclick="abrirJanelaMembro('janela-notificacoes')">🔔</button>
+                    <button class="member-btn" style="font-size:7px; padding:8px; background: rgba(255,100,0,0.1); border-color: rgba(255,100,0,0.3); border-width: 1px;" onclick="abrirJanelaMembro('janela-suporte')">❓</button>
+                </div>
             </div>
 
             <!-- JANELA 1: PERFIL -->
@@ -182,14 +190,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- MENU DE ACESSO ÀS JANELAS -->
-        <div style="position: absolute; bottom: 20px; left: 20px; right: 20px; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; z-index: 800;">
-            <button class="member-btn" style="font-size:7px; padding:10px; background: rgba(0,150,255,0.1); border-color: rgba(0,150,255,0.3);" onclick="abrirJanelaMembro('janela-perfil')">👤 PERFIL</button>
-            <button class="member-btn" style="font-size:7px; padding:10px; background: rgba(0,200,100,0.1); border-color: rgba(0,200,100,0.3);" onclick="abrirJanelaMembro('janela-historico')">📋 HIST.</button>
-            <button class="member-btn" style="font-size:7px; padding:10px; background: rgba(255,200,0,0.1); border-color: rgba(255,200,0,0.3);" onclick="abrirJanelaMembro('janela-notificacoes')">🔔 NOTIF.</button>
-            <button class="member-btn" style="font-size:7px; padding:10px; background: rgba(255,100,0,0.1); border-color: rgba(255,100,0,0.3);" onclick="abrirJanelaMembro('janela-suporte')">❓ SUPORTE</button>
         </div>
 
         <div id="ghost-panel">
@@ -369,7 +369,5 @@
             document.getElementById('current-db-key').innerText = s.val() || "NENHUMA";
         });
     </script>
-</body>
-</html>
 </body>
 </html>
