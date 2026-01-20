@@ -225,13 +225,14 @@
         <div id="janela-membro-logado">
             <div class="membro-header">
                 <span>KERIX DASHBOARD</span>
-                <button class="btn-sair-dashboard" onclick="fazerLogout()">SAIR</button>
+                <button class="btn-sair-dashboard" onclick="voltarParaLogin()">SAIR</button>
             </div>
             <div class="membro-content">
                 <div class="membro-welcome">
                     <h2>BEM-VINDO</h2>
                     <p>ACESSO AUTORIZADO AO SISTEMA KERIX</p>
                 </div>
+                <button style="display: block; color: var(--red); background: none; border: 1px solid var(--red); padding: 5px 10px; cursor: pointer; margin: 10px auto;" onclick="voltarParaLogin()">VOLTAR</button>
             </div>
         </div>
 
@@ -357,6 +358,12 @@
         }
 
         function fazerLogout() {
+            document.getElementById('janela-membro-logado').style.display = 'none';
+            document.querySelector('.front-page').style.display = 'flex';
+            mostrarAviso("DESCONECTADO COM SUCESSO");
+        }
+
+        function voltarParaLogin() {
             document.getElementById('janela-membro-logado').style.display = 'none';
             document.querySelector('.front-page').style.display = 'flex';
             mostrarAviso("DESCONECTADO COM SUCESSO");
