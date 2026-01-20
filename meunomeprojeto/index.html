@@ -135,7 +135,7 @@
         .louvores-search { display: flex; gap: 8px; margin-bottom: 20px; }
         .louvores-search input { background: #080808; border: 1px solid var(--red); color: #fff; padding: 8px 10px; border-radius: 6px; font-size: 9px; flex: 1; outline: none; }
         .louvores-search button { background: var(--red); border: none; color: #000; padding: 8px 15px; border-radius: 6px; font-size: 9px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
-        .louvores-letra { background: rgba(255,0,0,0.05); border: 1px solid var(--red); padding: 15px; border-radius: 8px; font-size: 11px; text-align: center; color: #fff; min-height: 150px; overflow-y: auto; margin-bottom: 20px; }
+        .louvores-letra { background: rgba(255,0,0,0.05); border: 1px solid var(--red); padding: 15px; border-radius: 8px; font-size: 11px; text-align: center; color: #fff; min-height: 150px; overflow-y: auto; margin-bottom: 20px; white-space: pre-wrap; }
         .btn-voltar-louvores { background: var(--red); border: none; color: #000; padding: 10px 20px; border-radius: 6px; font-size: 9px; font-weight: 700; cursor: pointer; text-transform: uppercase; width: 100%; }
         .btn-voltar-louvores:hover { background: #ff3333; }
         
@@ -293,8 +293,8 @@
                 <button onclick="voltarParaCentralMedia()" style="background:none; border:none; color:#444; font-size:8px; cursor:pointer;">VOLTAR</button>
             </div>
             <div class="louvores-search">
-                <input type="text" id="input-busca-louvores" placeholder="Buscar música...">
-                <button onclick="buscarMusica()">PESQUISAR</button>
+                <input type="text" id="input-busca-louvores" placeholder="Ex: Artista - Música">
+                <button id="btn-pesquisar" onclick="buscarLetra()">PESQUISAR</button>
             </div>
             <div class="louvores-letra" id="resultado-letra">
                 Pesquise por uma música para exibir a letra
@@ -444,25 +444,61 @@
             document.getElementById('janela-membro-logado').style.display = 'flex';
         }
 
-        function buscarMusica() {
-            const busca = document.getElementById('input-busca-louvores').value.toLowerCase();
+        function buscarLetra() {
+            const busca = document.getElementById('input-busca-louvores').value.trim();
+            const btn = document.getElementById('btn-pesquisar');
             const resultadoDiv = document.getElementById('resultado-letra');
             
-            if (busca.includes('hino') || busca === '') {
-                resultadoDiv.innerHTML = `
-                    <strong style="color: var(--red);">HINO DA GRAÇA</strong><br><br>
-                    Graça, graça, graça do Senhor,<br>
-                    Que transforma o meu coração,<br>
-                    Fé em Cristo, meu salvador,<br>
-                    Que me guia em minha missão.<br><br>
-                    Aleluia! Aleluia!<br>
-                    Seu nome seja glorificado!<br>
-                    Aleluia! Aleluia!<br>
-                    Jesus é o meu Libertador!
-                `;
-            } else {
-                resultadoDiv.innerHTML = '<span style="color: #999;">Música não encontrada. Tente buscar por "Hino".</span>';
+            if (!busca) {
+                mostrarAviso('Digite um termo de busca (Artista - Música)');
+                return;
             }
+            
+            // Separar artista e música
+            const partes = busca.split('-').map(p => p.trim());
+            if (partes.length !== 2) {
+                mostrarAviso('Use o formato: Artista - Música');
+                return;
+            }
+            
+            const artista = encodeURIComponent(partes[0]);
+            const musica = encodeURIComponent(partes[1]);
+            
+            // Feedback visual
+            btn.innerText = 'BUSCANDO...';
+            btn.disabled = true;
+            resultadoDiv.innerText = 'Buscando a letra...';
+            mostrarAviso('Consultando API do Vagalume...');
+            
+            // Consultar API
+            const url = `https://api.vagalume.com.br/search.php?art=${artista}&mus=${musica}&apikey=a5e4901585caf754f0e5dab6673602ac`;
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    btn.innerText = 'PESQUISAR';
+                    btn.disabled = false;
+                    
+                    if (data.type === 'exact' && data.response && data.response.length > 0) {
+                        const letra = data.response[0].text;
+                        resultadoDiv.innerText = letra;
+                        mostrarAviso('Letra carregada com sucesso!');
+                    } else if (data.type === 'aprox' && data.response && data.response.length > 0) {
+                        const letra = data.response[0].text;
+                        resultadoDiv.innerText = letra;
+                        mostrarAviso('Música encontrada (aproximada)');
+                    } else {
+                        resultadoDiv.innerText = 'Música não localizada, verifique o nome.';
+                        mostrarAviso('Nenhuma música encontrada');
+                    }
+                })
+                .catch(error => {
+                    btn.innerText = 'PESQUISAR';
+                    btn.disabled = false;
+                    resultadoDiv.innerText = 'Erro ao conectar com a API. Tente novamente.';
+                    mostrarAviso('Erro na requisição');
+                    console.error('Erro:', error);
+                });
         }
 
         function abrirJanelaMembro(janelaId) {
