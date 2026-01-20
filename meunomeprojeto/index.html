@@ -102,13 +102,13 @@
         #janela-membro-logado.active { transform: translateY(0); }
         .membro-header {
             display: flex; justify-content: space-between; align-items: center;
-            padding-bottom: 10px; border-bottom: 1px solid #111; margin-bottom: 20px; padding: 10px;
+            width: 100%; height: 40px; padding: 0 10px; border-bottom: 1px solid #222;
         }
         .membro-header span { font-family: 'Syncopate'; font-size: 10px; color: var(--red); letter-spacing: 2px; }
         .membro-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .membro-welcome { text-align: center; margin-bottom: 40px; }
-        .membro-welcome h2 { font-family: 'Syncopate'; font-size: 10px; color: var(--red); margin: 0 0 10px 0; }
-        .membro-welcome p { font-size: 10px; color: #999; }
+        .membro-welcome { text-align: center; margin-top: 15px; }
+        .membro-welcome h2 { font-family: 'Syncopate', sans-serif; font-size: 10px; color: var(--red); margin: 0; }
+        .membro-welcome p { font-size: 8px; color: #999; margin: 5px 0 0 0; }
         .btn-logout { 
             width: 100%; background: var(--red); border: none; border-radius: 12px; 
             padding: 15px; color: #000; font-size: 10px; font-weight: 700; cursor: pointer; 
@@ -225,14 +225,13 @@
         <div id="janela-membro-logado">
             <div class="membro-header">
                 <span>KERIX DASHBOARD</span>
-                <button onclick="voltarParaLogin()" style="background:none; border:none; color:#444; font-size:9px; cursor:pointer; margin-right: 5px;">SAIR</button>
+                <button onclick="voltarParaLogin()" style="font-size: 8px; padding: 4px 8px; border: 1px solid var(--red); color: white; background: none; border-radius: 4px; cursor: pointer;">SAIR</button>
             </div>
             <div class="membro-content">
                 <div class="membro-welcome">
                     <h2>BEM-VINDO</h2>
                     <p>ACESSO AUTORIZADO AO SISTEMA KERIX</p>
                 </div>
-                <button onclick='voltarParaLogin()' class='adm-btn' style='margin-top: 20px; z-index: 9999; position: relative;'>VOLTAR</button>
             </div>
         </div>
 
