@@ -46,9 +46,11 @@
         #ghost-panel.active { transform: translateY(0); }
         .ghost-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid #111; margin-bottom: 20px; }
         
-        .key-display { background: #080808; border: 1px dashed #333; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; }
-        .key-display span { font-size: 9px; color: #555; display: block; margin-bottom: 5px; }
+        .key-display { background: #080808; border: 1px dashed #333; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .key-display span { font-size: 9px; color: #555; display: block; margin-bottom: 5px; width: 100%; }
         .key-display strong { font-family: 'Syncopate'; color: var(--red); font-size: 18px; }
+        .btn-copiar { background: rgba(255,0,0,0.2); border: 1px solid var(--red); color: var(--red); padding: 8px 12px; border-radius: 6px; font-size: 8px; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .btn-copiar:hover { background: rgba(255,0,0,0.3); }
 
         .adm-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .adm-btn { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 15px; color: #666; font-size: 9px; font-weight: 700; cursor: pointer; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; }
@@ -96,8 +98,13 @@
             </div>
 
             <div class="key-display">
-                <span>CHAVE ATIVA</span>
-                <strong id="current-db-key">...</strong>
+                <div style="width: 100%;">
+                    <span>CHAVE ATIVA</span>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <strong id="current-db-key">...</strong>
+                        <button class="btn-copiar" onclick="copiarChave()">COPIAR</button>
+                    </div>
+                </div>
             </div>
 
             <div class="adm-controls">
@@ -137,6 +144,20 @@
             const novaChave = Math.floor(10000 + Math.random() * 90000).toString();
             db.ref('chave_ativa').set(novaChave);
             mostrarAviso("CHAVE GERADA COM SUCESSO");
+        }
+
+        function copiarChave() {
+            const chaveAtiva = document.getElementById('current-db-key').innerText;
+            if (chaveAtiva && chaveAtiva !== "..." && chaveAtiva !== "NENHUMA") {
+                navigator.clipboard.writeText(chaveAtiva).then(() => {
+                    mostrarAviso("CHAVE COPIADA");
+                }).catch(err => {
+                    mostrarAviso("ERRO AO COPIAR");
+                    console.error('Erro ao copiar:', err);
+                });
+            } else {
+                mostrarAviso("NENHUMA CHAVE DISPONÍVEL");
+            }
         }
 
         function limparChaves() {
