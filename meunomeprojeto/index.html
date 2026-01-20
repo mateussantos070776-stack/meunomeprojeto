@@ -96,7 +96,7 @@
         /* JANELA DE MEMBRO LOGADO */
         #janela-membro-logado {
             position: absolute; inset: 0; background: #000; z-index: 950; 
-            transform: translateY(100%); display: flex; flex-direction: column; 
+            transform: translateY(100%); display: none; flex-direction: column; 
             padding: 20px; overflow-y: auto;
         }
         #janela-membro-logado.active { transform: translateY(0); }
@@ -313,8 +313,8 @@
                     salvarUsuarioLogado();
                     mostrarAviso("BEM-VINDO AO KERIX");
                     document.getElementById('member-key').value = '';
-                    document.getElementById('janela-membro-logado').classList.add('active');
-                    document.getElementById('front-page').style.display = 'none';
+                    document.querySelector('.front-page').style.display = 'none';
+                    document.getElementById('janela-membro-logado').style.display = 'block';
                 } else {
                     mostrarAviso("CHAVE INVÁLIDA");
                 }
@@ -351,8 +351,8 @@
         }
 
         function fazerLogout() {
-            document.getElementById('janela-membro-logado').classList.remove('active');
-            document.getElementById('front-page').style.display = 'flex';
+            document.getElementById('janela-membro-logado').style.display = 'none';
+            document.querySelector('.front-page').style.display = 'flex';
             mostrarAviso("DESCONECTADO COM SUCESSO");
         }
 
