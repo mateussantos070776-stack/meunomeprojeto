@@ -109,6 +109,20 @@
         .membro-welcome { text-align: center; margin-top: 15px; }
         .membro-welcome h2 { font-family: 'Syncopate', sans-serif; font-size: 10px; color: var(--red); margin: 0; }
         .membro-welcome p { font-size: 8px; color: #999; margin: 5px 0 0 0; }
+        .ferramentas-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px;
+            width: 100%; height: auto;
+        }
+        .card-ferramenta {
+            background: rgba(255,0,0,0.05); border: 1px solid var(--red); border-radius: 8px;
+            padding: 12px; text-align: center; cursor: pointer; transition: all 0.3s;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-height: 70px;
+        }
+        .card-ferramenta:hover { background: rgba(255,0,0,0.1); border-color: #ff3333; }
+        .card-ferramenta-icon { font-size: 20px; margin-bottom: 5px; }
+        .card-ferramenta-text { font-size: 9px; color: var(--red); font-weight: 700; text-transform: uppercase; }
+        .card-ferramenta.span-2 { grid-column: span 2; }
         .btn-logout { 
             width: 100%; background: var(--red); border: none; border-radius: 12px; 
             padding: 15px; color: #000; font-size: 10px; font-weight: 700; cursor: pointer; 
@@ -229,8 +243,29 @@
             </div>
             <div class="membro-content">
                 <div class="membro-welcome">
-                    <h2>BEM-VINDO</h2>
-                    <p>ACESSO AUTORIZADO AO SISTEMA KERIX</p>
+                    <h2>CENTRAL DE MÍDIA</h2>
+                </div>
+                <div class="ferramentas-grid">
+                    <div class="card-ferramenta" onclick="mostrarAviso('ESCALA EQUIPE')">
+                        <div class="card-ferramenta-icon">📅</div>
+                        <div class="card-ferramenta-text">ESCALA EQUIPE</div>
+                    </div>
+                    <div class="card-ferramenta" onclick="mostrarAviso('LOUVORES/SLIDES')">
+                        <div class="card-ferramenta-icon">🎵</div>
+                        <div class="card-ferramenta-text">LOUVORES/SLIDES</div>
+                    </div>
+                    <div class="card-ferramenta" onclick="mostrarAviso('ORAÇÃO (LIVE)')">
+                        <div class="card-ferramenta-icon">🙏</div>
+                        <div class="card-ferramenta-text">ORAÇÃO (LIVE)</div>
+                    </div>
+                    <div class="card-ferramenta" onclick="mostrarAviso('CHECKLIST OBS')">
+                        <div class="card-ferramenta-icon">✅</div>
+                        <div class="card-ferramenta-text">CHECKLIST OBS</div>
+                    </div>
+                    <div class="card-ferramenta span-2" onclick="mostrarAviso('ARTES/AVISOS')">
+                        <div class="card-ferramenta-icon">📢</div>
+                        <div class="card-ferramenta-text">ARTES/AVISOS</div>
+                    </div>
                 </div>
             </div>
         </div>
