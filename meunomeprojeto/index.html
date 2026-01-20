@@ -68,6 +68,30 @@
         }
         .usuario-item strong { color: var(--red); font-family: 'Syncopate'; }
         .usuario-info { color: #888; margin-top: 5px; }
+
+        /* JANELAS DA ÁREA DE MEMBROS */
+        .member-panel { 
+            position: absolute; inset: 0; background: #000; z-index: 900; 
+            transform: translateY(100%); display: flex; flex-direction: column; 
+            padding: 20px; overflow-y: auto;
+        }
+        .member-panel.active { transform: translateY(0); }
+        .member-header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding-bottom: 15px; border-bottom: 1px solid #111; margin-bottom: 15px;
+        }
+        .member-content { flex: 1; }
+        .member-item { 
+            background: rgba(255,0,0,0.05); border: 1px solid rgba(255,0,0,0.2); 
+            border-radius: 10px; padding: 15px; margin-bottom: 12px; font-size: 9px;
+        }
+        .member-btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
+        .member-btn { 
+            background: rgba(255,0,0,0.1); border: 1px solid var(--border); 
+            color: #fff; padding: 10px; border-radius: 8px; font-size: 8px; 
+            font-weight: 700; cursor: pointer; text-transform: uppercase;
+        }
+        .member-btn:hover { background: rgba(255,0,0,0.15); }
     </style>
 </head>
 <body>
@@ -89,6 +113,83 @@
                 <input type="text" maxlength="5" class="key-input" id="member-key" placeholder="•••••">
                 <button class="btn-access" onclick="validarAcessoMembro()">ENTRAR NO SISTEMA</button>
             </div>
+
+            <!-- JANELA 1: PERFIL -->
+            <div id="janela-perfil" class="member-panel">
+                <div class="member-header">
+                    <span style="font-family:'Syncopate'; font-size:10px; color:var(--red)">MEU PERFIL</span>
+                    <button onclick="fecharJanelaMembro('janela-perfil')" style="background:none; border:none; color:#444; font-size:9px; cursor:pointer;">✕</button>
+                </div>
+                <div class="member-content">
+                    <div class="member-item">
+                        <strong>INFORMAÇÕES PESSOAIS</strong>
+                        <div style="color:#999; margin-top:8px; font-size:8px;">
+                            Usuário: <strong style="color:var(--red)">Membro KERIX</strong><br>
+                            Status: <strong style="color:#00ff00">ATIVO</strong><br>
+                            Desde: <strong>Carregando...</strong>
+                        </div>
+                    </div>
+                    <div class="member-btn-group">
+                        <button class="member-btn" onclick="editarPerfil()">EDITAR</button>
+                        <button class="member-btn" onclick="mostrarAviso('FUNÇÃO EM BREVE')">CONFIG</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JANELA 2: HISTÓRICO -->
+            <div id="janela-historico" class="member-panel">
+                <div class="member-header">
+                    <span style="font-family:'Syncopate'; font-size:10px; color:var(--red)">HISTÓRICO</span>
+                    <button onclick="fecharJanelaMembro('janela-historico')" style="background:none; border:none; color:#444; font-size:9px; cursor:pointer;">✕</button>
+                </div>
+                <div class="member-content" id="lista-historico">
+                    <div style="color:#555; text-align:center; padding:20px; font-size:8px;">Nenhum histórico disponível</div>
+                </div>
+            </div>
+
+            <!-- JANELA 3: NOTIFICAÇÕES -->
+            <div id="janela-notificacoes" class="member-panel">
+                <div class="member-header">
+                    <span style="font-family:'Syncopate'; font-size:10px; color:var(--red)">NOTIFICAÇÕES</span>
+                    <button onclick="fecharJanelaMembro('janela-notificacoes')" style="background:none; border:none; color:#444; font-size:9px; cursor:pointer;">✕</button>
+                </div>
+                <div class="member-content" id="lista-notificacoes">
+                    <div class="member-item">
+                        <strong style="color:#00ff00">✓ SISTEMA ONLINE</strong>
+                        <div style="color:#999; margin-top:5px; font-size:8px;">Todos os serviços operacionais</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JANELA 4: SUPORTE -->
+            <div id="janela-suporte" class="member-panel">
+                <div class="member-header">
+                    <span style="font-family:'Syncopate'; font-size:10px; color:var(--red)">SUPORTE</span>
+                    <button onclick="fecharJanelaMembro('janela-suporte')" style="background:none; border:none; color:#444; font-size:9px; cursor:pointer;">✕</button>
+                </div>
+                <div class="member-content">
+                    <div class="member-item">
+                        <strong>CENTRAL DE AJUDA</strong>
+                        <div style="color:#999; margin-top:8px; font-size:8px;">
+                            Contato: <strong>support@kerix.com</strong><br>
+                            Disponível: <strong style="color:#00ff00">24/7</strong><br>
+                            Resposta: <strong>~5 minutos</strong>
+                        </div>
+                    </div>
+                    <div class="member-btn-group">
+                        <button class="member-btn" onclick="mostrarAviso('EMAIL ENVIADO')">CONTACTAR</button>
+                        <button class="member-btn" onclick="mostrarAviso('FAQ CARREGANDO...')">FAQ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MENU DE ACESSO ÀS JANELAS -->
+        <div style="position: absolute; bottom: 20px; left: 20px; right: 20px; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; z-index: 800;">
+            <button class="member-btn" style="font-size:7px; padding:10px; background: rgba(0,150,255,0.1); border-color: rgba(0,150,255,0.3);" onclick="abrirJanelaMembro('janela-perfil')">👤 PERFIL</button>
+            <button class="member-btn" style="font-size:7px; padding:10px; background: rgba(0,200,100,0.1); border-color: rgba(0,200,100,0.3);" onclick="abrirJanelaMembro('janela-historico')">📋 HIST.</button>
+            <button class="member-btn" style="font-size:7px; padding:10px; background: rgba(255,200,0,0.1); border-color: rgba(255,200,0,0.3);" onclick="abrirJanelaMembro('janela-notificacoes')">🔔 NOTIF.</button>
+            <button class="member-btn" style="font-size:7px; padding:10px; background: rgba(255,100,0,0.1); border-color: rgba(255,100,0,0.3);" onclick="abrirJanelaMembro('janela-suporte')">❓ SUPORTE</button>
         </div>
 
         <div id="ghost-panel">
@@ -207,6 +308,24 @@
 
         function fecharJanelaUsuarios() {
             document.getElementById('janela-usuarios').classList.remove('active');
+        }
+
+        function abrirJanelaMembro(janelaId) {
+            const janela = document.getElementById(janelaId);
+            if (janela) {
+                janela.classList.add('active');
+            }
+        }
+
+        function fecharJanelaMembro(janelaId) {
+            const janela = document.getElementById(janelaId);
+            if (janela) {
+                janela.classList.remove('active');
+            }
+        }
+
+        function editarPerfil() {
+            mostrarAviso("EDIÇÃO DE PERFIL EM BREVE");
         }
 
         db.ref('usuarios_logados').on('value', snapshot => {
