@@ -53,6 +53,19 @@
         .adm-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .adm-btn { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 15px; color: #666; font-size: 9px; font-weight: 700; cursor: pointer; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .adm-btn.highlight { border-color: var(--red); color: #fff; background: rgba(255,0,0,0.1); }
+
+        /* JANELA DE USUÁRIOS */
+        #janela-usuarios { 
+            display: none; background: #0a0a0a; border-top: 1px solid #111; padding: 15px; 
+            flex: 1; overflow-y: auto; border-radius: 10px;
+        }
+        #janela-usuarios.active { display: block; }
+        .usuario-item { 
+            background: rgba(255,255,255,0.02); border: 1px solid var(--border); 
+            border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 8px;
+        }
+        .usuario-item strong { color: var(--red); font-family: 'Syncopate'; }
+        .usuario-info { color: #888; margin-top: 5px; }
     </style>
 </head>
 <body>
@@ -90,7 +103,12 @@
             <div class="adm-controls">
                 <button class="adm-btn highlight" onclick="gerarNovaChave()"><span>🔄</span>Gerar Chave</button>
                 <button class="adm-btn" onclick="limparChaves()"><span>🗑️</span>Revogar Tudo</button>
-                <button class="adm-btn" onclick="identificarUsuarios()"><span>👥</span>Identificar Usuários</button>
+                <button class="adm-btn" onclick="abrirJanelaUsuarios()"><span>👥</span>Identificar Usuários</button>
+            </div>
+
+            <div id="janela-usuarios">
+                <div style="font-family:'Syncopate'; font-size:10px; color:var(--red); margin-bottom:15px;">USUÁRIOS CONECTADOS</div>
+                <div id="lista-usuarios" style="font-size: 8px;">Nenhum usuário conectado</div>
             </div>
         </div>
     </div>
@@ -133,6 +151,7 @@
             db.ref('chave_ativa').once('value', s => {
                 const oficial = s.val();
                 if(input === oficial && oficial !== null) {
+                    salvarUsuarioLogado();
                     mostrarAviso("BEM-VINDO AO KERIX");
                 } else {
                     mostrarAviso("CHAVE INVÁLIDA");
@@ -140,17 +159,77 @@
             });
         }
 
+        function obterIPdo() {
+            return fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => data.ip)
+                .catch(() => 'IP Desconhecido');
+        }
+
+        async function salvarUsuarioLogado() {
+            const ip = await obterIPdo();
+            const timestamp = new Date().toLocaleString('pt-BR');
+            const usuarioId = Math.random().toString(36).substr(2, 9);
+            
+            db.ref('usuarios_logados/' + usuarioId).set({
+                usuario: 'Usuário',
+                ip: ip,
+                timestamp: timestamp,
+                ativo: true
+            });
+        }
+
+        function abrirJanelaUsuarios() {
+            const janela = document.getElementById('janela-usuarios');
+            janela.classList.toggle('active');
+        }
+
+        function fecharJanelaUsuarios() {
+            document.getElementById('janela-usuarios').classList.remove('active');
+        }
+
+        db.ref('usuarios_logados').on('value', snapshot => {
+            const usuarios = snapshot.val();
+            const listaDiv = document.getElementById('lista-usuarios');
+            
+            if (!usuarios || Object.keys(usuarios).length === 0) {
+                listaDiv.innerHTML = '<div style="color: #555;">Nenhum usuário conectado</div>';
+                return;
+            }
+            
+            let html = '';
+            Object.entries(usuarios).forEach(([id, usuario]) => {
+                html += `
+                    <div class="usuario-item">
+                        <strong>${usuario.usuario}</strong>
+                        <div class="usuario-info">
+                            IP: ${usuario.ip}<br>
+                            Acesso: ${usuario.timestamp}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            listaDiv.innerHTML = html;
+        });
+
         function abrirAdmin() { 
             if(prompt("ROOT ID:") === "151") {
                 document.getElementById('ghost-panel').classList.add('active');
                 mostrarAviso("MODO ROOT ATIVO");
             }
         }
-        function fecharAdmin() { document.getElementById('ghost-panel').classList.remove('active'); }
+
+        function fecharAdmin() { 
+            document.getElementById('ghost-panel').classList.remove('active');
+            fecharJanelaUsuarios();
+        }
 
         db.ref('chave_ativa').on('value', s => {
             document.getElementById('current-db-key').innerText = s.val() || "NENHUMA";
         });
     </script>
+</body>
+</html>
 </body>
 </html>
