@@ -329,6 +329,48 @@
             margin-top: 20px;
         }
 
+        /* ===== TELA DE ERRO IP ===== */
+        #overlay-erro-ip {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.98); z-index: 10002;
+            display: none; align-items: center; justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        #overlay-erro-ip.ativo {
+            display: flex;
+        }
+
+        .container-erro-ip {
+            text-align: center; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+
+        .texto-erro-ip {
+            font-family: 'Syncopate', sans-serif; font-size: 72px; font-weight: 700;
+            color: var(--red); letter-spacing: 8px; text-transform: uppercase;
+            text-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+            animation: pulsarErro 0.8s ease-in-out infinite;
+            margin: 0; padding: 0;
+        }
+
+        @keyframes pulsarErro {
+            0%, 100% {
+                opacity: 1;
+                text-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+            }
+            50% {
+                opacity: 0.7;
+                text-shadow: 0 0 50px rgba(255, 0, 0, 0.8);
+            }
+        }
+
+        .texto-subinfo-erro {
+            font-family: 'Inter', sans-serif; font-size: 12px;
+            color: #666; letter-spacing: 2px; text-transform: uppercase;
+            margin-top: 30px;
+        }
+
         /* ===== ANIMAÇÃO DE CADEADO ===== */
         #container-animacao-cadeado {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -414,6 +456,14 @@
                 <div class="barra-progresso"></div>
             </div>
             <div class="texto-status">ESCANEANDO REDE...</div>
+        </div>
+    </div>
+
+    <!-- OVERLAY DE ERRO IP -->
+    <div id="overlay-erro-ip">
+        <div class="container-erro-ip">
+            <div class="texto-erro-ip">ACESSO NEGADO</div>
+            <div class="texto-subinfo-erro">IP NÃO AUTORIZADO</div>
         </div>
     </div>
 
@@ -964,12 +1014,42 @@
                     mostrarAviso("✅ IP AUTORIZADO - ACESSO CONCEDIDO");
                     executarAnimacaoScannerVerde();
                 } else {
-                    mostrarAviso("⚠️ ACESSO NEGADO: IP NÃO AUTORIZADO");
+                    // IP não autorizado - exibir tela de erro por 3 segundos
+                    document.getElementById('overlay-erro-ip').classList.add('ativo');
+                    
+                    // Timer de 3 segundos (3000ms)
+                    setTimeout(() => {
+                        // Ocultar tela de erro
+                        document.getElementById('overlay-erro-ip').classList.remove('ativo');
+                        
+                        // Limpar campos de login
+                        document.getElementById('adm-usuario-login').value = '';
+                        document.getElementById('adm-senha-login').value = '';
+                        
+                        // Voltar para overlay de login ADM
+                        document.getElementById('login-adm-overlay').classList.remove('hidden');
+                    }, 3000);
                 }
             } catch (erro) {
                 // Ocultar overlay de carregamento em caso de erro
                 document.getElementById('overlay-carregamento-ip').classList.remove('ativo');
-                mostrarAviso("❌ ERRO AO VALIDAR IP");
+                
+                // Exibir tela de erro também para falha na API
+                document.getElementById('overlay-erro-ip').classList.add('ativo');
+                
+                // Timer de 3 segundos (3000ms)
+                setTimeout(() => {
+                    // Ocultar tela de erro
+                    document.getElementById('overlay-erro-ip').classList.remove('ativo');
+                    
+                    // Limpar campos de login
+                    document.getElementById('adm-usuario-login').value = '';
+                    document.getElementById('adm-senha-login').value = '';
+                    
+                    // Voltar para overlay de login ADM
+                    document.getElementById('login-adm-overlay').classList.remove('hidden');
+                }, 3000);
+                
                 console.error('Erro ao consultar IP:', erro);
             }
         }
