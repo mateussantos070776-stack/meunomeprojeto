@@ -83,6 +83,8 @@
         .adm-btn-luxury { background: rgba(0, 0, 0, 0.9); border: 1px solid var(--red); border-radius: 8px; padding: 7px; color: #fff; font-size: 8px !important; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; min-height: 60px !important; box-shadow: 0 0 8px rgba(255, 0, 0, 0.1); }
         .adm-btn-luxury:hover { background: rgba(255, 0, 0, 0.1); border-color: #ff3333; box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
         .adm-btn-luxury span { display: inline-block; line-height: 1; }
+        .adm-btn-outline { background: transparent !important; border: 1px solid var(--red) !important; color: var(--red) !important; padding: 8px 12px; border-radius: 6px; font-size: 8px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; transition: all 0.3s ease; }
+        .adm-btn-outline:hover { background: rgba(255, 0, 0, 0.1) !important; border-color: #ff3333 !important; }
 
         /* JANELA DE USUÁRIOS */
         #janela-usuarios { 
@@ -738,9 +740,9 @@
             <div style="border-top: 1px solid rgba(255,0,0,0.3); margin: 20px 0;"></div>
 
             <!-- GRADE DE GESTÃO - BOTÕES LUXURY -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; background: #000; border: 1px solid var(--red); margin-bottom: 20px; border-radius: 8px;">
-                <button style="background: #000; border: 1px solid var(--red); color: white; font-family: 'Syncopate'; font-size: 8px; padding: 12px; border-radius: 6px; cursor: pointer; text-transform: uppercase; font-weight: 700; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,0,0,0.1)'; this.style.borderColor='#ff3333';" onmouseout="this.style.background='#000'; this.style.borderColor='var(--red)';" onclick="abrirJanelaUsuarios()">LISTA DE USUÁRIOS</button>
-                <button style="background: #000; border: 1px solid var(--red); color: white; font-family: 'Syncopate'; font-size: 8px; padding: 12px; border-radius: 6px; cursor: pointer; text-transform: uppercase; font-weight: 700; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,0,0,0.1)'; this.style.borderColor='#ff3333';" onmouseout="this.style.background='#000'; this.style.borderColor='var(--red)';" onclick="mostrarAviso('LOGS DE IP - SISTEMA DE RASTREAMENTO ATIVO')">LOGS DE ACESSO</button>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+                <button class="adm-btn-outline" onclick="abrirJanelaUsuarios()">LISTA DE USUÁRIOS</button>
+                <button class="adm-btn-outline" onclick="mostrarAviso('LOGS DE IP - SISTEMA DE RASTREAMENTO ATIVO')">LOGS DE ACESSO</button>
             </div>
 
             <!-- GRADE DE GESTÃO -->
@@ -1149,7 +1151,7 @@
         function fecharAdmin() { 
             document.getElementById('ghost-panel').classList.remove('active');
             fecharJanelaUsuarios();
-            document.getElementById('login-adm-overlay').classList.remove('hidden');
+            document.getElementById('login-adm-overlay').classList.add('hidden');
         }
 
         db.ref('chave_ativa').on('value', s => {
