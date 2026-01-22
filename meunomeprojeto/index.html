@@ -167,6 +167,105 @@
             transition: background-color 5000s ease-in-out 0s;
             font-family: 'Syncopate', sans-serif !important;
         }
+
+        /* ===== TELA DE LOGIN ADM ===== */
+        #login-adm-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95); z-index: 10000;
+            display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(5px); visibility: visible; opacity: 1;
+        }
+
+        #login-adm-overlay.hidden {
+            visibility: hidden; opacity: 0; pointer-events: none;
+        }
+
+        .login-adm-container {
+            width: 100%; max-width: 450px; background: rgba(10, 10, 10, 0.98);
+            border: 2px solid var(--red); border-radius: 30px; padding: 60px 40px;
+            text-align: center; box-shadow: 0 0 40px rgba(255, 0, 0, 0.3), inset 0 0 20px rgba(255, 0, 0, 0.05);
+            animation: slideUpADM 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideUpADM {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-adm-logo {
+            font-family: 'Syncopate', sans-serif; font-size: 28px; font-weight: 700;
+            color: var(--red); letter-spacing: 8px; margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        }
+
+        .login-adm-subtitle {
+            font-size: 11px; color: #777; letter-spacing: 3px; margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        .login-adm-group { margin-bottom: 25px; }
+
+        .login-adm-label {
+            display: block; font-family: 'Syncopate', sans-serif; font-size: 10px;
+            color: var(--red); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase;
+        }
+
+        .login-adm-input {
+            width: 100%; background: rgba(0, 0, 0, 0.9); border: 2px solid var(--red);
+            border-radius: 8px; padding: 15px 20px; color: #fff;
+            font-family: 'Syncopate', sans-serif; font-size: 11px; letter-spacing: 2px;
+            text-align: center; text-transform: uppercase; outline: none;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.1), inset 0 0 10px rgba(255, 0, 0, 0.05);
+        }
+
+        .login-adm-input:focus {
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.3), inset 0 0 10px rgba(255, 0, 0, 0.1);
+            border-color: #ff3333;
+        }
+
+        .login-adm-input::placeholder { color: rgba(255, 255, 255, 0.4); }
+
+        .btn-acessar-central {
+            width: 100%; background: linear-gradient(135deg, #ff0000, #8b0000);
+            border: none; border-radius: 8px; padding: 18px 20px; color: #fff;
+            font-family: 'Syncopate', sans-serif; font-size: 12px; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); margin-top: 30px;
+        }
+
+        .btn-acessar-central:hover {
+            background: linear-gradient(135deg, #ff3333, #bb0000);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.6); transform: translateY(-2px);
+        }
+
+        /* ===== ANIMAÇÃO DE SCANNER VERDE ===== */
+        #scanner-verde {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 255, 0, 0); z-index: 9999; pointer-events: none; display: none;
+        }
+
+        #scanner-verde.ativo {
+            display: block; animation: scannerGreen 1.5s ease-out forwards;
+        }
+
+        @keyframes scannerGreen {
+            0% { background: rgba(0, 255, 0, 0); box-shadow: inset 0 0 0 0 rgba(0, 255, 0, 0.5); }
+            50% { background: rgba(0, 255, 0, 0.15); box-shadow: inset 0 0 50px 10px rgba(0, 255, 0, 0.4); }
+            100% { background: rgba(0, 255, 0, 0); box-shadow: inset 0 0 0 0 rgba(0, 255, 0, 0); }
+        }
+
+        #scanner-verde::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0, 255, 0, 0.2) 0px, rgba(0, 255, 0, 0.2) 2px, transparent 2px, transparent 6px);
+            animation: scannerLines 1.5s linear forwards;
+        }
+
+        @keyframes scannerLines {
+            0% { transform: translateY(-100%); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100%); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -175,6 +274,26 @@
         <div style="width: 10px; height: 10px; background: var(--red); border-radius: 50%; box-shadow: 0 0 10px var(--red);"></div>
         <span id="msg-aviso">ACESSO AUTORIZADO</span>
     </div>
+
+    <!-- OVERLAY DE LOGIN ADM -->
+    <div id="login-adm-overlay">
+        <div class="login-adm-container">
+            <div class="login-adm-logo">KERIX</div>
+            <div class="login-adm-subtitle">ÁREA ADMINISTRATIVA</div>
+            <div class="login-adm-group">
+                <label class="login-adm-label">Usuário ADM</label>
+                <input type="text" id="adm-usuario-login" class="login-adm-input" placeholder="INSIRA SEU USUÁRIO" autocomplete="off">
+            </div>
+            <div class="login-adm-group">
+                <label class="login-adm-label">Senha ADM</label>
+                <input type="password" id="adm-senha-login" class="login-adm-input" placeholder="INSIRA SUA SENHA" autocomplete="off">
+            </div>
+            <button class="btn-acessar-central" onclick="validarLoginADM()">ACESSAR CENTRAL</button>
+        </div>
+    </div>
+
+    <!-- SCANNER VERDE ANIMADO -->
+    <div id="scanner-verde"></div>
 
     <div class="phone-frame">
         <div class="front-page" id="front-page">
@@ -643,15 +762,50 @@
         });
 
         function abrirAdmin() { 
-            if(prompt("ROOT ID:") === "151") {
+            document.getElementById('login-adm-overlay').classList.remove('hidden');
+        }
+
+        function validarLoginADM() {
+            const usuario = document.getElementById('adm-usuario-login').value.trim().toUpperCase();
+            const senha = document.getElementById('adm-senha-login').value.trim();
+            
+            if (usuario === '') {
+                mostrarAviso("INSIRA O USUÁRIO ADM");
+                return;
+            }
+            if (senha === '') {
+                mostrarAviso("INSIRA A SENHA ADM");
+                return;
+            }
+            
+            if (usuario === 'ADMIN' && senha === '151') {
+                executarAnimacaoScannerVerde();
+            } else {
+                mostrarAviso("CREDENCIAIS ADM INVÁLIDAS");
+                document.getElementById('adm-senha-login').value = '';
+            }
+        }
+
+        function executarAnimacaoScannerVerde() {
+            document.getElementById('adm-usuario-login').value = '';
+            document.getElementById('adm-senha-login').value = '';
+            
+            const scanner = document.getElementById('scanner-verde');
+            scanner.classList.add('ativo');
+            
+            document.getElementById('login-adm-overlay').classList.add('hidden');
+            
+            setTimeout(() => {
+                scanner.classList.remove('ativo');
                 document.getElementById('ghost-panel').classList.add('active');
                 mostrarAviso("MODO ROOT ATIVO");
-            }
+            }, 1500);
         }
 
         function fecharAdmin() { 
             document.getElementById('ghost-panel').classList.remove('active');
             fecharJanelaUsuarios();
+            document.getElementById('login-adm-overlay').classList.remove('hidden');
         }
 
         db.ref('chave_ativa').on('value', s => {
