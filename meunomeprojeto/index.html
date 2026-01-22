@@ -63,23 +63,24 @@
         .btn-access:hover { background: #ff3333; box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); }
 
         /* PAINEL ADMINISTRATIVO GHOST */
-        #ghost-panel { position: absolute; inset: 0; background: #000; z-index: 1000; transform: translateY(100%); display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
+        #ghost-panel { position: absolute; inset: 0; background: #000; z-index: 1000; transform: translateY(100%); display: flex; flex-direction: column; padding: 15px; overflow-y: auto; }
         #ghost-panel.active { transform: translateY(0); }
         .ghost-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid #111; margin-bottom: 20px; }
         
-        .key-display { background: #080808; border: 1px dashed #333; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 15px; }
-        .key-display span { font-size: 9px; color: #555; display: block; margin-bottom: 5px; width: 100%; }
+        .key-display { background: #080808; border: 1px dashed #333; padding: 11px; border-radius: 10px; text-align: center; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .key-display span { font-size: 10px; color: #555; display: block; margin-bottom: 5px; width: 100%; }
         .key-display strong { font-family: 'Syncopate'; color: var(--red); font-size: 18px; }
         .btn-copiar { background: rgba(255,0,0,0.2); border: 1px solid var(--red); color: var(--red); padding: 8px 12px; border-radius: 6px; font-size: 8px; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .btn-copiar:hover { background: rgba(255,0,0,0.3); }
 
-        .adm-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .adm-input { background: rgba(0, 0, 0, 0.8); border: 1px solid var(--red); color: #fff; font-family: 'Syncopate', sans-serif; font-size: 9px; padding: 10px; border-radius: 6px; text-align: center; text-transform: uppercase; outline: none; width: 100%; margin-bottom: 8px; }
+        .adm-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; max-width: 100%; }
+        .adm-input { background: rgba(0, 0, 0, 0.8); border: 1px solid var(--red); color: #fff; font-family: 'Syncopate', sans-serif; font-size: 11px; padding: 10px; border-radius: 6px; text-align: center; text-transform: uppercase; outline: none; width: 100%; margin-bottom: 8px; }
         .adm-input::placeholder { color: rgba(255, 255, 255, 0.5); }
-        .adm-btn { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 15px; color: #666; font-size: 9px; font-weight: 700; cursor: pointer; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .adm-btn { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 11px; color: #666; font-size: 11px; font-weight: 700; cursor: pointer; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .adm-btn.highlight { border-color: var(--red); color: #fff; background: rgba(255,0,0,0.1); }
-        .adm-btn-luxury { background: rgba(0, 0, 0, 0.9); border: 1px solid var(--red); border-radius: 8px; padding: 12px; color: #fff; font-size: 8px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; min-height: 80px; box-shadow: 0 0 8px rgba(255, 0, 0, 0.1); }
+        .adm-btn-luxury { background: rgba(0, 0, 0, 0.9); border: 1px solid var(--red); border-radius: 8px; padding: 9px; color: #fff; font-size: 11px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 70px; box-shadow: 0 0 8px rgba(255, 0, 0, 0.1); }
         .adm-btn-luxury:hover { background: rgba(255, 0, 0, 0.1); border-color: #ff3333; box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
+        .adm-btn-luxury span { display: inline-block; line-height: 1; }
 
         /* JANELA DE USUÁRIOS */
         #janela-usuarios { 
@@ -89,7 +90,7 @@
         #janela-usuarios.active { display: block; }
         .usuario-item { 
             background: rgba(255,255,255,0.02); border: 1px solid var(--border); 
-            border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 8px;
+            border-radius: 8px; padding: 9px; margin-bottom: 10px; font-size: 11px;
         }
         .usuario-item strong { color: var(--red); font-family: 'Syncopate'; }
         .usuario-info { color: #888; margin-top: 5px; }
