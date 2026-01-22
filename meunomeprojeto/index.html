@@ -55,6 +55,8 @@
         .btn-copiar:hover { background: rgba(255,0,0,0.3); }
 
         .adm-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .adm-input { background: rgba(0, 0, 0, 0.8); border: 1px solid var(--red); color: #fff; font-family: 'Syncopate', sans-serif; font-size: 9px; padding: 10px; border-radius: 6px; text-align: center; text-transform: uppercase; outline: none; width: 100%; margin-bottom: 8px; }
+        .adm-input::placeholder { color: rgba(255, 255, 255, 0.5); }
         .adm-btn { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 15px; color: #666; font-size: 9px; font-weight: 700; cursor: pointer; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .adm-btn.highlight { border-color: var(--red); color: #fff; background: rgba(255,0,0,0.1); }
 
@@ -314,9 +316,11 @@
             </div>
 
             <div class="adm-controls">
-                <button class="adm-btn highlight" onclick="gerarNovaChave()"><span>🔄</span>Gerar Chave</button>
-                <button class="adm-btn" onclick="limparChaves()"><span>🗑️</span>Revogar Tudo</button>
-                <button class="adm-btn" onclick="abrirJanelaUsuarios()"><span>👥</span>Identificar Usuários</button>
+                <div style="grid-column: 1 / -1;">
+                    <input type="text" id="adm-novo-usuario" placeholder="NOVO USUÁRIO" class="adm-input">
+                    <input type="text" id="adm-nova-chave" placeholder="NOVA CHAVE" class="adm-input">
+                    <button onclick="salvarAcesso()" class="adm-btn" style="background: linear-gradient(45deg, #8b0000, #ff0000); color: #fff; grid-column: 1 / -1; margin-top: 5px; border: none;">CADASTRAR ACESSO PREMIUM</button>
+                </div>
             </div>
 
             <div id="janela-usuarios">
@@ -377,23 +381,74 @@
             const usuario = document.getElementById('input-usuario').value.toUpperCase();
             const chave = document.getElementById('input-chave').value;
             
-            // Validação de dois fatores
-            if (usuario === 'MIDIA' && chave === '2026') {
-                salvarUsuarioLogado();
-                mostrarAviso("BEM-VINDO AO KERIX");
-                document.getElementById('input-usuario').value = '';
-                document.getElementById('input-chave').value = '';
-                document.querySelector('.front-page').style.display = 'none';
-                document.getElementById('janela-membro-logado').style.display = 'block';
-            } else if (usuario === '') {
+            if (usuario === '') {
                 mostrarAviso("INSIRA O USUÁRIO");
-            } else if (chave === '') {
-                mostrarAviso("INSIRA A CHAVE");
-            } else if (usuario !== 'MIDIA') {
-                mostrarAviso("USUÁRIO INVÁLIDO");
-            } else {
-                mostrarAviso("CHAVE INCORRETA");
+                return;
             }
+            if (chave === '') {
+                mostrarAviso("INSIRA A CHAVE");
+                return;
+            }
+            
+            // Buscar no Firebase
+            db.ref('acessos').once('value', snapshot => {
+                const acessos = snapshot.val();
+                let usuarioEncontrado = false;
+                
+                // Verificar padrão legado (MIDIA / 2026)
+                if (usuario === 'MIDIA' && chave === '2026') {
+                    usuarioEncontrado = true;
+                } else if (acessos) {
+                    // Procurar nos acessos cadastrados
+                    Object.values(acessos).forEach(acesso => {
+                        if (acesso.usuario === usuario && acesso.chave === chave) {
+                            usuarioEncontrado = true;
+                        }
+                    });
+                }
+                
+                if (usuarioEncontrado) {
+                    salvarUsuarioLogado();
+                    mostrarAviso("BEM-VINDO AO KERIX");
+                    document.getElementById('input-usuario').value = '';
+                    document.getElementById('input-chave').value = '';
+                    document.querySelector('.front-page').style.display = 'none';
+                    document.getElementById('janela-membro-logado').style.display = 'block';
+                } else {
+                    mostrarAviso("USUÁRIO OU CHAVE INVÁLIDOS");
+                }
+            });
+        }
+
+        function salvarAcesso() {
+            const novoUsuario = document.getElementById('adm-novo-usuario').value.toUpperCase().trim();
+            const novaChave = document.getElementById('adm-nova-chave').value.trim();
+            
+            if (!novoUsuario || !novaChave) {
+                mostrarAviso("PREENCHA TODOS OS CAMPOS");
+                return;
+            }
+            
+            if (novaChave.length < 4) {
+                mostrarAviso("CHAVE DEVE TER NO MÍNIMO 4 CARACTERES");
+                return;
+            }
+            
+            // Salvar no Firebase usando push() para gerar ID único
+            db.ref('acessos').push({
+                usuario: novoUsuario,
+                chave: novaChave,
+                dataCriacao: new Date().toLocaleString('pt-BR')
+            }, (error) => {
+                if (error) {
+                    mostrarAviso("ERRO AO SALVAR ACESSO");
+                    console.error('Erro Firebase:', error);
+                } else {
+                    mostrarAviso("ACESSO PREMIUM CADASTRADO");
+                    document.getElementById('adm-novo-usuario').value = '';
+                    document.getElementById('adm-nova-chave').value = '';
+                }
+            });
         }
 
         function obterIPdo() {
