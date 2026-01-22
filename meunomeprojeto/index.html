@@ -350,12 +350,6 @@
             setTimeout(() => { aviso.classList.remove('show'); }, 3000);
         }
 
-        function gerarNovaChave() {
-            const novaChave = Math.floor(10000 + Math.random() * 90000).toString();
-            db.ref('chave_ativa').set(novaChave);
-            mostrarAviso("CHAVE GERADA COM SUCESSO");
-        }
-
         function copiarChave() {
             const chaveAtiva = document.getElementById('current-db-key').innerText;
             if (chaveAtiva && chaveAtiva !== "..." && chaveAtiva !== "NENHUMA") {
@@ -378,8 +372,8 @@
         }
 
         function validarAcessoMembro() {
-            const usuario = document.getElementById('input-usuario').value.toUpperCase();
-            const chave = document.getElementById('input-chave').value;
+            const usuario = document.getElementById('input-usuario').value.toUpperCase().trim();
+            const chave = document.getElementById('input-chave').value.trim();
             
             if (usuario === '') {
                 mostrarAviso("INSIRA O USUÁRIO");
@@ -390,34 +384,31 @@
                 return;
             }
             
-            // Buscar no Firebase
-            db.ref('acessos').once('value', snapshot => {
-                const acessos = snapshot.val();
-                let usuarioEncontrado = false;
+            // Verificar padrão legado (MIDIA / 2026)
+            if (usuario === 'MIDIA' && chave === '2026') {
+                autenticarMembro();
+                return;
+            }
+            
+            // Buscar no Firebase em acessos/{usuario}
+            db.ref('acessos/' + usuario).once('value', snapshot => {
+                const acesso = snapshot.val();
                 
-                // Verificar padrão legado (MIDIA / 2026)
-                if (usuario === 'MIDIA' && chave === '2026') {
-                    usuarioEncontrado = true;
-                } else if (acessos) {
-                    // Procurar nos acessos cadastrados
-                    Object.values(acessos).forEach(acesso => {
-                        if (acesso.usuario === usuario && acesso.chave === chave) {
-                            usuarioEncontrado = true;
-                        }
-                    });
-                }
-                
-                if (usuarioEncontrado) {
-                    salvarUsuarioLogado();
-                    mostrarAviso("BEM-VINDO AO KERIX");
-                    document.getElementById('input-usuario').value = '';
-                    document.getElementById('input-chave').value = '';
-                    document.querySelector('.front-page').style.display = 'none';
-                    document.getElementById('janela-membro-logado').style.display = 'block';
+                if (acesso && acesso.chave === chave) {
+                    autenticarMembro();
                 } else {
                     mostrarAviso("USUÁRIO OU CHAVE INVÁLIDOS");
                 }
             });
+        }
+        
+        function autenticarMembro() {
+            salvarUsuarioLogado();
+            mostrarAviso("BEM-VINDO AO KERIX");
+            document.getElementById('input-usuario').value = '';
+            document.getElementById('input-chave').value = '';
+            document.querySelector('.front-page').style.display = 'none';
+            document.getElementById('janela-membro-logado').style.display = 'block';
         }
 
         function salvarAcesso() {
@@ -434,8 +425,8 @@
                 return;
             }
             
-            // Salvar no Firebase usando push() para gerar ID único
-            db.ref('acessos').push({
+            // Salvar no Firebase em acessos/{usuario}
+            db.ref('acessos/' + novoUsuario).set({
                 usuario: novoUsuario,
                 chave: novaChave,
                 dataCriacao: new Date().toLocaleString('pt-BR')
