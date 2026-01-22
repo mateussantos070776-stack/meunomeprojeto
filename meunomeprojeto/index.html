@@ -256,6 +256,79 @@
             transform: scale(0.98);
         }
 
+        /* ===== TELA DE CARREGAMENTO IP ===== */
+        #overlay-carregamento-ip {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.98); z-index: 10001;
+            display: none; align-items: center; justify-content: center;
+            flex-direction: column; backdrop-filter: blur(5px);
+        }
+
+        #overlay-carregamento-ip.ativo {
+            display: flex;
+        }
+
+        .container-carregamento-ip {
+            text-align: center; display: flex; flex-direction: column; align-items: center; gap: 40px;
+        }
+
+        .scanner-icon {
+            width: 120px; height: 120px; position: relative;
+            animation: scannerPulso 1.5s ease-in-out infinite;
+        }
+
+        @keyframes scannerPulso {
+            0% {
+                filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.3));
+                transform: scale(1);
+            }
+            50% {
+                filter: drop-shadow(0 0 30px rgba(255, 0, 0, 0.8));
+                transform: scale(1.05);
+            }
+            100% {
+                filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.3));
+                transform: scale(1);
+            }
+        }
+
+        .scanner-svg {
+            width: 100%; height: 100%;
+        }
+
+        .texto-carregamento {
+            font-family: 'Syncopate', sans-serif; font-size: 14px;
+            color: var(--red); letter-spacing: 3px; text-transform: uppercase;
+            animation: piscarTexto 1s ease-in-out infinite;
+        }
+
+        @keyframes piscarTexto {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .barra-progresso-container {
+            width: 280px; height: 4px; background: rgba(255, 0, 0, 0.1);
+            border-radius: 2px; overflow: hidden; border: 1px solid rgba(255, 0, 0, 0.3);
+        }
+
+        .barra-progresso {
+            height: 100%; background: linear-gradient(90deg, var(--red), #ff3333);
+            width: 0%; animation: preenchimentoProgresso 5s linear forwards;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+
+        @keyframes preenchimentoProgresso {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .texto-status {
+            font-family: 'Inter', sans-serif; font-size: 10px;
+            color: #888; letter-spacing: 1px; text-transform: uppercase;
+            margin-top: 20px;
+        }
+
         /* ===== ANIMAÇÃO DE CADEADO ===== */
         #container-animacao-cadeado {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -320,6 +393,28 @@
     <div id="aviso-premium">
         <div style="width: 10px; height: 10px; background: var(--red); border-radius: 50%; box-shadow: 0 0 10px var(--red);"></div>
         <span id="msg-aviso">ACESSO AUTORIZADO</span>
+    </div>
+
+    <!-- OVERLAY DE CARREGAMENTO IP -->
+    <div id="overlay-carregamento-ip">
+        <div class="container-carregamento-ip">
+            <div class="scanner-icon">
+                <svg class="scanner-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="60" stroke="#ff0000" stroke-width="8" fill="none" opacity="0.3"/>
+                    <circle cx="100" cy="100" r="40" stroke="#ff0000" stroke-width="6" fill="none" opacity="0.6"/>
+                    <circle cx="100" cy="100" r="20" stroke="#ff0000" stroke-width="4" fill="none"/>
+                    <line x1="100" y1="30" x2="100" y2="10" stroke="#ff0000" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="170" y1="100" x2="190" y2="100" stroke="#ff0000" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="100" y1="170" x2="100" y2="190" stroke="#ff0000" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="30" y1="100" x2="10" y2="100" stroke="#ff0000" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="texto-carregamento">VERIFICANDO CREDENCIAIS DE IP...</div>
+            <div class="barra-progresso-container">
+                <div class="barra-progresso"></div>
+            </div>
+            <div class="texto-status">ESCANEANDO REDE...</div>
+        </div>
     </div>
 
     <!-- OVERLAY DE LOGIN ADM (OCULTA POR PADRÃO) -->
@@ -850,12 +945,20 @@
         }
 
         async function validarIPAutorizado() {
+            // Mostrar overlay de carregamento
+            document.getElementById('overlay-carregamento-ip').classList.add('ativo');
+            
+            // Aguardar 5 segundos (5000ms)
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            
             try {
-                mostrarAviso("ESCANEANDO IP...");
                 const response = await fetch('https://api.ipify.org?format=json');
                 const data = await response.json();
                 const ipAtual = data.ip;
                 const ipAutorizado = '45.175.46.231';
+                
+                // Ocultar overlay de carregamento
+                document.getElementById('overlay-carregamento-ip').classList.remove('ativo');
                 
                 if (ipAtual === ipAutorizado) {
                     mostrarAviso("✅ IP AUTORIZADO - ACESSO CONCEDIDO");
@@ -864,6 +967,8 @@
                     mostrarAviso("⚠️ ACESSO NEGADO: IP NÃO AUTORIZADO");
                 }
             } catch (erro) {
+                // Ocultar overlay de carregamento em caso de erro
+                document.getElementById('overlay-carregamento-ip').classList.remove('ativo');
                 mostrarAviso("❌ ERRO AO VALIDAR IP");
                 console.error('Erro ao consultar IP:', erro);
             }
