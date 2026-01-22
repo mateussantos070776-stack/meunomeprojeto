@@ -63,7 +63,7 @@
         .btn-access:hover { background: #ff3333; box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); }
 
         /* PAINEL ADMINISTRATIVO GHOST */
-        #ghost-panel { position: absolute; inset: 0; background: #000; z-index: 1000; transform: translateY(100%) translateX(-50%); display: flex; flex-direction: column; padding: 15px; overflow-y: auto; max-width: 600px; left: 50%; width: 90%; margin: 0 auto; }
+        #ghost-panel { position: absolute; inset: 0; background: #000; z-index: 1000; transform: translateY(100%) translateX(-50%); display: flex; flex-direction: column; padding: 15px; overflow-y: auto; max-width: 500px; left: 50%; width: 90%; margin: 0 auto; }
         #ghost-panel.active { transform: translateY(0) translateX(-50%); }
         .ghost-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px solid #111; margin-bottom: 15px; }
         
@@ -73,19 +73,21 @@
         .btn-copiar { background: rgba(255,0,0,0.2); border: 0.5px solid #ff0000 !important; color: var(--red); padding: 8px 12px; border-radius: 6px; font-size: 9px !important; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: all 0.3s; height: 32px !important; display: flex; align-items: center; justify-content: center; }
         .btn-copiar:hover { background: rgba(255,0,0,0.3); }
 
-        .adm-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; max-width: 100%; }
-        .adm-input { background: rgba(0, 0, 0, 0.8); border: 1px solid var(--red); color: #fff; font-family: 'Syncopate', sans-serif; font-size: 11px; padding: 8px; border-radius: 6px; text-align: center; text-transform: uppercase; outline: none; width: 100%; max-width: 300px !important; height: 30px !important; margin-bottom: 10px; }
+        .adm-controls { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; max-width: 100%; align-items: center; }
+        .adm-controls > div { display: flex; gap: 8px; width: 100%; flex-wrap: wrap; justify-content: center; align-items: center; }
+        .adm-input { background: rgba(0, 0, 0, 0.8); border: 1px solid var(--red); color: #fff; font-family: 'Syncopate', sans-serif; font-size: 11px; padding: 8px; border-radius: 6px; text-align: center; text-transform: uppercase; outline: none; width: auto; max-width: 150px !important; height: 30px !important; margin-bottom: 0 !important; }
         .adm-input::placeholder { color: rgba(255, 255, 255, 0.5); }
         .adm-btn { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 11px; color: #666; font-size: 11px; font-weight: 700; cursor: pointer; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .adm-btn.highlight { border-color: var(--red); color: #fff; background: rgba(255,0,0,0.1); }
-        .btn-cadastro { background: linear-gradient(135deg, #ff0000, #8b0000) !important; border: none !important; border-radius: 8px; padding: 4px 10px !important; color: #fff; font-size: 10px !important; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; margin-top: 5px; width: auto !important; height: 28px !important; transition: all 0.3s ease; }
+        .btn-cadastro { background: linear-gradient(135deg, #ff0000, #8b0000) !important; border: none !important; border-radius: 8px; padding: 8px 12px !important; color: #fff; font-size: 9px !important; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; margin-top: 0 !important; width: auto !important; height: 30px !important; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
         .btn-cadastro:hover { background: linear-gradient(135deg, #ff3333, #bb0000); }
         .adm-btn-luxury { background: rgba(0, 0, 0, 0.9); border: 1px solid var(--red); border-radius: 8px; padding: 7px; color: #fff; font-size: 8px !important; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; min-height: 60px !important; box-shadow: 0 0 8px rgba(255, 0, 0, 0.1); }
         .adm-btn-luxury:hover { background: rgba(255, 0, 0, 0.1); border-color: #ff3333; box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
         .adm-btn-luxury span { display: inline-block; line-height: 1; }
         .adm-btn-outline { background: transparent !important; border: 1px solid var(--red) !important; color: var(--red) !important; padding: 8px 12px; border-radius: 6px; font-size: 8px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; transition: all 0.3s ease; }
         .adm-btn-outline:hover { background: rgba(255, 0, 0, 0.1) !important; border-color: #ff3333 !important; }
-        .btn-cadeado { width: auto !important; background: transparent !important; border: 0.5px solid #ff0000 !important; color: var(--red) !important; padding: 6px 12px !important; border-radius: 6px; font-size: 9px !important; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 32px !important; }
+        .btn-cadeado { width: auto !important; background: transparent !important; border: 0.5px solid #ff0000 !important; color: var(--red) !important; padding: 10px !important; border-radius: 6px; font-size: 9px !important; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; height: auto !important; }
+        .btn-cadeado::before { content: '🔒'; font-size: 14px; display: block; margin-bottom: 2px; }
         .btn-cadeado:hover { background: rgba(255, 0, 0, 0.1) !important; border-color: #ff3333 !important; }
 
         /* JANELA DE USUÁRIOS */
@@ -732,10 +734,10 @@
             </div>
 
             <div class="adm-controls">
-                <div style="grid-column: 1 / -1;">
+                <div>
                     <input type="text" id="adm-novo-usuario" placeholder="NOVO USUÁRIO" class="adm-input">
                     <input type="text" id="adm-nova-chave" placeholder="NOVA CHAVE" class="adm-input">
-                    <button onclick="salvarAcesso()" class="btn-cadastro">CADASTRAR ACESSO PREMIUM</button>
+                    <button onclick="salvarAcesso()" class="btn-cadastro">CADASTRAR</button>
                 </div>
             </div>
 
@@ -750,10 +752,10 @@
 
             <!-- GRADE DE GESTÃO - BOTÕES COM CADEADO -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;">
-                <button class="btn-cadeado" onclick="abrirJanelaUsuarios()">🔒 GERENCIAR ACESSOS</button>
-                <button class="btn-cadeado" onclick="mostrarAviso('LOGS DE ENTRADA')">🔒 LOGS ENTRADA</button>
-                <button class="btn-cadeado" onclick="mostrarAviso('CONFIG. SISTEMA')">🔒 CONFIG. SISTEMA</button>
-                <button class="btn-cadeado" onclick="limparChaves()">🔒 REDEFINIR DADOS</button>
+                <button class="btn-cadeado" onclick="abrirJanelaUsuarios()">GERENCIAR ACESSOS</button>
+                <button class="btn-cadeado" onclick="mostrarAviso('LOGS DE ENTRADA')">LOGS ENTRADA</button>
+                <button class="btn-cadeado" onclick="mostrarAviso('CONFIG. SISTEMA')">CONFIG. SISTEMA</button>
+                <button class="btn-cadeado" onclick="limparChaves()">REDEFINIR DADOS</button>
             </div>
 
             <div id="janela-usuarios">
