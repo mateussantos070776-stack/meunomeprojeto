@@ -10,7 +10,7 @@
     <style>
         :root { --red: #ff0000; --bg: #000; --panel: #0a0a0a; --border: rgba(255, 255, 255, 0.05); }
         * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #fff; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #fff; margin: 0; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
 
         /* AVISO PREMIUM (TOAST) */
         #aviso-premium {
@@ -24,24 +24,43 @@
         #aviso-premium.show { top: 30px; visibility: visible; opacity: 1; }
         #aviso-premium span { font-family: 'Syncopate'; font-size: 10px; letter-spacing: 2px; color: #fff; }
 
+        /* BOTÃO ADM COROA NO CANTO SUPERIOR ESQUERDO */
+        .btn-adm-coroa {
+            position: fixed; top: 20px; left: 20px; width: 30px; height: 30px;
+            background: rgba(255, 0, 0, 0.1); border: 1px solid var(--red);
+            border-radius: 6px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 8999; font-size: 18px; transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.1);
+        }
+        .btn-adm-coroa:hover {
+            background: rgba(255, 0, 0, 0.2); border-color: #ff3333;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+
         .phone-frame { 
-            width: 380px; height: 85vh; background: #050505; 
-            border: 6px solid #151515; border-radius: 45px; 
-            position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.9);
+            width: 100%; height: 100%; background: #000; 
+            border: none; border-radius: 0; 
+            position: relative; box-shadow: none;
             display: flex; flex-direction: column; overflow: hidden;
+            max-width: none; max-height: none;
         }
 
         /* TELA DE LOGIN DO MEMBRO */
-        .front-page { padding: 60px 20px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .front-page { 
+            padding: 60px 20px; text-align: center; flex: 1; 
+            display: flex; flex-direction: column; justify-content: center; 
+            align-items: center; width: 100%; height: 100vh;
+        }
         .luxury-logo { cursor: pointer; margin-bottom: 50px; }
-        .luxury-logo h1 { font-family: 'Syncopate', sans-serif; font-size: 14px; letter-spacing: 8px; color: var(--red); margin: 0; }
+        .luxury-logo h1 { font-family: 'Syncopate', sans-serif; font-size: 28px; letter-spacing: 8px; color: var(--red); margin: 0; }
         
-        .auth-box { width: 100%; max-width: 280px; background: #080808; border: 1px solid var(--border); border-radius: 20px; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; }
-        .auth-box label { display: block; font-size: 9px; color: #444; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
-        .auth-box input { background: rgba(0, 0, 0, 0.9); border: 1px solid var(--red); box-shadow: 0 0 10px rgba(255, 0, 0, 0.2); color: #fff; font-family: 'Syncopate', sans-serif; text-transform: uppercase; padding: 12px; outline: none; text-align: center; font-size: 10px; width: 90%; }
-        .auth-box input::placeholder { color: rgba(255, 255, 255, 0.5); }
+        .auth-box { width: 100%; max-width: 380px; background: #080808; border: 1px solid var(--red); border-radius: 20px; padding: 40px 30px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 0 30px rgba(255, 0, 0, 0.15); }
+        .auth-box label { display: block; font-size: 11px; color: var(--red); letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; font-weight: 700; font-family: 'Syncopate'; }
+        .auth-box input { background: rgba(0, 0, 0, 0.9); border: 1px solid var(--red); box-shadow: 0 0 10px rgba(255, 0, 0, 0.2); color: #fff; font-family: 'Syncopate', sans-serif; text-transform: uppercase; padding: 14px; outline: none; text-align: center; font-size: 12px; width: 90%; margin-bottom: 12px; border-radius: 8px; }
+        .auth-box input::placeholder { color: rgba(255, 255, 255, 0.4); }
         .key-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid #222; color: #fff; font-family: 'Syncopate'; font-size: 22px; text-align: center; letter-spacing: 10px; outline: none; padding-bottom: 10px; margin-bottom: 25px; }
-        .btn-access { width: 100%; background: var(--red); border: none; border-radius: 12px; padding: 15px; color: #fff; font-size: 10px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+        .btn-access { width: 100%; background: var(--red); border: none; border-radius: 12px; padding: 18px; color: #000; font-size: 12px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; transition: all 0.3s ease; }
+        .btn-access:hover { background: #ff3333; box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); }
 
         /* PAINEL ADMINISTRATIVO GHOST */
         #ghost-panel { position: absolute; inset: 0; background: #000; z-index: 1000; transform: translateY(100%); display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
@@ -103,9 +122,9 @@
         #janela-membro-logado {
             position: absolute; inset: 0; background: #000; z-index: 950; 
             display: none; flex-direction: column; align-items: center; justify-content: center; 
-            min-height: 200px; padding: 20px; overflow-y: auto;
+            min-height: 100vh; padding: 20px; overflow-y: auto; width: 100%; height: 100vh;
         }
-        #janela-membro-logado.active { transform: translateY(0); }
+        #janela-membro-logado.active { display: flex; }
         .membro-header {
             display: flex; justify-content: space-between; align-items: center;
             width: 100%; height: 40px; padding: 0 10px; border-bottom: 1px solid #222;
@@ -459,6 +478,9 @@
 </head>
 <body>
 
+    <!-- BOTÃO ADM COROA FIXO NO CANTO SUPERIOR ESQUERDO -->
+    <button class="btn-adm-coroa" onclick="abrirAdmin()" title="ADM">👑</button>
+
     <div id="aviso-premium">
         <div style="width: 10px; height: 10px; background: var(--red); border-radius: 50%; box-shadow: 0 0 10px var(--red);"></div>
         <span id="msg-aviso">ACESSO AUTORIZADO</span>
@@ -538,9 +560,9 @@
 
     <div class="phone-frame">
         <div class="front-page" id="front-page">
-            <div class="luxury-logo" onclick="abrirAdmin()">
+            <div class="luxury-logo">
                 <h1>KERIX</h1>
-                <p style="font-size: 8px; color:#333; letter-spacing: 3px; margin-top: 10px;">GESTÃO PRIVADA</p>
+                <p style="font-size: 12px; color:#666; letter-spacing: 3px; margin-top: 10px;">GESTÃO PRIVADA</p>
             </div>
 
             <div class="auth-box">
@@ -797,7 +819,7 @@
             document.getElementById('input-usuario').value = '';
             document.getElementById('input-chave').value = '';
             document.querySelector('.front-page').style.display = 'none';
-            document.getElementById('janela-membro-logado').style.display = 'block';
+            document.getElementById('janela-membro-logado').style.display = 'flex';
         }
 
         function salvarAcesso() {
