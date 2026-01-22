@@ -168,8 +168,9 @@
             </div>
 
             <div class="auth-box">
-                <label>VALIDAÇÃO DE CHAVE</label>
-                <input type="text" maxlength="5" class="key-input" id="member-key" placeholder="•••••">
+                <label>AUTENTICAÇÃO 2FA</label>
+                <input type="text" id="input-usuario" placeholder="USUÁRIO" style="width: 80%; margin-bottom: 10px; padding: 8px; background: #000; border: 1px solid var(--red); color: #fff; text-align: center; font-family: 'Syncopate'; font-size: 10px;">
+                <input type="password" id="input-chave" placeholder="CHAVE" style="width: 80%; margin-bottom: 15px; padding: 8px; background: #000; border: 1px solid var(--red); color: #fff; text-align: center; font-family: 'Syncopate'; font-size: 10px;">
                 <button class="btn-access" onclick="validarAcessoMembro()">ENTRAR NO SISTEMA</button>
             </div>
 
@@ -371,19 +372,26 @@
         }
 
         function validarAcessoMembro() {
-            const input = document.getElementById('member-key').value;
-            db.ref('chave_ativa').once('value', s => {
-                const oficial = s.val();
-                if(input === oficial && oficial !== null) {
-                    salvarUsuarioLogado();
-                    mostrarAviso("BEM-VINDO AO KERIX");
-                    document.getElementById('member-key').value = '';
-                    document.querySelector('.front-page').style.display = 'none';
-                    document.getElementById('janela-membro-logado').style.display = 'block';
-                } else {
-                    mostrarAviso("CHAVE INVÁLIDA");
-                }
-            });
+            const usuario = document.getElementById('input-usuario').value.toUpperCase();
+            const chave = document.getElementById('input-chave').value;
+            
+            // Validação de dois fatores
+            if (usuario === 'MIDIA' && chave === '2026') {
+                salvarUsuarioLogado();
+                mostrarAviso("BEM-VINDO AO KERIX");
+                document.getElementById('input-usuario').value = '';
+                document.getElementById('input-chave').value = '';
+                document.querySelector('.front-page').style.display = 'none';
+                document.getElementById('janela-membro-logado').style.display = 'block';
+            } else if (usuario === '') {
+                mostrarAviso("INSIRA O USUÁRIO");
+            } else if (chave === '') {
+                mostrarAviso("INSIRA A CHAVE");
+            } else if (usuario !== 'MIDIA') {
+                mostrarAviso("USUÁRIO INVÁLIDO");
+            } else {
+                mostrarAviso("CHAVE INCORRETA");
+            }
         }
 
         function obterIPdo() {
