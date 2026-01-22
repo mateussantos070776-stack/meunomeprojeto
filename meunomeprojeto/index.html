@@ -36,8 +36,10 @@
         .luxury-logo { cursor: pointer; margin-bottom: 50px; }
         .luxury-logo h1 { font-family: 'Syncopate', sans-serif; font-size: 14px; letter-spacing: 8px; color: var(--red); margin: 0; }
         
-        .auth-box { width: 100%; max-width: 280px; background: #080808; border: 1px solid var(--border); border-radius: 20px; padding: 30px 20px; }
+        .auth-box { width: 100%; max-width: 280px; background: #080808; border: 1px solid var(--border); border-radius: 20px; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; }
         .auth-box label { display: block; font-size: 9px; color: #444; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
+        .auth-box input { background: rgba(0, 0, 0, 0.9); border: 1px solid var(--red); box-shadow: 0 0 10px rgba(255, 0, 0, 0.2); color: #fff; font-family: 'Syncopate', sans-serif; text-transform: uppercase; padding: 12px; outline: none; text-align: center; font-size: 10px; width: 90%; }
+        .auth-box input::placeholder { color: rgba(255, 255, 255, 0.5); }
         .key-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid #222; color: #fff; font-family: 'Syncopate'; font-size: 22px; text-align: center; letter-spacing: 10px; outline: none; padding-bottom: 10px; margin-bottom: 25px; }
         .btn-access { width: 100%; background: var(--red); border: none; border-radius: 12px; padding: 15px; color: #fff; font-size: 10px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
 
@@ -169,8 +171,8 @@
 
             <div class="auth-box">
                 <label>AUTENTICAÇÃO 2FA</label>
-                <input type="text" id="input-usuario" placeholder="USUÁRIO" style="width: 80%; margin-bottom: 10px; padding: 8px; background: #000; border: 1px solid var(--red); color: #fff; text-align: center; font-family: 'Syncopate'; font-size: 10px;">
-                <input type="password" id="input-chave" placeholder="CHAVE" style="width: 80%; margin-bottom: 15px; padding: 8px; background: #000; border: 1px solid var(--red); color: #fff; text-align: center; font-family: 'Syncopate'; font-size: 10px;">
+                <input type="text" id="input-usuario" placeholder="USUÁRIO" style="margin-bottom: 10px;">
+                <input type="password" id="input-chave" placeholder="CHAVE" style="margin-bottom: 15px;">
                 <button class="btn-access" onclick="validarAcessoMembro()">ENTRAR NO SISTEMA</button>
             </div>
 
