@@ -74,11 +74,13 @@
         .btn-copiar:hover { background: rgba(255,0,0,0.3); }
 
         .adm-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; max-width: 100%; }
-        .adm-input { background: rgba(0, 0, 0, 0.8); border: 1px solid var(--red); color: #fff; font-family: 'Syncopate', sans-serif; font-size: 11px; padding: 10px; border-radius: 6px; text-align: center; text-transform: uppercase; outline: none; width: 100%; margin-bottom: 8px; }
+        .adm-input { background: rgba(0, 0, 0, 0.8); border: 1px solid var(--red); color: #fff; font-family: 'Syncopate', sans-serif; font-size: 11px; padding: 8px; border-radius: 6px; text-align: center; text-transform: uppercase; outline: none; width: 100%; margin-bottom: 6px; }
         .adm-input::placeholder { color: rgba(255, 255, 255, 0.5); }
         .adm-btn { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 11px; color: #666; font-size: 11px; font-weight: 700; cursor: pointer; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .adm-btn.highlight { border-color: var(--red); color: #fff; background: rgba(255,0,0,0.1); }
-        .adm-btn-luxury { background: rgba(0, 0, 0, 0.9); border: 1px solid var(--red); border-radius: 8px; padding: 9px; color: #fff; font-size: 11px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 70px; box-shadow: 0 0 8px rgba(255, 0, 0, 0.1); }
+        .btn-cadastro { background: linear-gradient(135deg, #ff0000, #8b0000); border: none; border-radius: 8px; padding: 10px; color: #fff; font-size: 8px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; margin-top: 5px; width: 100%; transition: all 0.3s ease; }
+        .btn-cadastro:hover { background: linear-gradient(135deg, #ff3333, #bb0000); }
+        .adm-btn-luxury { background: rgba(0, 0, 0, 0.9); border: 1px solid var(--red); border-radius: 8px; padding: 7px; color: #fff; font-size: 9px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; min-height: 56px; box-shadow: 0 0 8px rgba(255, 0, 0, 0.1); }
         .adm-btn-luxury:hover { background: rgba(255, 0, 0, 0.1); border-color: #ff3333; box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
         .adm-btn-luxury span { display: inline-block; line-height: 1; }
 
@@ -728,7 +730,7 @@
                 <div style="grid-column: 1 / -1;">
                     <input type="text" id="adm-novo-usuario" placeholder="NOVO USUÁRIO" class="adm-input">
                     <input type="text" id="adm-nova-chave" placeholder="NOVA CHAVE" class="adm-input">
-                    <button onclick="salvarAcesso()" class="adm-btn" style="background: linear-gradient(45deg, #8b0000, #ff0000); color: #fff; grid-column: 1 / -1; margin-top: 5px; border: none;">CADASTRAR ACESSO PREMIUM</button>
+                    <button onclick="salvarAcesso()" class="btn-cadastro">CADASTRAR ACESSO PREMIUM</button>
                 </div>
             </div>
 
@@ -742,11 +744,11 @@
             </div>
 
             <!-- GRADE DE GESTÃO -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
-                <button class="adm-btn-luxury" onclick="abrirJanelaUsuarios()"><span style="font-size: 14px;">👥</span><br>GERENCIAR<br>USUÁRIOS</button>
-                <button class="adm-btn-luxury" onclick="mostrarAviso('LOGS DE ENTRADA')"><span style="font-size: 14px;">📜</span><br>LOGS DE<br>ENTRADA</button>
-                <button class="adm-btn-luxury" onclick="mostrarAviso('CONFIG. SISTEMA')"><span style="font-size: 14px;">⚙️</span><br>CONFIG.<br>SISTEMA</button>
-                <button class="adm-btn-luxury" onclick="limparChaves()"><span style="font-size: 14px;">🗑️</span><br>REDEFINIR<br>ACESSOS</button>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px;">
+                <button class="adm-btn-luxury" onclick="abrirJanelaUsuarios()"><span style="font-size: 12px;">👥</span><br>GERENCIAR<br>USUÁRIOS</button>
+                <button class="adm-btn-luxury" onclick="mostrarAviso('LOGS DE ENTRADA')"><span style="font-size: 12px;">📜</span><br>LOGS DE<br>ENTRADA</button>
+                <button class="adm-btn-luxury" onclick="mostrarAviso('CONFIG. SISTEMA')"><span style="font-size: 12px;">⚙️</span><br>CONFIG.<br>SISTEMA</button>
+                <button class="adm-btn-luxury" onclick="limparChaves()"><span style="font-size: 12px;">🗑️</span><br>REDEFINIR<br>ACESSOS</button>
             </div>
 
             <div id="janela-usuarios">
