@@ -85,6 +85,8 @@
         .adm-btn-luxury span { display: inline-block; line-height: 1; }
         .adm-btn-outline { background: transparent !important; border: 1px solid var(--red) !important; color: var(--red) !important; padding: 8px 12px; border-radius: 6px; font-size: 8px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; transition: all 0.3s ease; }
         .adm-btn-outline:hover { background: rgba(255, 0, 0, 0.1) !important; border-color: #ff3333 !important; }
+        .btn-cadeado { width: auto !important; background: transparent !important; border: 1px solid var(--red) !important; color: var(--red) !important; padding: 6px 12px !important; border-radius: 6px; font-size: 10px !important; font-weight: 700; cursor: pointer; text-transform: uppercase; font-family: 'Syncopate', sans-serif; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-cadeado:hover { background: rgba(255, 0, 0, 0.1) !important; border-color: #ff3333 !important; }
 
         /* JANELA DE USUÁRIOS */
         #janela-usuarios { 
@@ -724,6 +726,7 @@
                     <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
                         <strong id="current-db-key">...</strong>
                         <button class="btn-copiar" onclick="copiarChave()">COPIAR</button>
+                        <button class="btn-copiar" onclick="mostrarAviso('GERANDO NOVA CHAVE...')">GERAR</button>
                     </div>
                 </div>
             </div>
@@ -745,12 +748,12 @@
                 <button class="adm-btn-outline" onclick="mostrarAviso('LOGS DE IP - SISTEMA DE RASTREAMENTO ATIVO')">LOGS DE ACESSO</button>
             </div>
 
-            <!-- GRADE DE GESTÃO -->
+            <!-- GRADE DE GESTÃO - BOTÕES COM CADEADO -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px;">
-                <button class="adm-btn-luxury" onclick="abrirJanelaUsuarios()"><span style="font-size: 18px;">👥</span><br><span style="font-size: 9px;">GERENCIAR<br>USUÁRIOS</span></button>
-                <button class="adm-btn-luxury" onclick="mostrarAviso('LOGS DE ENTRADA')"><span style="font-size: 18px;">📜</span><br><span style="font-size: 9px;">LOGS DE<br>ENTRADA</span></button>
-                <button class="adm-btn-luxury" onclick="mostrarAviso('CONFIG. SISTEMA')"><span style="font-size: 18px;">⚙️</span><br><span style="font-size: 9px;">CONFIG.<br>SISTEMA</span></button>
-                <button class="adm-btn-luxury" onclick="limparChaves()"><span style="font-size: 18px;">🗑️</span><br><span style="font-size: 9px;">REDEFINIR<br>ACESSOS</span></button>
+                <button class="btn-cadeado" onclick="abrirJanelaUsuarios()">🔒 GERENCIAR ACESSOS</button>
+                <button class="btn-cadeado" onclick="mostrarAviso('LOGS DE ENTRADA')">🔒 LOGS ENTRADA</button>
+                <button class="btn-cadeado" onclick="mostrarAviso('CONFIG. SISTEMA')">🔒 CONFIG. SISTEMA</button>
+                <button class="btn-cadeado" onclick="limparChaves()">🔒 REDEFINIR DADOS</button>
             </div>
 
             <div id="janela-usuarios">
