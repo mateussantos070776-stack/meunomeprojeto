@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MATEUSPROJ - 2 TELAS</title>
     <style>
+        /* Onde: Dentro da tag <style> */
+INPUT {
+    PADDING: 12PX;          /* Espaço interno para o texto não encostar na borda */
+    MARGIN-BOTTOM: 15PX;    /* Espaço entre o campo e o botão abaixo */
+    BORDER-RADIUS: 5PX;     /* Arredonda os cantos */
+    BORDER: 1PX SOLID #CCC; /* Cria uma borda cinza fina */
+    FONT-SIZE: 16PX;        /* Tamanho da letra que você digita */
+    WIDTH: 250PX;           /* Largura do campo */
+}
         BODY {
             DISPLAY: FLEX;
             ALIGN-ITEMS: CENTER;
@@ -53,17 +62,35 @@
         <p>TESTE BEM SUCEDIDO!</p>
         <button onclick="mudarTela('tela1')">VOLTAR</button>
     </div>
-
+<div id="tela3" class="tela">
+    <h1>QUEM É VOCÊ?</h1>
+    
+    <input type="text" id="nomeUsuario" placeholder="Digite seu nome aqui...">
+    
+    <button onclick="boasVindas()">CONFIRMAR</button>
+    <button onclick="mudarTela('tela1')" style="background-color: gray;">VOLTAR</button>
+</div>
     <script>
-        // O CÉREBRO QUE TROCA AS TELAS
-        function mudarTela(idDaNovaTela) {
-            // 1. Esconde todas as telas que existem
-            document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
-            
-            // 2. Mostra apenas a tela que você clicou
-            document.getElementById(idDaNovaTela).classList.add('ativa');
-        }
-    </script>
+    // Função para trocar de tela
+    function mudarTela(idDaNovaTela) {
+        // 1. Esconde todas as telas
+        document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
+        
+        // 2. Mostra a tela desejada
+        document.getElementById(idDaNovaTela).classList.add('ativa');
+    }
 
+    // Função para capturar o nome digitado
+    function boasVindas() {
+        let nome = document.getElementById('nomeUsuario').value;
+
+        if (nome === "") {
+            alert("Por favor, digite seu nome!");
+        } else {
+            alert("Bem-vindo ao sistema, " + nome + "!");
+            mudarTela('tela1'); // Volta para a tela inicial
+        }
+    }
+</script>
 </body>
 </html>
