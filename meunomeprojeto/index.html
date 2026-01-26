@@ -3,80 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Base</title>
-    <style>
-        /* CONFIGURAÇÕES GERAIS */
-        body { font-family: sans-serif; margin: 0; background: #eee; }
-
-        /* CONTAINER DO CELULAR */
-        .app-container {
-            width: 350px;
-            height: 600px;
-            background: rgb(70, 2, 255);
-            position: relative;
-            overflow: hidden;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        /* ESTILO DAS JANELAS */
-        .janela {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: white;
-            display: none; /* Escondido por padrão */
-            flex-direction: column;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        /* CLASSE QUE MOSTRA A JANELA */
-        .janela.ativa { display: flex; }
-
-        /* JANELA QUE SOBE (MODAL) */
-        .janela-modal {
-            position: absolute;
-            bottom: -100%; /* Começa fora da tela */
-            left: 0;
-            width: 100%; height: 80%;
-            background: #f9f9f9;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
-            transition: 0.4s;
-            padding: 20px;
-            box-sizing: border-box;
-            z-index: 10;
-        }
-
-        .janela-modal.subir { bottom: 0; }
-    </style>
+    <title>Título da Página</title>
 </head>
 <body>
-    <div class="app-container">
-        <div id="modal-perfil" class="janela-modal">
-            <button onclick="fecharModal()">FECHAR</button>
-        </div>
-    </div>
 
-    <script>
-        // Troca entre telas principais (Login <-> Home)
-        function irPara(idTela) {
-            // Esconde todas as janelas que usam a classe 'janela'
-            document.querySelectorAll('.janela').forEach(tela => {
-                tela.classList.remove('ativa');
-            });
-            // Mostra a tela desejada
-            document.getElementById(idTela).classList.add('ativa');
-        }
-
-        // Funções para o Modal (Janela que sobe)
-        function abrirModal() {
-            document.getElementById('modal-perfil').classList.add('subir');
-        }
-
-        function fecharModal() {
-            document.getElementById('modal-perfil').classList.remove('subir');
-        }
-    </script>
-</body>
+    </body>
 </html>
