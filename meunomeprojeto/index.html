@@ -3,39 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MATEUSPROJ</title>
-    <STyle>
+    <title>MATEUSPROJ - 2 TELAS</title>
+    <style>
         BODY {
-        DISPLAY: FLEX;           /* Ativa o modo de caixa flexível */
-        FLEX-DIRECTION: COLUMN;  /* Empilha os elementos como uma coluna */
-        ALIGN-ITEMS: CENTER;     /* Alinha no centro da esquerda para a direita */
-        JUSTIFY-CONTENT: CENTER; /* Alinha no centro de cima para baixo */
-        HEIGHT: 100VH;           /* Estica o corpo para ter a altura de 100% da tela */
-        MARGIN: 0;               /* Remove bordas brancas indesejadas */
-        BACKGROUND-COLOR: #EEE;  /* Deixa o fundo levemente cinza */
-    }
+            DISPLAY: FLEX;
+            ALIGN-ITEMS: CENTER;
+            JUSTIFY-CONTENT: CENTER;
+            HEIGHT: 100VH;
+            MARGIN: 0;
+            BACKGROUND-COLOR: #EEE;
+            FONT-FAMILY: SANS-SERIF;
+        }
 
-    BUTTON {
-        BACKGROUND-COLOR: #4CAF50;
-        COLOR: WHITE;
-        PADDING: 12PX 35PX;
-        BORDER: NONE;
-        BORDER-RADIUS: 9PX;
-        CURSOR: POINTER;
-        FONT-SIZE: 20PX;
-        TRANSITION: 0.3S;       /* Prepara o botão para uma animação suave */
-    }
+        /* ESTILO DAS TELAS */
+        .tela {
+            DISPLAY: NONE; /* Por padrão, todas as telas ficam escondidas */
+            FLEX-DIRECTION: COLUMN;
+            ALIGN-ITEMS: CENTER;
+            TEXT-ALIGN: CENTER;
+        }
 
-    /* EFEITO HOVER: O que acontece quando o mouse passa por cima */
-    BUTTON:HOVER {
-        BACKGROUND-COLOR: #45a049; /* Escurece o verde levemente */
-        TRANSFORM: SCALE(1.1);     /* Aumenta o tamanho em 10% */
-    }
+        /* ESTADO ATIVO: Só quem tiver essa classe aparece */
+        .ativa {
+            DISPLAY: FLEX;
+        }
 
-    </STyle>
+        BUTTON {
+            BACKGROUND-COLOR: #4CAF50;
+            COLOR: WHITE;
+            PADDING: 12PX 35PX;
+            BORDER: NONE;
+            BORDER-RADIUS: 9PX;
+            CURSOR: POINTER;
+            FONT-SIZE: 18PX;
+            MARGIN-TOP: 20PX;
+        }
+    </style>
 </head>
 <body>
-    <button onclick="alert('Olá, mundo!')">CLICA BB</button>
-<H1>FESTAMOS EM REFORMA</H1>
-    </body>
+
+    <div id="tela1" class="tela ativa">
+        <h1>ESTAMOS EM REFORMA</h1>
+        <p>Esta é a primeira página.</p>
+        <button onclick="mudarTela('tela2')">IR PARA PÁGINA 2</button>
+    </div>
+
+    <div id="tela2" class="tela">
+        <h1>BEM-VINDO À PÁGINA 2</h1>
+        <p>Você navegou com sucesso!</p>
+        <button onclick="mudarTela('tela1')">VOLTAR</button>
+    </div>
+
+    <script>
+        // O CÉREBRO QUE TROCA AS TELAS
+        function mudarTela(idDaNovaTela) {
+            // 1. Esconde todas as telas que existem
+            document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
+            
+            // 2. Mostra apenas a tela que você clicou
+            document.getElementById(idDaNovaTela).classList.add('ativa');
+        }
+    </script>
+
+</body>
 </html>
