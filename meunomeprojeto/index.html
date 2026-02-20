@@ -161,22 +161,17 @@
                                 return (
                                     <section id="weekly-schedule" className="container mx-auto px-6 py-12 bg-slate-50 mt-8">
                                         <h2 className="text-2xl font-bold text-red-600 mb-6">Cronograma Semanal</h2>
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            {schedule.map((s, idx) => (
-                                                <div key={idx} className="flex items-start gap-4 bg-white rounded-lg p-4 border border-red-50" style={{boxShadow:'0 6px 18px rgba(220,38,38,0.03)'}}>
-                                                    <div className="flex items-center gap-3 pt-1">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                                            <rect x="3" y="4" width="18" height="18" rx="2" strokeWidth="1.5" />
-                                                            <path d="M16 2v4M8 2v4" strokeWidth="1.5" />
-                                                        </svg>
-                                                    </div>
 
-                                                    <div className="flex-1">
-                                                        <div className="text-red-600 font-semibold">{s.day}</div>
-                                                        <div className="mt-1 flex flex-col gap-2">
-                                                            {s.entries.map((e, i) => (
-                                                                <div key={i} className="flex items-center justify-between">
-                                                                    <div className="text-sm text-zinc-600">{e.title}</div>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                                            {schedule.map((s, i) => (
+                                                <button key={i} onClick={() => alert(`${s.day} — ${s.entries.map(en => en.title + (en.time ? ' • ' + en.time : '')).join(' / ')}`)} className="bg-white rounded-xl shadow-sm transition-all duration-300 ease-in-out transform hover:-translate-y-2 hover:scale-[1.02] hover:shadow-xl text-left p-6 flex flex-col justify-between border-l-4 border-red-600 hover:border-l-8 hover:border-red-700 cursor-pointer">
+                                                    <div>
+                                                        <div className="text-sm font-bold text-red-600">{s.day}</div>
+
+                                                        <div className="mt-4 flex flex-col gap-3">
+                                                            {s.entries.map((e, idx) => (
+                                                                <div key={idx} className="flex items-center justify-between">
+                                                                    <div className="text-lg font-semibold text-zinc-900">{e.title}</div>
                                                                     {e.time ? (
                                                                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium text-white" style={{background:'linear-gradient(90deg,#f97316,#facc15)'}}>
                                                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -192,7 +187,7 @@
                                                             ))}
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </button>
                                             ))}
                                         </div>
                                     </section>
