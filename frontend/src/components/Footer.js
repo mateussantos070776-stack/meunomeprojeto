@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Twitter, Facebook, Youtube } from 'lucide-react'
+import { Twitter, Facebook, Youtube, Instagram } from 'lucide-react'
 
 export default function Footer(){
   const [email, setEmail] = useState('')
@@ -18,6 +18,7 @@ export default function Footer(){
           <div className="flex gap-4 mt-3 text-zinc-200">
             <a aria-label="Twitter" href="#" className="hover:text-white"><Twitter /></a>
             <a aria-label="Facebook" href="#" className="hover:text-white"><Facebook /></a>
+            <a aria-label="Instagram" href="https://www.instagram.com/igrejakerigmacanhotinho/" target="_blank" rel="noopener noreferrer" className="hover:text-white"><Instagram /></a>
             <a aria-label="YouTube" href="#" className="hover:text-white"><Youtube /></a>
           </div>
         </div>
