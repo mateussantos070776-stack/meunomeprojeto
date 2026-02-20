@@ -69,7 +69,7 @@
                                 )
                             }
 
-                            function Header({ openOffers, openRegistration }){
+                            function Header({ openOffers, openRegistration, openCaminhada }){
                                 const [menuOpen, setMenuOpen] = useState(false)
 
                                 return (
@@ -126,13 +126,14 @@
                                                             Inscrições MAANAIM
                                                         </button>
 
-                                                        <a href="#" className="text-red-600 flex items-center gap-3 group">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-zinc-600 group-hover:text-kerigma-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 14l9-5-9-5-9 5 9 5z" />
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 14l6.16-3.422M12 14l-6.16-3.422M12 14v7" />
+                                                        <button onClick={() => { openCaminhada(true); setMenuOpen(false); }} className="text-red-600 flex items-center gap-3 group">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-zinc-600 group-hover:text-kerigma-red" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 21a4 4 0 014-4h10a4 4 0 014 4" />
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 7l0 .01M17 7l0 .01" />
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 3v4" />
                                                             </svg>
                                                             Inscrições Caminhada
-                                                        </a>
+                                                        </button>
 
                                                         <button onClick={() => { openOffers(true); setMenuOpen(false); }} className="text-red-600 flex items-center gap-3 group">
                                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-zinc-600 group-hover:text-kerigma-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -320,6 +321,78 @@
                                 )
                             }
 
+                            function CaminhadaModal({ onClose }){
+                                const [firstName, setFirstName] = useState('')
+                                const [lastName, setLastName] = useState('')
+                                const [phone, setPhone] = useState('')
+                                const [age, setAge] = useState('')
+                                const [city, setCity] = useState('')
+                                const [ministry, setMinistry] = useState('Canhotinho')
+
+                                const formatPhone = (value) => {
+                                    const nums = value.replace(/\D/g,'')
+                                    if(nums.length <= 2) return nums
+                                    if(nums.length <= 7) return `(${nums.slice(0,2)}) ${nums.slice(2)}`
+                                    if(nums.length <= 11) return `(${nums.slice(0,2)}) ${nums.slice(2,7)}-${nums.slice(7,11)}`
+                                    return `(${nums.slice(0,2)}) ${nums.slice(2,7)}-${nums.slice(7,11)}`
+                                }
+
+                                const onPhoneChange = (e) => {
+                                    setPhone(formatPhone(e.target.value))
+                                }
+
+                                const submit = (e) => {
+                                    e.preventDefault()
+                                    if(!firstName || !lastName || !phone || !age || !city) return alert('Preencha todos os campos obrigatórios.')
+                                    const payload = { firstName, lastName, phone, age, city, ministry }
+                                    console.log('Inscrição Caminhada enviada:', payload)
+                                    alert('Inscrição recebida. Obrigado!')
+                                    onClose()
+                                }
+
+                                return (
+                                    <div className="fixed inset-0 z-50 flex items-center justify-center">
+                                        <div onClick={onClose} className="absolute inset-0 bg-black bg-opacity-40"></div>
+                                        <div className="relative bg-white rounded-xl shadow-xl w-full max-w-2xl p-6 z-10">
+                                            <button onClick={onClose} aria-label="Fechar" className="absolute top-3 right-3 text-zinc-500 hover:text-zinc-800">✕</button>
+                                            <h3 className="text-xl font-bold text-red-600">Inscrições Caminhada</h3>
+                                            <p className="text-sm text-zinc-600 mt-1">Preencha seus dados para confirmar sua inscrição</p>
+
+                                            <form onSubmit={submit} className="mt-6 grid grid-cols-1 gap-4">
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                    <input value={firstName} onChange={e=>setFirstName(e.target.value)} placeholder="Nome" className="px-3 py-2 border rounded-md" required />
+                                                    <input value={lastName} onChange={e=>setLastName(e.target.value)} placeholder="Sobrenome" className="px-3 py-2 border rounded-md" required />
+                                                </div>
+
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                    <input value={phone} onChange={onPhoneChange} placeholder="(99) 99999-9999" className="px-3 py-2 border rounded-md" required />
+                                                    <input value={age} onChange={e=>setAge(e.target.value)} type="number" min="0" placeholder="Idade" className="px-3 py-2 border rounded-md" required />
+                                                </div>
+
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                    <input value={city} onChange={e=>setCity(e.target.value)} placeholder="Cidade" className="px-3 py-2 border rounded-md" required />
+                                                    <select value={ministry} onChange={e=>setMinistry(e.target.value)} className="px-3 py-2 border rounded-md">
+                                                        <option>Canhotinho</option>
+                                                        <option>São João</option>
+                                                        <option>Logradouro</option>
+                                                        <option>Bom Conselho</option>
+                                                        <option>Jurema</option>
+                                                        <option>Jupi</option>
+                                                        <option>Garanhuns</option>
+                                                        <option>Correntes</option>
+                                                    </select>
+                                                </div>
+
+                                                <div className="flex items-center justify-end gap-3 mt-4">
+                                                    <button type="button" onClick={onClose} className="px-4 py-2 rounded-md border">Cancelar</button>
+                                                    <button type="submit" className="px-4 py-2 rounded-md bg-red-600 text-white">Confirmar Inscrição Caminhada</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                )
+                            }
+
                             function Footer(){
                                 return (
                                     <footer className="bg-white text-zinc-700 mt-12 border-t border-slate-100">
@@ -356,10 +429,11 @@
                             function App(){
                                 const [showOffers, setShowOffers] = useState(false)
                                 const [showRegistration, setShowRegistration] = useState(false)
+                                const [showCaminhada, setShowCaminhada] = useState(false)
 
                                 return (
                                     <div className="min-h-screen flex flex-col">
-                                        <Header openOffers={setShowOffers} openRegistration={setShowRegistration} />
+                                        <Header openOffers={setShowOffers} openRegistration={setShowRegistration} openCaminhada={setShowCaminhada} />
                                         <main className="flex-1">
                                             <Hero />
                                             <WeeklySchedule />
@@ -367,6 +441,7 @@
                                         <Footer />
                                         {showOffers && <OfferModal onClose={() => setShowOffers(false)} />}
                                         {showRegistration && <RegistrationModal onClose={() => setShowRegistration(false)} />}
+                                        {showCaminhada && <CaminhadaModal onClose={() => setShowCaminhada(false)} />}
                                     </div>
                                 )
                             }
