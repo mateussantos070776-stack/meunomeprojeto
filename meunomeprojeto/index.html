@@ -1,88 +1,251 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MATEUSPROJ - 3 TELAS</title>
-    <style>
-        BODY {
-            DISPLAY: FLEX;
-            ALIGN-ITEMS: CENTER;
-            JUSTIFY-CONTENT: CENTER;
-            HEIGHT: 100VH;
-            MARGIN: 0;
-            BACKGROUND-COLOR: #EEE;
-            FONT-FAMILY: SANS-SERIF;
-            FLEX-DIRECTION: COLUMN;
-        }
-        .tela {
-            DISPLAY: NONE; 
-            FLEX-DIRECTION: COLUMN;
-            ALIGN-ITEMS: CENTER;
-        }
-        .ativa {
-            DISPLAY: FLEX;
-        }
-        INPUT {
-            PADDING: 12PX;
-            MARGIN-BOTTOM: 15PX;
-            BORDER-RADIUS: 5PX;
-            BORDER: 1PX SOLID #CCC;
-            FONT-SIZE: 16PX;
-            WIDTH: 250PX;
-        }
-        BUTTON {
-            BACKGROUND-COLOR: #4CAF50;
-            COLOR: WHITE;
-            PADDING: 12PX 35PX;
-            BORDER: NONE;
-            BORDER-RADIUS: 9PX;
-            CURSOR: POINTER;
-            FONT-SIZE: 18PX;
-            MARGIN-TOP: 10PX;
-        }
-    </style>
-</head>
-<body>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Kerigma — Mensagens que Transformam</title>
+        <!-- Tailwind CDN for quick prototype -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                <!doctype html>
+                <html lang="pt-br">
+                    <head>
+                        <meta charset="utf-8" />
+                        <meta name="viewport" content="width=device-width, initial-scale=1" />
+                        <title>Igreja Kerigma — Mensagens que Transformam</title>
+                        <!-- Tailwind CDN -->
+                        <script src="https://cdn.tailwindcss.com"></script>
+                        <!-- Google Fonts: Inter (body) and Montserrat (titles) -->
+                        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+                        <style>
+                            :root{
+                                --title-font: 'Montserrat', sans-serif;
+                                --body-font: 'Inter', sans-serif;
+                            }
+                            body{font-family:var(--body-font);} /* body text */
+                            /* Titles and navbar branding */
+                            h1,h2,header .font-semibold{font-family:var(--title-font);letter-spacing:-0.02em}
+                            /* Ensure headings are visually strong */
+                            h1{font-weight:800}
+                            h2{font-weight:700}
+                        </style>
+                        <script>
+                            tailwind.config = {
+                                theme: {
+                                    extend: {
+                                        colors: {
+                                            'kerigma-red': '#dc2626',
+                                            'fire-from': '#f97316',
+                                            'fire-to': '#facc15'
+                                        }
+                                    }
+                                }
+                            }
+                        </script>
+                        <!-- React UMD + Babel for inline JSX (prototype) -->
+                        <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+                        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+                        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+                    </head>
+                    <body class="antialiased font-sans bg-white text-zinc-900">
+                        <div id="root"></div>
 
-    <div id="tela1" class="tela ativa">
-        <h1>ESTAMOS EM REFORMA</h1>
-        <button onclick="mudarTela('tela2')">IR PARA PÁGINA 2</button>
-        <button onclick="mudarTela('tela3')" style="background-color: blue;">CADASTRAR NOME</button>
-    </div>
+                        <script type="text/babel">
+                            const { useState } = React
 
-    <div id="tela2" class="tela">
-        <h1>BEM-VINDO À PÁGINA 2</h1>
-        <button onclick="mudarTela('tela1')">VOLTAR</button>
-    </div>
+                            function KerigmaLogo(){
+                                return (
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded flex items-center justify-center" aria-hidden>
+                                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="10" y="3" width="4" height="18" fill="#dc2626"/>
+                                                <rect x="3" y="10" width="18" height="4" fill="#dc2626"/>
+                                                <path d="M18 6c0 2-3 3-3 5s3 3 3 5c0 2-2 4-4 4" fill="#f97316"/>
+                                            </svg>
+                                        </div>
+                                        <span className="text-lg font-semibold">Kerigma</span>
+                                    </div>
+                                )
+                            }
 
-    <div id="tela3" class="tela">
-        <h1>QUEM É VOCÊ?</h1>
-        <input type="text" id="nomeUsuario" placeholder="Digite seu nome aqui...">
-        <button onclick="boasVindas()">CONFIRMAR</button>
-        <button onclick="mudarTela('tela1')" style="background-color: gray;">VOLTAR</button>
-    </div>
+                            function Header(){
+                                const [menuOpen, setMenuOpen] = useState(false)
 
-    <script>
-        // FUNÇÃO 1: Troca as telas
-        function mudarTela(idDaNovaTela) {
-            // Remove 'ativa' de todas as telas
-            document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
-            // Adiciona 'ativa' apenas na tela escolhida
-            document.getElementById(idDaNovaTela).classList.add('ativa');
-        }
+                                return (
+                                    <header className="bg-white border-b border-slate-100">
+                                        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+                                            <div className="flex items-center gap-4">
+                                                {/* Menu button (top-left) */}
+                                                <button onClick={() => setMenuOpen(true)} aria-label="Abrir menu" className="p-2 rounded-md hover:bg-slate-100">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                                                    </svg>
+                                                </button>
 
-        // FUNÇÃO 2: Pega o nome e saúda
-        function boasVindas() {
-            let nome = document.getElementById('nomeUsuario').value;
-            if (nome === "") {
-                alert("Por favor, digite seu nome!");
-            } else {
-                alert("Bem-vindo, " + nome + "!");
-                mudarTela('tela1');
-            }
-        }
-    </script>
+                                                <KerigmaLogo />
+                                            </div>
 
-</body>
-</html>
+                                            <nav className="hidden md:flex items-center gap-8 text-sm">
+                                                <a href="#" className="text-zinc-900 hover:text-kerigma-red">Início</a>
+                                                <a href="#live" className="text-zinc-900 hover:text-kerigma-red">Ao Vivo</a>
+                                                <a href="#weekly-schedule" className="text-zinc-900 hover:text-kerigma-red">Cronograma</a>
+                                                <a href="#" className="ml-4 inline-flex items-center gap-2 bg-kerigma-red text-white px-4 py-2 rounded-md font-medium">Ao Vivo</a>
+                                            </nav>
+
+              
+                                        </div>
+
+                                        {/* Sidebar overlay */}
+                                        {menuOpen && (
+                                            <div>
+                                                <div onClick={() => setMenuOpen(false)} className="fixed inset-0 bg-black bg-opacity-30 z-40"></div>
+                                                <aside className="fixed left-0 top-0 bottom-0 w-72 bg-white z-50 shadow-lg p-6">
+                                                    <div className="flex items-center justify-between mb-6">
+                                                        <KerigmaLogo />
+                                                        <button onClick={() => setMenuOpen(false)} aria-label="Fechar menu" className="p-2">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+
+                                                    <nav className="flex flex-col gap-4">
+                                                        <a href="#" className="text-red-600 flex items-center gap-3">
+                                                            <span className="inline-block w-4 h-4 rounded-full" style={{background:'linear-gradient(90deg,#f97316,#facc15)'}}></span>
+                                                            Inscrições MAANAIM
+                                                        </a>
+                                                        <a href="#" className="text-red-600 flex items-center gap-3">
+                                                            <span className="inline-block w-4 h-4 rounded-full" style={{background:'linear-gradient(90deg,#f97316,#facc15)'}}></span>
+                                                            Inscrições Caminhada
+                                                        </a>
+                                                        <a href="#" className="text-red-600 flex items-center gap-3">
+                                                            <span className="inline-block w-4 h-4 rounded-full" style={{background:'linear-gradient(90deg,#f97316,#facc15)'}}></span>
+                                                            Ofertas
+                                                        </a>
+                                                        <a href="#" className="text-red-600 flex items-center gap-3">
+                                                            <span className="inline-block w-4 h-4 rounded-full" style={{background:'linear-gradient(90deg,#f97316,#facc15)'}}></span>
+                                                            Dízimos
+                                                        </a>
+                                                        <a href="#" className="text-red-600 flex items-center gap-3">
+                                                            <span className="inline-block w-4 h-4 rounded-full" style={{background:'linear-gradient(90deg,#f97316,#facc15)'}}></span>
+                                                            Fale Conosco
+                                                        </a>
+                                                    </nav>
+                                                </aside>
+                                            </div>
+                                        )}
+                                    </header>
+                                )
+                            }
+
+                            function Hero(){
+                                return (
+                                    <section className="bg-white">
+                                        <div className="container mx-auto px-6 py-20 text-center">
+                                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-red-600">Igreja Kerigma</h1>
+                                            <p className="mt-4 text-zinc-700 text-lg max-w-2xl mx-auto">Mensagens que Transformam</p>
+                                        </div>
+                                    </section>
+                                )
+                            }
+
+                            function WeeklySchedule(){
+                                const schedule = [
+                                    { day: 'Terça-feira', entries: [ { time: '', title: 'KL' } ] },
+                                    { day: 'Quarta-feira', entries: [ { time: '18:30', title: 'Culto de Oração' }, { time: '19:30', title: 'Discipulado' } ] },
+                                    { day: 'Quinta-feira', entries: [ { time: '19:30', title: 'Culto de Celebração' } ] },
+                                    { day: 'Domingo', entries: [ { time: '09:30', title: 'Culto Manhã Agradável' } ] }
+                                ]
+
+                                return (
+                                    <section id="weekly-schedule" className="container mx-auto px-6 py-12 bg-slate-50 mt-8">
+                                        <h2 className="text-2xl font-bold text-red-600 mb-6">Cronograma Semanal</h2>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            {schedule.map((s, idx) => (
+                                                <div key={idx} className="flex items-start gap-4 bg-white rounded-lg p-4 border border-red-50" style={{boxShadow:'0 6px 18px rgba(220,38,38,0.03)'}}>
+                                                    <div className="flex items-center gap-3 pt-1">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                            <rect x="3" y="4" width="18" height="18" rx="2" strokeWidth="1.5" />
+                                                            <path d="M16 2v4M8 2v4" strokeWidth="1.5" />
+                                                        </svg>
+                                                    </div>
+
+                                                    <div className="flex-1">
+                                                        <div className="text-red-600 font-semibold">{s.day}</div>
+                                                        <div className="mt-1 flex flex-col gap-2">
+                                                            {s.entries.map((e, i) => (
+                                                                <div key={i} className="flex items-center justify-between">
+                                                                    <div className="text-sm text-zinc-600">{e.title}</div>
+                                                                    {e.time ? (
+                                                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium text-white" style={{background:'linear-gradient(90deg,#f97316,#facc15)'}}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                                                <circle cx="12" cy="12" r="9" strokeWidth="1.5" />
+                                                                                <path d="M12 7v6l4 2" strokeWidth="1.5" />
+                                                                            </svg>
+                                                                            <span>{e.time}</span>
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div className="text-sm text-zinc-500">&nbsp;</div>
+                                                                    )}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </section>
+                                )
+                            }
+
+                            function Footer(){
+                                return (
+                                    <footer className="bg-white text-zinc-700 mt-12 border-t border-slate-100">
+                                        <div className="container mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                                            <div>
+                                                <div className="font-semibold text-zinc-900">Kerigma</div>
+                                                <p className="text-sm text-zinc-500 mt-2">Rua 13 de Maio (Referência: Descendo a rua da Pata)</p>
+                                            </div>
+
+                                            <div className="flex items-center gap-6">
+                                                <a href="#" className="group flex items-center gap-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-zinc-600 group-hover:text-pink-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                        <rect x="2" y="2" width="20" height="20" rx="5" strokeWidth="1.5" />
+                                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" strokeWidth="1.5" />
+                                                        <circle cx="17.5" cy="6.5" r="0.5" />
+                                                    </svg>
+                                                    <span className="text-sm text-zinc-600 group-hover:text-pink-600">@igrejakerigma</span>
+                                                </a>
+
+                                                <a href="#" className="group flex items-center gap-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-zinc-600 group-hover:text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                        <rect x="3" y="7" width="18" height="10" rx="2" strokeWidth="1.5" />
+                                                        <polygon points="10 9 16 12 10 15 10 9" strokeWidth="1.5" />
+                                                    </svg>
+                                                    <span className="text-sm text-zinc-600 group-hover:text-red-600">Igreja Kerigma Oficial</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div className="border-t border-slate-100 text-center py-4 text-sm text-zinc-500">© {new Date().getFullYear()} Kerigma — Todos os direitos reservados</div>
+                                    </footer>
+                                )
+                            }
+
+                            function App(){
+                                return (
+                                    <div className="min-h-screen flex flex-col">
+                                        <Header />
+                                        <main className="flex-1">
+                                            <Hero />
+                                            <WeeklySchedule />
+                                        </main>
+                                        <Footer />
+                                    </div>
+                                )
+                            }
+
+                            ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+                        </script>
+                    </body>
+                </html>
