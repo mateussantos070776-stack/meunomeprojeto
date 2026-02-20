@@ -61,7 +61,7 @@
                                 try{
                                     // persistir localmente para painel administrativo/testes
                                     try{
-                                        const key = 'kerigma_submissions'
+                                        const key = 'inscricoes_kerigma'
                                         const existing = JSON.parse(localStorage.getItem(key) || '[]')
                                         existing.push({ ...payload, receivedAt: new Date().toISOString() })
                                         localStorage.setItem(key, JSON.stringify(existing))
@@ -89,9 +89,23 @@
                                 }
                             }
 
-                            function KerigmaLogo(){
+                            function KerigmaLogo({ onSecretAccess }){
+                                const [clickCount, setClickCount] = useState(0)
+
+                                const handleClick = () => {
+                                    const newCount = clickCount + 1
+                                    setClickCount(newCount)
+
+                                    if(newCount === 5){
+                                        setClickCount(0)
+                                        onSecretAccess()
+                                    }
+
+                                    setTimeout(() => setClickCount(0), 2000)
+                                }
+
                                 return (
-                                    <div className="flex items-center gap-3">
+                                    <div className="flex items-center gap-3 cursor-pointer" onClick={handleClick}>
                                         <div className="w-10 h-10 rounded flex items-center justify-center" aria-hidden>
                                             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="10" y="3" width="4" height="18" fill="#dc2626"/>
@@ -104,7 +118,7 @@
                                 )
                             }
 
-                            function Header({ openOffers, openRegistration, openCaminhada }){
+                            function Header({ openOffers, openRegistration, openCaminhada, onSecretAccess }){
                                 const [menuOpen, setMenuOpen] = useState(false)
 
                                 return (
@@ -118,7 +132,7 @@
                                                     </svg>
                                                 </button>
 
-                                                <KerigmaLogo />
+                                                <KerigmaLogo onSecretAccess={onSecretAccess} />
                                             </div>
 
                                             <nav className="hidden md:flex items-center gap-8 text-sm">
@@ -512,10 +526,49 @@
                                 const [showOffers, setShowOffers] = useState(false)
                                 const [showRegistration, setShowRegistration] = useState(false)
                                 const [showCaminhada, setShowCaminhada] = useState(false)
+                                const [telaAtual, setTelaAtual] = useState('home')
+
+                                const acessarAdmin = () => {
+                                    const senha = prompt('Digite a senha do admin:', '')
+                                    if(senha === 'kerigma2026'){
+                                        setTelaAtual('admin')
+                                    } else if(senha !== null){
+                                        alert('Senha incorreta')
+                                    }
+                                }
+
+                                React.useEffect(() => {
+                                    const handleKeyDown = (e) => {
+                                        if(e.ctrlKey && e.altKey && e.key === 'a'){
+                                            e.preventDefault()
+                                            acessarAdmin()
+                                        }
+                                    }
+                                    window.addEventListener('keydown', handleKeyDown)
+                                    return () => window.removeEventListener('keydown', handleKeyDown)
+                                }, [])
+
+                                if(telaAtual === 'admin'){
+                                    return (
+                                        <div className="min-h-screen flex flex-col">
+                                            <AdminPage />
+                                            <div className="flex justify-center p-4">
+                                                <button onClick={() => setTelaAtual('home')} className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                                                    Voltar para Home
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )
+                                }
 
                                 return (
                                     <div className="min-h-screen flex flex-col">
-                                        <Header openOffers={setShowOffers} openRegistration={setShowRegistration} openCaminhada={setShowCaminhada} />
+                                        <Header 
+                                            openOffers={() => setShowOffers(true)}
+                                            openRegistration={() => setShowRegistration(true)}
+                                            openCaminhada={() => setShowCaminhada(true)}
+                                            onSecretAccess={acessarAdmin}
+                                        />
                                         <main className="flex-1">
                                             <Hero />
                                             <WeeklySchedule />
@@ -535,7 +588,7 @@
 
                                 const load = () => {
                                     try{
-                                        const arr = JSON.parse(localStorage.getItem('kerigma_submissions') || '[]')
+                                        const arr = JSON.parse(localStorage.getItem('inscricoes_kerigma') || '[]')
                                         setSubmissions(arr)
                                     }catch(e){
                                         setSubmissions([])
