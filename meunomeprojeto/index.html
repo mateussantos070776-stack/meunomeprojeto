@@ -581,3 +581,83 @@
                         </script>
                     </body>
                 </html>
+            </div>
+
+            <div class="admin-section">
+                <h2>Admin — Inscrições</h2>
+                <input type="text" id="cmdAdmin" placeholder="Comando: /removercaminhada ou /removermaanaim + Nome" style="width: 100%; padding: 12px; margin: 15px 0; border: 2px solid #333; border-radius: 8px;">
+
+                <div id="tables">
+                    <h3>Inscrições Caminhada</h3>
+                    <table id="caminhadaTable" border="1" style="width: 100%; margin-bottom: 20px;">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Cidade</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <h3>Inscrições Maanaim</h3>
+                    <table id="maanaimTable" border="1" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Cidade</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <script>
+                document.getElementById('cmdAdmin').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        const val = this.value;
+                        if (val.startsWith('/removercaminhada ')) {
+                            const nome = val.replace('/removercaminhada ', '').trim();
+                            const data = JSON.parse(localStorage.getItem('inscricoes_caminhada') || '[]');
+                            const updated = data.filter(item => `${item.firstName} ${item.lastName}`.toLowerCase() !== nome.toLowerCase());
+                            localStorage.setItem('inscricoes_caminhada', JSON.stringify(updated));
+                        } else if (val.startsWith('/removermaanaim ')) {
+                            const nome = val.replace('/removermaanaim ', '').trim();
+                            const data = JSON.parse(localStorage.getItem('inscricoes_maanaim') || '[]');
+                            const updated = data.filter(item => `${item.firstName} ${item.lastName}`.toLowerCase() !== nome.toLowerCase());
+                            localStorage.setItem('inscricoes_maanaim', JSON.stringify(updated));
+                        }
+                        this.value = '';
+                        location.reload();
+                    }
+                });
+
+                function loadTables() {
+                    const caminhadaData = JSON.parse(localStorage.getItem('inscricoes_caminhada') || '[]');
+                    const maanaimData = JSON.parse(localStorage.getItem('inscricoes_maanaim') || '[]');
+
+                    const caminhadaTable = document.querySelector('#caminhadaTable tbody');
+                    const maanaimTable = document.querySelector('#maanaimTable tbody');
+
+                    caminhadaTable.innerHTML = caminhadaData.map(item => `
+                        <tr>
+                            <td>${item.firstName} ${item.lastName}</td>
+                            <td>${item.city}</td>
+                        </tr>
+                    `).join('');
+
+                    maanaimTable.innerHTML = maanaimData.map(item => `
+                        <tr>
+                            <td>${item.firstName} ${item.lastName}</td>
+                            <td>${item.city}</td>
+                        </tr>
+                    `).join('');
+                }
+
+                loadTables();
+            </script>
+        </div>
+    </head>
+    <body>
+    </body>
+</html>
