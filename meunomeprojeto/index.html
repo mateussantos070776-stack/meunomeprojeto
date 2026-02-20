@@ -59,8 +59,18 @@
 
                             async function submitToWebhook(payload){
                                 try{
+                                    // persistir localmente para painel administrativo/testes
+                                    try{
+                                        const key = 'kerigma_submissions'
+                                        const existing = JSON.parse(localStorage.getItem(key) || '[]')
+                                        existing.push({ ...payload, receivedAt: new Date().toISOString() })
+                                        localStorage.setItem(key, JSON.stringify(existing))
+                                    } catch(e) {
+                                        console.warn('submitToWebhook: falha ao gravar localStorage', e)
+                                    }
+
                                     if(!API_URL){
-                                        console.log('submitToWebhook: API_URL não configurada — payload preparado:', payload)
+                                        console.log('submitToWebhook: API_URL não configurada — payload preparado (gravado localmente).')
                                         return { ok:false, skipped:true }
                                     }
 
@@ -518,7 +528,106 @@
                                 )
                             }
 
-                            ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+                            function AdminPage(){
+                                const [password, setPassword] = useState('')
+                                const [authorized, setAuthorized] = useState(false)
+                                const [submissions, setSubmissions] = useState([])
+
+                                const load = () => {
+                                    try{
+                                        const arr = JSON.parse(localStorage.getItem('kerigma_submissions') || '[]')
+                                        setSubmissions(arr)
+                                    }catch(e){
+                                        setSubmissions([])
+                                    }
+                                }
+
+                                const check = (e) => {
+                                    e.preventDefault()
+                                    if(password === 'kerigma2026'){
+                                        setAuthorized(true)
+                                        load()
+                                    } else {
+                                        alert('Senha incorreta')
+                                    }
+                                }
+
+                                const exportCSV = () => {
+                                    if(!submissions.length) return alert('Sem registros')
+                                    const headers = ['form','firstName','lastName','phone','age','city','ministry','receivedAt']
+                                    const rows = submissions.map(s => headers.map(h => `"${(s[h]||'').toString().replace(/"/g,'""')}"`).join(','))
+                                    const csv = [headers.join(','), ...rows].join('\n')
+                                    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+                                    const url = URL.createObjectURL(blob)
+                                    const a = document.createElement('a')
+                                    a.href = url
+                                    a.download = 'inscricoes_kerigma.csv'
+                                    a.click()
+                                    URL.revokeObjectURL(url)
+                                }
+
+                                return (
+                                    <div className="min-h-screen p-8 bg-slate-50">
+                                        <div className="max-w-4xl mx-auto bg-white rounded-xl shadow p-6">
+                                            {!authorized ? (
+                                                <form onSubmit={check} className="flex gap-3 items-center">
+                                                    <label className="font-medium">Senha:</label>
+                                                    <input type="password" value={password} onChange={e=>setPassword(e.target.value)} className="px-3 py-2 border rounded-md" />
+                                                    <button className="px-4 py-2 bg-red-600 text-white rounded-md">Entrar</button>
+                                                </form>
+                                            ) : (
+                                                <div>
+                                                    <div className="flex items-center justify-between">
+                                                        <h2 className="text-xl font-bold">Admin — Inscrições</h2>
+                                                        <div className="flex gap-2">
+                                                            <button onClick={load} className="px-3 py-1 border rounded">Atualizar</button>
+                                                            <button onClick={exportCSV} className="px-3 py-1 bg-red-600 text-white rounded">Exportar para CSV</button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="mt-4 overflow-x-auto">
+                                                        <table className="w-full text-left table-auto border-collapse">
+                                                            <thead>
+                                                                <tr className="text-sm text-zinc-700">
+                                                                    <th className="px-3 py-2 border">Form</th>
+                                                                    <th className="px-3 py-2 border">Nome</th>
+                                                                    <th className="px-3 py-2 border">Sobrenome</th>
+                                                                    <th className="px-3 py-2 border">Telefone</th>
+                                                                    <th className="px-3 py-2 border">Idade</th>
+                                                                    <th className="px-3 py-2 border">Cidade</th>
+                                                                    <th className="px-3 py-2 border">Ministério</th>
+                                                                    <th className="px-3 py-2 border">Recebido</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {submissions.map((s, i) => (
+                                                                    <tr key={i} className="odd:bg-slate-50">
+                                                                        <td className="px-3 py-2 border">{s.form}</td>
+                                                                        <td className="px-3 py-2 border">{s.firstName}</td>
+                                                                        <td className="px-3 py-2 border">{s.lastName}</td>
+                                                                        <td className="px-3 py-2 border">{s.phone}</td>
+                                                                        <td className="px-3 py-2 border">{s.age}</td>
+                                                                        <td className="px-3 py-2 border">{s.city}</td>
+                                                                        <td className="px-3 py-2 border">{s.ministry}</td>
+                                                                        <td className="px-3 py-2 border">{s.receivedAt}</td>
+                                                                    </tr>
+                                                                ))}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )
+                            }
+
+                            // render diferente quando acessado via /admin-kerigma
+                            if(window.location && window.location.pathname === '/admin-kerigma'){
+                                ReactDOM.createRoot(document.getElementById('root')).render(<AdminPage />)
+                            } else {
+                                ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+                            }
                         </script>
                     </body>
                 </html>
