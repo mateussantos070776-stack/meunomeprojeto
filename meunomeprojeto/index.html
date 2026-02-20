@@ -635,49 +635,7 @@
                                                             <button onClick={exportCSV} className="px-3 py-1 bg-red-600 text-white rounded">Exportar para CSV</button>
                                                         </div>
                                                     </div>
-
-                                                    {/* Resumo por Cidade */}
-                                                    {submissions.length > 0 && (
-                                                        <div className="mt-6">
-                                                            <h3 className="text-lg font-semibold text-zinc-900 mb-4">Resumo por Cidade</h3>
-                                                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                                                {Object.entries(
-                                                                    submissions.reduce((acc, s) => {
-                                                                        const city = s.city || 'Sem Cidade'
-                                                                        acc[city] = (acc[city] || 0) + 1
-                                                                        return acc
-                                                                    }, {})
-                                                                )
-                                                                .sort((a, b) => b[1] - a[1])
-                                                                .map(([city, count]) => {
-                                                                    let bgColor = 'bg-slate-100'
-                                                                    let badgeColor = 'bg-slate-400'
-                                                                    if(count > 10) {
-                                                                        bgColor = 'bg-green-50'
-                                                                        badgeColor = 'bg-green-500'
-                                                                    } else if(count > 5) {
-                                                                        bgColor = 'bg-orange-50'
-                                                                        badgeColor = 'bg-orange-500'
-                                                                    } else if(count > 3) {
-                                                                        bgColor = 'bg-blue-50'
-                                                                        badgeColor = 'bg-blue-500'
-                                                                    }
-                                                                    return (
-                                                                        <div key={city} className={`${bgColor} rounded-lg p-4 flex items-center justify-between border border-slate-200`}>
-                                                                            <div>
-                                                                                <p className="text-sm font-medium text-zinc-600">Cidade</p>
-                                                                                <p className="text-xl font-bold text-zinc-900">{city}</p>
-                                                                            </div>
-                                                                            <div className={`${badgeColor} text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold`}>
-                                                                                {count}
-                                                                            </div>
-                                                                        </div>
-                                                                    )
-                                                                })}
-                                                            </div>
-                                                        </div>
-                                                    )}
-
+    
                                                     <div className="mt-8 mb-8">
                                                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                                                             {/* Card 1: Inscrições Maanaim */}
