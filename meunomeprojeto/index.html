@@ -54,6 +54,31 @@
                         <script type="text/babel">
                             const { useState } = React
 
+                            // URL de recebimento dos formulários (deixe vazia até inserir)
+                            const API_URL = "" /* INSERIR_URL_AQUI */
+
+                            async function submitToWebhook(payload){
+                                try{
+                                    if(!API_URL){
+                                        console.log('submitToWebhook: API_URL não configurada — payload preparado:', payload)
+                                        return { ok:false, skipped:true }
+                                    }
+
+                                    const res = await fetch(API_URL, {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify(payload)
+                                    })
+
+                                    const text = await res.text()
+                                    console.log('submitToWebhook: status', res.status)
+                                    return { ok: res.ok, text }
+                                }catch(err){
+                                    console.error('submitToWebhook error', err)
+                                    return { ok:false, error: err }
+                                }
+                            }
+
                             function KerigmaLogo(){
                                 return (
                                     <div className="flex items-center gap-3">
@@ -269,13 +294,38 @@
                                     setPhone(formatPhone(e.target.value))
                                 }
 
-                                const submit = (e) => {
+                                const submit = async (e) => {
                                     e.preventDefault()
                                     if(!firstName || !lastName || !phone || !age || !city) return alert('Preencha todos os campos obrigatórios.')
-                                    const payload = { firstName, lastName, phone, age, city, ministry }
-                                    console.log('Inscrição enviada:', payload)
-                                    alert('Inscrição recebida. Obrigado!')
-                                    onClose()
+                                    const payload = { firstName, lastName, phone, age, city, ministry, form: 'Maanaim' }
+
+                                    const res = await submitToWebhook(payload)
+
+                                    // Console log seguro para verificação — mascarar parte do telefone
+                                    const safeLog = { ...payload, phone: phone ? phone.replace(/\d(?=\d{4})/g, '*') : phone }
+                                    console.log('Registration payload dispatched:', safeLog)
+
+                                    if(res && res.ok){
+                                        // limpar campos
+                                        setFirstName('')
+                                        setLastName('')
+                                        setPhone('')
+                                        setAge('')
+                                        setCity('')
+                                        setMinistry('Canhotinho')
+                                        onClose()
+                                    } else if(res && res.skipped){
+                                        // API não configurada — ainda limpa e fecha para fluxo local
+                                        setFirstName('')
+                                        setLastName('')
+                                        setPhone('')
+                                        setAge('')
+                                        setCity('')
+                                        setMinistry('Canhotinho')
+                                        onClose()
+                                    } else {
+                                        alert('Erro ao enviar inscrição. Tente novamente mais tarde.')
+                                    }
                                 }
 
                                 return (
@@ -341,13 +391,35 @@
                                     setPhone(formatPhone(e.target.value))
                                 }
 
-                                const submit = (e) => {
+                                const submit = async (e) => {
                                     e.preventDefault()
                                     if(!firstName || !lastName || !phone || !age || !city) return alert('Preencha todos os campos obrigatórios.')
-                                    const payload = { firstName, lastName, phone, age, city, ministry }
-                                    console.log('Inscrição Caminhada enviada:', payload)
-                                    alert('Inscrição recebida. Obrigado!')
-                                    onClose()
+                                    const payload = { firstName, lastName, phone, age, city, ministry, form: 'Caminhada' }
+
+                                    const res = await submitToWebhook(payload)
+
+                                    const safeLog = { ...payload, phone: phone ? phone.replace(/\d(?=\d{4})/g, '*') : phone }
+                                    console.log('Caminhada payload dispatched:', safeLog)
+
+                                    if(res && res.ok){
+                                        setFirstName('')
+                                        setLastName('')
+                                        setPhone('')
+                                        setAge('')
+                                        setCity('')
+                                        setMinistry('Canhotinho')
+                                        onClose()
+                                    } else if(res && res.skipped){
+                                        setFirstName('')
+                                        setLastName('')
+                                        setPhone('')
+                                        setAge('')
+                                        setCity('')
+                                        setMinistry('Canhotinho')
+                                        onClose()
+                                    } else {
+                                        alert('Erro ao enviar inscrição. Tente novamente mais tarde.')
+                                    }
                                 }
 
                                 return (
