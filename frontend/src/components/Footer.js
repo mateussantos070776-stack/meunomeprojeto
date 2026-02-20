@@ -15,11 +15,33 @@ export default function Footer(){
 
         <div>
           <div className="font-semibold text-white">Redes</div>
-          <div className="flex gap-4 mt-3 text-zinc-200">
+          <div className="flex gap-4 mt-3 text-zinc-200 items-center">
             <a aria-label="Twitter" href="#" className="hover:text-white"><Twitter /></a>
             <a aria-label="Facebook" href="#" className="hover:text-white"><Facebook /></a>
-            <a aria-label="Instagram" href="https://www.instagram.com/igrejakerigmacanhotinho/" target="_blank" rel="noopener noreferrer" className="hover:text-white"><Instagram /></a>
-            <a aria-label="YouTube" href="#" className="hover:text-white"><Youtube /></a>
+
+            <div className="flex gap-3">
+              <a
+                aria-label="Instagram"
+                href="https://www.instagram.com/igrejakerigmacanhotinho/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white text-zinc-900 rounded-lg shadow-sm px-3 py-2 flex items-center gap-3 hover:-translate-y-1 transition transform group"
+              >
+                <Instagram className="w-5 h-5 group-hover:text-pink-500" />
+                <span className="text-sm font-medium group-hover:text-pink-500">@igrejakerigmacanhotinho</span>
+              </a>
+
+              <a
+                aria-label="YouTube"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white text-zinc-900 rounded-lg shadow-sm px-3 py-2 flex items-center gap-3 hover:-translate-y-1 transition transform group"
+              >
+                <Youtube className="w-5 h-5 group-hover:text-red-600" />
+                <span className="text-sm font-medium group-hover:text-red-600">YouTube</span>
+              </a>
+            </div>
           </div>
         </div>
 
