@@ -25,10 +25,10 @@ export default function Footer(){
                 href="https://www.instagram.com/igrejakerigmacanhotinho/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white text-zinc-900 rounded-lg shadow-sm px-3 py-2 flex items-center gap-3 hover:-translate-y-1 transition transform group"
+                style={{ display: 'flex', cursor: 'pointer', zIndex: 50, padding: 12, background: 'white', borderRadius: 8, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
               >
-                <Instagram className="w-5 h-5 group-hover:text-pink-500" />
-                <span className="text-sm font-medium group-hover:text-pink-500">@igrejakerigmacanhotinho</span>
+                <Instagram className="w-5 h-5 text-zinc-900" />
+                <span style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, color: '#111827' }}>@igrejakerigmacanhotinho</span>
               </a>
 
               <a
@@ -36,10 +36,10 @@ export default function Footer(){
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white text-zinc-900 rounded-lg shadow-sm px-3 py-2 flex items-center gap-3 hover:-translate-y-1 transition transform group"
+                style={{ display: 'flex', cursor: 'pointer', zIndex: 50, padding: 12, background: 'white', borderRadius: 8, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
               >
-                <Youtube className="w-5 h-5 group-hover:text-red-600" />
-                <span className="text-sm font-medium group-hover:text-red-600">YouTube</span>
+                <Youtube className="w-5 h-5 text-zinc-900" />
+                <span style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, color: '#111827' }}>YouTube</span>
               </a>
             </div>
           </div>
