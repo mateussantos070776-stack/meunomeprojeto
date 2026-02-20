@@ -1,9 +1,6 @@
-import React, { useState } from 'react'
-import { Twitter, Facebook, Youtube, Instagram } from 'lucide-react'
+import React from 'react'
 
 export default function Footer(){
-  const [email, setEmail] = useState('')
-  const submit = (e) => { e.preventDefault(); /* integrate later */ }
 
   return (
     <footer className="bg-zinc-800 text-zinc-100 mt-12">
