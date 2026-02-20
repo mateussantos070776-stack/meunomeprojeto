@@ -7,50 +7,10 @@ export default function Footer(){
 
   return (
     <footer className="bg-zinc-800 text-zinc-100 mt-12">
-      <div className="container px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div>
+      <div className="container px-4 py-10 flex flex-col items-center gap-6">
+        <div className="text-center">
           <div className="font-semibold text-white">Igreja</div>
           <p className="text-sm text-zinc-300 mt-2">Rua Exemplo, 123 — Centro, Sua Cidade</p>
-        </div>
-
-        <div>
-          <div className="font-semibold text-white">Redes</div>
-          <div className="flex gap-4 mt-3 text-zinc-200 items-center">
-            <a aria-label="Twitter" href="#" className="hover:text-white"><Twitter /></a>
-            <a aria-label="Facebook" href="#" className="hover:text-white"><Facebook /></a>
-
-            <div className="flex gap-3">
-              <a
-                aria-label="Instagram"
-                href="https://www.instagram.com/igrejakerigmacanhotinho/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ display: 'flex', cursor: 'pointer', zIndex: 50, padding: 12, background: 'white', borderRadius: 8, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
-              >
-                <Instagram className="w-5 h-5 text-zinc-900" />
-                <span style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, color: '#111827' }}>@igrejakerigmacanhotinho</span>
-              </a>
-
-              <a
-                aria-label="YouTube"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ display: 'flex', cursor: 'pointer', zIndex: 50, padding: 12, background: 'white', borderRadius: 8, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
-              >
-                <Youtube className="w-5 h-5 text-zinc-900" />
-                <span style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, color: '#111827' }}>YouTube</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div className="font-semibold text-white">Newsletter</div>
-          <form onSubmit={submit} className="mt-3 flex gap-2">
-            <input value={email} onChange={e=>setEmail(e.target.value)} placeholder="seu@exemplo.com" className="w-full px-3 py-2 rounded bg-zinc-900 border border-zinc-700 text-zinc-100" />
-            <button className="bg-sky-500 text-zinc-950 px-4 rounded-md">Inscrever</button>
-          </form>
         </div>
       </div>
       <div className="border-t border-zinc-700 text-center py-4 text-sm text-zinc-400">© {new Date().getFullYear()} Igreja — Todos os direitos reservados</div>
