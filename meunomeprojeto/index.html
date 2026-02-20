@@ -51,6 +51,25 @@
                     <body class="antialiased font-sans bg-white text-zinc-900">
                         <div id="root"></div>
 
+                        <!-- AO VIVO Card -->
+                        <a href="https://www.youtube.com/@igrejakerigmacanhotinho5277" target="_blank" style="
+                            position: fixed; 
+                            top: 20px; 
+                            right: 20px; 
+                            z-index: 9999; 
+                            background-color: red; 
+                            color: white; 
+                            border-radius: 8px; 
+                            padding: 10px; 
+                            font-weight: bold; 
+                            text-decoration: none; 
+                            display: inline-block; 
+                            transition: all 0.3s ease;"
+                            onmouseover="this.style.backgroundColor='darkred'; this.style.transform='scale(1.05)';"
+                            onmouseout="this.style.backgroundColor='red'; this.style.transform='scale(1)';">
+                            ● AO VIVO
+                        </a>
+
                         <script type="text/babel">
                             const { useState } = React
 
@@ -137,13 +156,6 @@
 
                                             <nav className="hidden md:flex items-center gap-8 text-sm">
                                                 <a href="#" className="text-zinc-900 hover:text-kerigma-red">Início</a>
-                                                <a href="#weekly-schedule" className="text-zinc-900 hover:text-kerigma-red flex items-center gap-2">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-zinc-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <rect x="3" y="4" width="18" height="18" rx="2" strokeWidth="1.5" />
-                                                        <path d="M16 2v4M8 2v4M3 10h18" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                                    </svg>
-                                                    Cronograma
-                                                </a>
                                             </nav>
 
               
@@ -494,25 +506,6 @@
                                             <div>
                                                 <div className="font-semibold text-zinc-900">Kerigma</div>
                                                 <p className="text-sm text-zinc-500 mt-2">Rua 13 de Maio (Referência: Descendo a rua da Pata)</p>
-                                            </div>
-
-                                            <div className="flex items-center gap-6">
-                                                <a href="#" className="group flex items-center gap-3">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-zinc-600 group-hover:text-pink-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                                        <rect x="2" y="2" width="20" height="20" rx="5" strokeWidth="1.5" />
-                                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" strokeWidth="1.5" />
-                                                        <circle cx="17.5" cy="6.5" r="0.5" />
-                                                    </svg>
-                                                    <span className="text-sm text-zinc-600 group-hover:text-pink-600">@igrejakerigma</span>
-                                                </a>
-
-                                                <a href="#" className="group flex items-center gap-3">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-zinc-600 group-hover:text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                                        <rect x="3" y="7" width="18" height="10" rx="2" strokeWidth="1.5" />
-                                                        <polygon points="10 9 16 12 10 15 10 9" strokeWidth="1.5" />
-                                                    </svg>
-                                                    <span className="text-sm text-zinc-600 group-hover:text-red-600">Igreja Kerigma Oficial</span>
-                                                </a>
                                             </div>
                                         </div>
                                         <div className="border-t border-slate-100 text-center py-4 text-sm text-zinc-500">© {new Date().getFullYear()} Kerigma — Todos os direitos reservados</div>
