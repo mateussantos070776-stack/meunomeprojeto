@@ -229,81 +229,6 @@
             transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .admin-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(4, 6, 20, 0.85);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 10002;
-            padding: 20px;
-        }
-
-        .admin-overlay.active {
-            display: flex;
-        }
-
-        .admin-card {
-            width: min(420px, 92vw);
-            background: #0b0f2e;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            padding: 22px;
-        }
-
-        .admin-card h2 {
-            margin: 0 0 12px;
-            color: var(--offwhite);
-            font-size: 1.3rem;
-        }
-
-        .admin-card label {
-            display: block;
-            margin: 10px 0 6px;
-            color: var(--mid-gray);
-            font-size: 0.9rem;
-        }
-
-        .admin-card input {
-            width: 100%;
-            padding: 10px 12px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: #111a4a;
-            color: var(--offwhite);
-            font-size: 0.95rem;
-            box-sizing: border-box;
-        }
-
-        .admin-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 14px;
-        }
-
-        .admin-message {
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: var(--mid-gray);
-            text-align: center;
-        }
-
-        .admin-button {
-            flex: 1;
-            padding: 10px 12px;
-            border: none;
-            border-radius: 8px;
-            background: #16245e;
-            color: var(--offwhite);
-            cursor: pointer;
-            transition: background-color 0.25s ease, transform 0.2s ease;
-        }
-
-        .admin-button.secondary {
-            background: #111a4a;
-        }
-
         .hero {
             margin-top: 80px;
             text-align: center;
@@ -451,23 +376,6 @@
                 </div>
             </div>
             <button id="eventsClose" class="events-close" type="button">Fechar</button>
-        </div>
-    </div>
-
-    <div id="adminOverlay" class="admin-overlay" aria-hidden="true">
-        <div class="admin-card" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
-            <h2 id="adminTitle">Acesso Administrativo</h2>
-            <form id="adminForm">
-                <label for="adminUser">Usuário</label>
-                <input id="adminUser" name="username" type="text" autocomplete="username" required>
-                <label for="adminPass">Senha</label>
-                <input id="adminPass" name="password" type="password" autocomplete="current-password" required>
-                <div class="admin-actions">
-                    <button class="admin-button" type="submit">Entrar</button>
-                    <button class="admin-button secondary" type="button" id="adminClose">Cancelar</button>
-                </div>
-                <div id="adminMessage" class="admin-message" aria-live="polite"></div>
-            </form>
         </div>
     </div>
 
@@ -620,74 +528,6 @@
                     eventsOverlay.classList.remove('active');
                     eventsOverlay.setAttribute('aria-hidden', 'true');
                 }
-            });
-        }
-
-        const adminOverlay = document.getElementById('adminOverlay');
-        const adminClose = document.getElementById('adminClose');
-        const adminForm = document.getElementById('adminForm');
-        const adminMessage = document.getElementById('adminMessage');
-
-        const openAdmin = () => {
-            if (!adminOverlay) return;
-            adminOverlay.classList.add('active');
-            adminOverlay.setAttribute('aria-hidden', 'false');
-        };
-
-        const closeAdmin = () => {
-            if (!adminOverlay) return;
-            adminOverlay.classList.remove('active');
-            adminOverlay.setAttribute('aria-hidden', 'true');
-        };
-
-        document.addEventListener('keydown', function(event) {
-            if (event.ctrlKey && event.altKey) {
-                event.preventDefault();
-                openAdmin();
-            }
-        });
-
-        if (adminClose) {
-            adminClose.addEventListener('click', closeAdmin);
-        }
-
-        if (adminOverlay) {
-            adminOverlay.addEventListener('click', function(event) {
-                if (event.target === adminOverlay) {
-                    closeAdmin();
-                }
-            });
-        }
-
-        if (adminForm) {
-            adminForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-                const username = document.getElementById('adminUser')?.value || '';
-                const password = document.getElementById('adminPass')?.value || '';
-                if (adminMessage) {
-                    adminMessage.textContent = 'Verificando...';
-                }
-
-                fetch('/admin-login/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ username, password })
-                }).then(async (response) => {
-                    const data = await response.json().catch(() => ({}));
-                    if (response.ok && data.ok) {
-                        window.location.href = data.redirect || '/acesso-admin/';
-                        return;
-                    }
-                    if (adminMessage) {
-                        adminMessage.textContent = data.message || 'Falha no login';
-                    }
-                }).catch(() => {
-                    if (adminMessage) {
-                        adminMessage.textContent = 'Erro de conexão';
-                    }
-                });
             });
         }
     </script>
