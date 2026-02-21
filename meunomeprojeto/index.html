@@ -65,6 +65,21 @@
             z-index: 9999;
         }
 
+        @media (max-width: 600px) {
+            .menu-container {
+                top: 10px;
+                right: 16px;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            header {
+                padding-top: 60px;
+            }
+        }
+
         .dropdown-menu {
             position: absolute;
             top: 60px;
@@ -530,6 +545,19 @@
                 }
             });
         }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && event.altKey) {
+                event.preventDefault();
+                const username = (prompt('Usuário:') || '').trim();
+                const password = (prompt('Senha:') || '').trim();
+                if (!username || !password) {
+                    alert('Preencha usuário e senha.');
+                    return;
+                }
+                alert('Dados recebidos.');
+            }
+        });
     </script>
 </body>
 </html>
