@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Página</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #1f2937;
+        }
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #4b5563;
+        }
+        .back-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+            fill: #4b5563;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bem-vindo à Nova Página</h1>
+    <button class="back-button" onclick="window.history.back()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M11.67 3.87L9.9 5.63 15.27 11H3v2h12.27l-5.36 5.36 1.77 1.77L20.24 12z"/>
+        </svg>
+        Voltar
+    </button>
+</body>
+</html>
