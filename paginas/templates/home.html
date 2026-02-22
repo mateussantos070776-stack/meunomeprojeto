@@ -90,6 +90,8 @@
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
             padding: 12px;
             min-width: 200px;
+            width: 240px;
+            max-width: calc(100vw - 40px);
             display: none;
             opacity: 0;
             pointer-events: none;
@@ -111,6 +113,10 @@
             text-decoration: none;
             border-radius: 8px;
             font-size: 0.95rem;
+            box-sizing: border-box;
+            white-space: normal;
+            overflow-wrap: anywhere;
+            word-break: break-word;
             transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
         }
 
