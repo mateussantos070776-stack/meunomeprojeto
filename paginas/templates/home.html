@@ -258,6 +258,94 @@
             transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
         }
 
+        .registration-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 6, 20, 0.82);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10002;
+            padding: 20px;
+        }
+
+        .registration-overlay.active {
+            display: flex;
+        }
+
+        .registration-card {
+            width: min(640px, 92vw);
+            background: #0b0f2e;
+            border-radius: 18px;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+            padding: 24px;
+            text-align: left;
+        }
+
+        .registration-card h2 {
+            margin: 0 0 10px;
+            color: var(--offwhite);
+            font-size: 1.5rem;
+        }
+
+        .registration-card p {
+            margin: 0 0 16px;
+            color: var(--mid-gray);
+        }
+
+        .registration-form {
+            display: grid;
+            gap: 12px;
+        }
+
+        .registration-field label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            color: var(--mid-gray);
+        }
+
+        .registration-form input,
+        .registration-form select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #111a4a;
+            color: var(--offwhite);
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+
+        .registration-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .registration-message {
+            margin-top: 6px;
+            font-size: 0.9rem;
+            color: var(--mid-gray);
+        }
+
+        .registration-close,
+        .registration-submit {
+            padding: 10px 14px;
+            border: none;
+            border-radius: 10px;
+            background: #16245e;
+            color: var(--offwhite);
+            cursor: pointer;
+            transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .registration-submit {
+            background: #ff5a1f;
+            color: #0b0f2e;
+        }
+
         .hero {
             margin-top: 80px;
             text-align: center;
@@ -377,7 +465,7 @@
                     <div id="pixMessage" class="pix-message" aria-live="polite"></div>
                 </div>
                 <a href="#" id="eventsLink">Eventos</a>
-                <a href="https://wa.me/5587988730824?text=Olá,%20quero%20fazer%20inscrição%20na%20Caminhada%20de%20Aventura." target="_blank" rel="noopener noreferrer" class="pix-copy" style="text-align: left;">Inscrição Caminhada de Aventura</a>
+                <a href="#" id="registrationLink" class="pix-copy" style="text-align: left;">Inscrição Caminhada de Aventura</a>
             </div>
         </div>
         <h1>IGREJA KERIGMA</h1>
@@ -406,6 +494,50 @@
                 </div>
             </div>
             <button id="eventsClose" class="events-close" type="button">Fechar</button>
+        </div>
+    </div>
+
+    <div id="registrationOverlay" class="registration-overlay" aria-hidden="true">
+        <div class="registration-card" role="dialog" aria-modal="true" aria-labelledby="registrationTitle">
+            <h2 id="registrationTitle">Inscrição - Caminhada de Aventura</h2>
+            <p>Preencha os dados abaixo para concluir sua inscrição.</p>
+            <form id="registrationForm" class="registration-form">
+                {% csrf_token %}
+                <div class="registration-field">
+                    <label for="regNome">Nome</label>
+                    <input id="regNome" name="nome" type="text" autocomplete="given-name" required>
+                </div>
+                <div class="registration-field">
+                    <label for="regSobrenome">Sobrenome</label>
+                    <input id="regSobrenome" name="sobrenome" type="text" autocomplete="family-name" required>
+                </div>
+                <div class="registration-field">
+                    <label for="regIdade">Idade</label>
+                    <input id="regIdade" name="idade" type="number" min="1" max="120" required>
+                </div>
+                <div class="registration-field">
+                    <label for="regTelefone">Número de telefone</label>
+                    <input id="regTelefone" name="telefone" type="tel" inputmode="tel" autocomplete="tel" required>
+                </div>
+                <div class="registration-field">
+                    <label for="regMinisterio">Ministério</label>
+                    <select id="regMinisterio" name="ministerio" required>
+                        <option value="" disabled selected>Selecione</option>
+                        <option value="canhotinho">Canhotinho</option>
+                        <option value="sao_joao">São João</option>
+                        <option value="logradouro">Logradouro</option>
+                        <option value="jurema">Jurema</option>
+                        <option value="jupi">Jupi</option>
+                        <option value="correntes_bom_conselho">Correntes Bom Conselho</option>
+                        <option value="garanhuns">Garanhuns</option>
+                    </select>
+                </div>
+                <div class="registration-actions">
+                    <button id="registrationClose" class="registration-close" type="button">Fechar</button>
+                    <button class="registration-submit" type="submit">Enviar</button>
+                </div>
+                <div id="registrationMessage" class="registration-message" aria-live="polite"></div>
+            </form>
         </div>
     </div>
 
@@ -558,6 +690,88 @@
                     eventsOverlay.classList.remove('active');
                     eventsOverlay.setAttribute('aria-hidden', 'true');
                 }
+            });
+        }
+
+        const registrationLink = document.getElementById('registrationLink');
+        const registrationOverlay = document.getElementById('registrationOverlay');
+        const registrationClose = document.getElementById('registrationClose');
+        const registrationForm = document.getElementById('registrationForm');
+
+        if (registrationLink && registrationOverlay) {
+            registrationLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                registrationOverlay.classList.add('active');
+                registrationOverlay.setAttribute('aria-hidden', 'false');
+            });
+        }
+
+        if (registrationClose && registrationOverlay) {
+            registrationClose.addEventListener('click', function() {
+                registrationOverlay.classList.remove('active');
+                registrationOverlay.setAttribute('aria-hidden', 'true');
+            });
+        }
+
+        if (registrationOverlay) {
+            registrationOverlay.addEventListener('click', function(event) {
+                if (event.target === registrationOverlay) {
+                    registrationOverlay.classList.remove('active');
+                    registrationOverlay.setAttribute('aria-hidden', 'true');
+                }
+            });
+        }
+
+        if (registrationForm) {
+            registrationForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const messageEl = document.getElementById('registrationMessage');
+                const payload = {
+                    nome: document.getElementById('regNome')?.value || '',
+                    sobrenome: document.getElementById('regSobrenome')?.value || '',
+                    idade: document.getElementById('regIdade')?.value || '',
+                    telefone: document.getElementById('regTelefone')?.value || '',
+                    ministerio: document.getElementById('regMinisterio')?.value || '',
+                };
+
+                const showMessage = (text, isError = false) => {
+                    if (messageEl) {
+                        messageEl.textContent = text;
+                        messageEl.style.color = isError ? '#ffb3b3' : 'var(--mid-gray)';
+                    }
+                };
+
+                const getCookie = (name) => {
+                    const cookies = document.cookie ? document.cookie.split(';') : [];
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.startsWith(name + '=')) {
+                            return decodeURIComponent(cookie.substring(name.length + 1));
+                        }
+                    }
+                    return '';
+                };
+
+                fetch('/inscricoes/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify(payload)
+                }).then((response) => {
+                    if (!response.ok) {
+                        return response.json().then((data) => {
+                            throw new Error(data?.error || 'Erro ao enviar inscrição.');
+                        });
+                    }
+                    return response.json();
+                }).then(() => {
+                    showMessage('Inscrição enviada com sucesso.');
+                    registrationForm.reset();
+                }).catch((error) => {
+                    showMessage(error.message, true);
+                });
             });
         }
 
