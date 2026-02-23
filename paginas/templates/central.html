@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central - Igreja Kerigma</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: #0b0f2e;
+            color: #f8f9fb;
+        }
+        header {
+            padding: 12px 20px;
+            background: #111a4a;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        header h1 {
+            margin: 0 0 4px;
+            font-size: 1.5rem;
+        }
+        header p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #cbd3ff;
+        }
+        main {
+            padding: 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .card {
+            background: #111a4a;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .card + .card {
+            margin-top: 20px;
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .badge {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        th, td {
+            text-align: left;
+            padding: 10px 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        th {
+            font-weight: 600;
+            color: #cbd3ff;
+        }
+        .empty {
+            color: #cbd3ff;
+            opacity: 0.8;
+        }
+        .group {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 14px;
+            display: none;
+        }
+        .group.active {
+            display: block;
+        }
+        .group-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .group-header h3 {
+            margin: 0;
+            font-size: 1.05rem;
+            color: #e7ebff;
+        }
+        .group-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .group-card {
+            background: #111a4a;
+            border-radius: 14px;
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .group-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+        }
+        .group-card h3 {
+            margin: 0 0 6px;
+            font-size: 1rem;
+        }
+        .group-card p {
+            margin: 0;
+            color: #cbd3ff;
+            font-size: 0.85rem;
+        }
+        .highlight-name {
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .highlight-age {
+            font-weight: 700;
+            color: #ffcf99;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: 12px;
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .status-badge.danger {
+            background: rgba(255, 90, 31, 0.18);
+            color: #ffb89e;
+        }
+        .remove-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+            padding: 12px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .remove-form label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            color: #cbd3ff;
+        }
+        .remove-form input,
+        .remove-form select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #111a4a;
+            color: #f8f9fb;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+        .remove-form button {
+            align-self: end;
+            padding: 10px 14px;
+            border: none;
+            border-radius: 10px;
+            background: #ff5a1f;
+            color: #0b0f2e;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .editor-form {
+            display: grid;
+            gap: 16px;
+        }
+        .editor-section {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 14px;
+        }
+        .editor-section h3 {
+            margin: 0 0 10px;
+        }
+        .editor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+        }
+        .editor-field label {
+            display: block;
+            font-size: 0.85rem;
+            color: #cbd3ff;
+            margin-bottom: 6px;
+        }
+        .editor-field input,
+        .editor-field textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #111a4a;
+            color: #f8f9fb;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+        .editor-field textarea {
+            min-height: 70px;
+            resize: vertical;
+        }
+        .editor-save {
+            justify-self: end;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 10px;
+            background: #ff5a1f;
+            color: #0b0f2e;
+            font-weight: 700;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Central de Comando</h1>
+        <p>Ambiente protegido</p>
+    </header>
+    <main>
+        <div class="card">
+            <h2>Em construção</h2>
+            <p>Descreva aqui o que deseja ver na central para eu montar.</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2>Inscrições da caminhada</h2>
+                    <p>Acompanhe as inscrições recebidas em tempo real.</p>
+                </div>
+                <span class="badge">Total: {{ inscricoes|length }}</span>
+            </div>
+            <form class="remove-form" method="post" action="/inscricoes/remover/">
+                {% csrf_token %}
+                <div>
+                    <label for="removeMinisterio">Cidade</label>
+                    <select id="removeMinisterio" name="ministerio" required>
+                        {% for grupo in grupos %}
+                            <option value="{{ grupo.key }}">{{ grupo.label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="removeIp">IP (número da lista)</label>
+                    <input id="removeIp" name="ip_numero" type="number" min="1" placeholder="Ex: 1" required>
+                </div>
+                <button type="submit">Remover inscrição</button>
+            </form>
+            <div class="group-grid">
+                {% for grupo in grupos %}
+                    <div class="group-card" data-target="grupo-{{ grupo.key }}">
+                        <h3>{{ grupo.label }}</h3>
+                        <p>{{ grupo.itens|length }} inscrição(ões)</p>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if not inscricoes %}
+                <p class="empty">Nenhuma inscrição recebida ainda.</p>
+            {% endif %}
+            {% for grupo in grupos %}
+                <div class="group" id="grupo-{{ grupo.key }}">
+                    <div class="group-header">
+                        <h3>{{ grupo.label }}</h3>
+                        <span class="badge">{{ grupo.itens|length }}</span>
+                    </div>
+                    {% if grupo.itens %}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nome</th>
+                                    <th>Idade</th>
+                                    <th>Telefone</th>
+                                    <th>Status</th>
+                                    <th>Data</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for inscricao in grupo.itens %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><span class="highlight-name">{{ inscricao.nome }} {{ inscricao.sobrenome }}</span></td>
+                                    <td><span class="highlight-age">{{ inscricao.idade }}</span></td>
+                                    <td>{{ inscricao.telefone }}</td>
+                                    <td>
+                                        {% if not inscricao.pago %}
+                                            <span class="status-badge">Não pago</span>
+                                        {% endif %}
+                                        {% if inscricao.perto_de_vencer %}
+                                            <span class="status-badge danger">Perto de vencer</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ inscricao.criado_em|date:"d/m/Y H:i" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p class="empty">Sem inscrições neste ministério.</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2>Editor de avisos e cronograma</h2>
+                    <p>Atualize avisos, eventos e o cronograma semanal do site.</p>
+                </div>
+            </div>
+            <form class="editor-form" method="post" action="/paineldecomando/editor/">
+                {% csrf_token %}
+                <div class="editor-section">
+                    <h3>Aviso</h3>
+                    <div class="editor-field">
+                        <label for="noticeText">Texto do aviso</label>
+                        <textarea id="noticeText" name="notice_text">{{ notice.text }}</textarea>
+                    </div>
+                </div>
+                <div class="editor-section">
+                    <h3>Eventos em destaque</h3>
+                    <div class="editor-grid">
+                        {% for event in events %}
+                        <div class="editor-field">
+                            <label>Evento</label>
+                            <input type="text" name="event-{{ event.id }}-title" value="{{ event.title }}">
+                            <input type="text" name="event-{{ event.id }}-subtitle" value="{{ event.subtitle }}" style="margin-top: 6px;">
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="editor-section">
+                    <h3>Cronograma semanal</h3>
+                    <div class="editor-grid">
+                        {% for item in schedule_items %}
+                        <div class="editor-field">
+                            <label>Dia</label>
+                            <input type="text" name="schedule-{{ item.id }}-day" value="{{ item.day }}">
+                            <input type="text" name="schedule-{{ item.id }}-title" value="{{ item.title }}" style="margin-top: 6px;">
+                            <input type="text" name="schedule-{{ item.id }}-details" value="{{ item.details }}" style="margin-top: 6px;">
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <button class="editor-save" type="submit">Salvar alterações</button>
+            </form>
+        </div>
+    </main>
+    <script>
+        const groupCards = document.querySelectorAll('.group-card');
+        const groupSections = document.querySelectorAll('.group');
+
+        const hideAllGroups = () => {
+            groupSections.forEach(section => section.classList.remove('active'));
+        };
+
+        groupCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const targetId = card.getAttribute('data-target');
+                if (!targetId) return;
+                hideAllGroups();
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.classList.add('active');
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
