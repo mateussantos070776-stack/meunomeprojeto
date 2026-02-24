@@ -182,6 +182,102 @@
             opacity: 0.7;
             font-size: 0.9rem;
         }
+
+        .admin-card {
+            display: grid;
+            gap: 18px;
+        }
+
+        .admin-card label {
+            display: block;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-bottom: 6px;
+        }
+
+        .admin-card input,
+        .admin-card textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #0b0b12;
+            color: var(--white);
+            font-family: inherit;
+        }
+
+        .admin-card textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .admin-message {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .admin-cards {
+            display: grid;
+            gap: 16px;
+        }
+
+        .admin-card-block {
+            padding: 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+            display: grid;
+            gap: 12px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .admin-card-block.edit-card {
+            border: 1px solid rgba(255, 154, 61, 0.35);
+            background: linear-gradient(160deg, rgba(255, 154, 61, 0.12), rgba(255, 255, 255, 0.02));
+            box-shadow: 0 22px 50px rgba(0, 0, 0, 0.45);
+        }
+
+        .admin-card-block h4 {
+            margin: 0;
+            color: var(--orange-soft);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .admin-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            place-items: center;
+            z-index: 50;
+        }
+
+        .admin-modal.is-open {
+            display: grid;
+        }
+
+        .admin-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 5, 10, 0.85);
+            backdrop-filter: blur(8px);
+        }
+
+        .admin-modal-content {
+            position: relative;
+            width: min(720px, 94vw);
+            max-height: 90vh;
+            overflow: auto;
+            padding: 8px;
+        }
     </style>
 </head>
 <body>
@@ -189,8 +285,7 @@
         <div class="container nav">
             <div class="logo">Christ<span>Saves</span></div>
             <nav class="nav-links">
-                <a href="#servicos">Serviços</a>
-                <a href="#diferenciais">Diferenciais</a>
+                <a href="#ferramentas">Ferramentas</a>
                 <a href="#contato">Contato</a>
             </nav>
             <button class="cta">Solicitar proposta</button>
@@ -200,25 +295,11 @@
     <main class="container">
         <section class="hero">
             <div>
-                <h1>Experiências digitais luxuosas e de alta tecnologia</h1>
-                <p>Transforme seu negócio com design premium, performance impecável e presença digital de alto padrão.</p>
+                <h1 data-content-key="heroTitle">Experiências digitais luxuosas e de alta tecnologia</h1>
+                <p data-content-key="heroDesc">Transforme seu negócio com design premium, performance impecável e presença digital de alto padrão.</p>
                 <div class="hero-actions">
                     <button class="cta">Agendar diagnóstico</button>
                     <button class="ghost">Ver portfólio</button>
-                </div>
-                <div class="stats">
-                    <div class="stat glass-card">
-                        <h3>+120%</h3>
-                        <p>Conversão média</p>
-                    </div>
-                    <div class="stat glass-card">
-                        <h3>24/7</h3>
-                        <p>Suporte premium</p>
-                    </div>
-                    <div class="stat glass-card">
-                        <h3>UX</h3>
-                        <p>Foco em performance</p>
-                    </div>
                 </div>
             </div>
             <div class="glass-card">
@@ -228,35 +309,256 @@
             </div>
         </section>
 
-        <section id="servicos" class="section"></section>
-
-
         <section id="ferramentas" class="section">
             <h2>Ferramentas</h2>
             <p>Recursos premium para acelerar seus resultados.</p>
             <div class="grid">
                 <div class="service">
-                    <h3>Notas</h3>
-                    <p>Registre ideias e acompanhamentos em um só lugar.</p>
+                    <h3 data-content-key="tool1Title">Notas</h3>
+                    <p data-content-key="tool1Desc">Registre ideias e acompanhamentos em um só lugar.</p>
                 </div>
                 <div class="service">
-                    <h3>Organização</h3>
-                    <p>Planeje tarefas e metas com clareza.</p>
+                    <h3 data-content-key="tool2Title">Organização</h3>
+                    <p data-content-key="tool2Desc">Planeje tarefas e metas com clareza.</p>
                 </div>
                 <div class="service">
-                    <h3>Gerar Palavra de Vida</h3>
-                    <p>Banco com frases bíblicas que animam o dia.</p>
+                    <h3 data-content-key="tool3Title">Gerar Palavra de Vida</h3>
+                    <p data-content-key="tool3Desc">Banco com frases bíblicas que animam o dia.</p>
                 </div>
                 <div class="service">
-                    <h3>Busca</h3>
-                    <p>Encontre rapidamente conteúdos e registros.</p>
+                    <h3 data-content-key="tool4Title">Busca</h3>
+                    <p data-content-key="tool4Desc">Encontre rapidamente conteúdos e registros.</p>
                 </div>
             </div>
         </section>
+
     </main>
 
     <footer id="contato" class="container footer">
-        Entre em contato para uma proposta personalizada.
+        <span data-content-key="contactText">Entre em contato para uma proposta personalizada.</span>
     </footer>
+
+    <div class="admin-modal" id="admin-modal" aria-hidden="true">
+        <div class="admin-modal-backdrop" id="admin-modal-backdrop"></div>
+        <div class="admin-modal-content admin-card" role="dialog" aria-modal="true" aria-label="Área admin">
+            <div class="admin-login admin-card-block" id="admin-login">
+                <h3>Login Admin</h3>
+                <label for="admin-user">Usuário</label>
+                <input id="admin-user" type="text" autocomplete="username" placeholder="Seu usuário" />
+                <label for="admin-pass">Senha</label>
+                <input id="admin-pass" type="password" autocomplete="current-password" placeholder="Sua senha" />
+                <div class="admin-actions">
+                    <button class="cta" id="admin-login-btn">Entrar</button>
+                    <button class="ghost" id="admin-close">Fechar</button>
+                </div>
+                <div class="admin-message" id="admin-message"></div>
+            </div>
+
+            <div class="admin-panel hidden" id="admin-panel">
+                <div class="admin-cards">
+                    <div class="admin-card-block edit-card">
+                        <h4>Edições do site</h4>
+                        <div>
+                            <label for="admin-hero-title">Título principal</label>
+                            <input id="admin-hero-title" type="text" data-edit-key="heroTitle" />
+                        </div>
+                        <div>
+                            <label for="admin-hero-desc">Descrição principal</label>
+                            <textarea id="admin-hero-desc" data-edit-key="heroDesc"></textarea>
+                        </div>
+                        <div>
+                            <label for="admin-tool-1">Ferramenta 1 (título)</label>
+                            <input id="admin-tool-1" type="text" data-edit-key="tool1Title" />
+                        </div>
+                        <div>
+                            <label for="admin-tool-1-desc">Ferramenta 1 (descrição)</label>
+                            <textarea id="admin-tool-1-desc" data-edit-key="tool1Desc"></textarea>
+                        </div>
+                        <div>
+                            <label for="admin-tool-2">Ferramenta 2 (título)</label>
+                            <input id="admin-tool-2" type="text" data-edit-key="tool2Title" />
+                        </div>
+                        <div>
+                            <label for="admin-tool-2-desc">Ferramenta 2 (descrição)</label>
+                            <textarea id="admin-tool-2-desc" data-edit-key="tool2Desc"></textarea>
+                        </div>
+                        <div>
+                            <label for="admin-tool-3">Ferramenta 3 (título)</label>
+                            <input id="admin-tool-3" type="text" data-edit-key="tool3Title" />
+                        </div>
+                        <div>
+                            <label for="admin-tool-3-desc">Ferramenta 3 (descrição)</label>
+                            <textarea id="admin-tool-3-desc" data-edit-key="tool3Desc"></textarea>
+                        </div>
+                        <div>
+                            <label for="admin-tool-4">Ferramenta 4 (título)</label>
+                            <input id="admin-tool-4" type="text" data-edit-key="tool4Title" />
+                        </div>
+                        <div>
+                            <label for="admin-tool-4-desc">Ferramenta 4 (descrição)</label>
+                            <textarea id="admin-tool-4-desc" data-edit-key="tool4Desc"></textarea>
+                        </div>
+                        <div>
+                            <label for="admin-contact">Texto de contato</label>
+                            <textarea id="admin-contact" data-edit-key="contactText"></textarea>
+                        </div>
+                        <div class="admin-actions">
+                            <button class="cta" id="admin-save">Salvar</button>
+                            <button class="ghost" id="admin-logout">Sair</button>
+                        </div>
+                        <div class="admin-message" id="admin-save-message"></div>
+                    </div>
+
+                    <div class="admin-card-block">
+                        <h4>Função futura 1</h4>
+                        <p class="admin-message">Reservado para próximas automações.</p>
+                    </div>
+                    <div class="admin-card-block">
+                        <h4>Função futura 2</h4>
+                        <p class="admin-message">Reservado para próximas automações.</p>
+                    </div>
+                    <div class="admin-card-block">
+                        <h4>Função futura 3</h4>
+                        <p class="admin-message">Reservado para próximas automações.</p>
+                    </div>
+                    <div class="admin-card-block">
+                        <h4>Função futura 4</h4>
+                        <p class="admin-message">Reservado para próximas automações.</p>
+                    </div>
+                    <div class="admin-card-block">
+                        <h4>Função futura 5</h4>
+                        <p class="admin-message">Reservado para próximas automações.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_USER = "admin";
+        const ADMIN_PASS = "1234";
+        const CONTENT_KEY = "cs_content";
+        let isAuthed = false;
+
+        const modal = document.getElementById("admin-modal");
+        const modalBackdrop = document.getElementById("admin-modal-backdrop");
+        const loginWrapper = document.getElementById("admin-login");
+        const panelWrapper = document.getElementById("admin-panel");
+        const loginMessage = document.getElementById("admin-message");
+        const saveMessage = document.getElementById("admin-save-message");
+
+        const applyContent = (data) => {
+            Object.entries(data).forEach(([key, value]) => {
+                const nodes = document.querySelectorAll(`[data-content-key="${key}"]`);
+                nodes.forEach((node) => {
+                    node.textContent = value;
+                });
+            });
+        };
+
+        const loadContent = () => {
+            const raw = localStorage.getItem(CONTENT_KEY);
+            if (!raw) return {};
+            try {
+                return JSON.parse(raw);
+            } catch {
+                return {};
+            }
+        };
+
+        const setFormValues = (data) => {
+            document.querySelectorAll("[data-edit-key]").forEach((input) => {
+                const key = input.getAttribute("data-edit-key");
+                if (key && data[key] !== undefined) {
+                    input.value = data[key];
+                } else {
+                    const fallback = document.querySelector(`[data-content-key="${key}"]`);
+                    input.value = fallback ? fallback.textContent.trim() : "";
+                }
+            });
+        };
+
+        const showPanel = () => {
+            loginWrapper.classList.add("hidden");
+            panelWrapper.classList.remove("hidden");
+            setFormValues(loadContent());
+        };
+
+        const showLogin = () => {
+            loginWrapper.classList.remove("hidden");
+            panelWrapper.classList.add("hidden");
+        };
+
+        const openModal = () => {
+            modal.classList.add("is-open");
+            modal.setAttribute("aria-hidden", "false");
+            if (!isAuthed) {
+                showLogin();
+            } else {
+                showPanel();
+            }
+        };
+
+        const closeModal = () => {
+            modal.classList.remove("is-open");
+            modal.setAttribute("aria-hidden", "true");
+            loginMessage.textContent = "";
+        };
+
+        const init = () => {
+            applyContent(loadContent());
+            closeModal();
+        };
+
+        document.getElementById("admin-login-btn").addEventListener("click", () => {
+            const user = document.getElementById("admin-user").value.trim();
+            const pass = document.getElementById("admin-pass").value.trim();
+            if (user === ADMIN_USER && pass === ADMIN_PASS) {
+                isAuthed = true;
+                loginMessage.textContent = "Acesso liberado.";
+                showPanel();
+            } else {
+                loginMessage.textContent = "Usuário ou senha inválidos.";
+            }
+        });
+
+        document.getElementById("admin-close").addEventListener("click", closeModal);
+        modalBackdrop.addEventListener("click", closeModal);
+
+        document.getElementById("admin-save").addEventListener("click", () => {
+            const data = loadContent();
+            document.querySelectorAll("[data-edit-key]").forEach((input) => {
+                const key = input.getAttribute("data-edit-key");
+                if (key) {
+                    data[key] = input.value.trim();
+                }
+            });
+            localStorage.setItem(CONTENT_KEY, JSON.stringify(data));
+            applyContent(data);
+            saveMessage.textContent = "Atualizações salvas neste navegador.";
+        });
+
+        document.getElementById("admin-logout").addEventListener("click", () => {
+            isAuthed = false;
+            saveMessage.textContent = "";
+            showLogin();
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === "l") {
+                event.preventDefault();
+                if (!modal.classList.contains("is-open")) {
+                    openModal();
+                } else {
+                    closeModal();
+                }
+            }
+            if (event.key === "Escape" && modal.classList.contains("is-open")) {
+                closeModal();
+            }
+        });
+
+        init();
+    </script>
 </body>
 </html>
