@@ -1,9 +1,12 @@
 services:
   - type: web
     name: igrejakerigma
-    env: static
-    staticPublishPath: ./meunomeprojeto
-    buildCommand: ""
+    env: node
+    buildCommand: "npm install"
+    startCommand: "npm start"
+    envVars:
+      - key: ADMIN_TOKEN
+        value: troque-este-token
     headers:
       - path: "/*"
         name: "Cache-Control"

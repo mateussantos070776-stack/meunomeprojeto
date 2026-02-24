@@ -437,6 +437,8 @@
     <script>
         const ADMIN_USER = "admin";
         const ADMIN_PASS = "1234";
+        const ADMIN_TOKEN = "troque-este-token";
+        const API_URL = "/api/content";
         const CONTENT_KEY = "cs_content";
         let isAuthed = false;
 
@@ -464,6 +466,21 @@
             } catch {
                 return {};
             }
+        };
+
+        const fetchContent = async () => {
+            try {
+                const response = await fetch(API_URL, { cache: "no-store" });
+                if (!response.ok) throw new Error("api_error");
+                const data = await response.json();
+                if (data && typeof data === "object") {
+                    localStorage.setItem(CONTENT_KEY, JSON.stringify(data));
+                    return data;
+                }
+            } catch {
+                return loadContent();
+            }
+            return {};
         };
 
         const setFormValues = (data) => {
@@ -505,8 +522,9 @@
             loginMessage.textContent = "";
         };
 
-        const init = () => {
-            applyContent(loadContent());
+        const init = async () => {
+            const data = await fetchContent();
+            applyContent(data);
             closeModal();
         };
 
@@ -525,7 +543,7 @@
         document.getElementById("admin-close").addEventListener("click", closeModal);
         modalBackdrop.addEventListener("click", closeModal);
 
-        document.getElementById("admin-save").addEventListener("click", () => {
+        document.getElementById("admin-save").addEventListener("click", async () => {
             const data = loadContent();
             document.querySelectorAll("[data-edit-key]").forEach((input) => {
                 const key = input.getAttribute("data-edit-key");
@@ -533,9 +551,24 @@
                     data[key] = input.value.trim();
                 }
             });
-            localStorage.setItem(CONTENT_KEY, JSON.stringify(data));
-            applyContent(data);
-            saveMessage.textContent = "Atualizações salvas neste navegador.";
+            try {
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Admin-Token": ADMIN_TOKEN,
+                    },
+                    body: JSON.stringify(data),
+                });
+                if (!response.ok) throw new Error("save_error");
+                localStorage.setItem(CONTENT_KEY, JSON.stringify(data));
+                applyContent(data);
+                saveMessage.textContent = "Atualizações salvas no servidor.";
+            } catch {
+                localStorage.setItem(CONTENT_KEY, JSON.stringify(data));
+                applyContent(data);
+                saveMessage.textContent = "Falha ao salvar no servidor. Salvo apenas neste navegador.";
+            }
         });
 
         document.getElementById("admin-logout").addEventListener("click", () => {
