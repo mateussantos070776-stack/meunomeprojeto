@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: igrejakerigma
+    env: static
+    staticPublishPath: ./meunomeprojeto
+    buildCommand: ""
+    headers:
+      - path: "/*"
+        name: "Cache-Control"
+        value: "no-store"
