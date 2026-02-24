@@ -528,6 +528,12 @@
             closeModal();
         };
 
+        const syncContent = async () => {
+            if (modal.classList.contains("is-open") && isAuthed) return;
+            const data = await fetchContent();
+            applyContent(data);
+        };
+
         document.getElementById("admin-login-btn").addEventListener("click", () => {
             const user = document.getElementById("admin-user").value.trim();
             const pass = document.getElementById("admin-pass").value.trim();
@@ -591,7 +597,14 @@
             }
         });
 
+        document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) {
+                syncContent();
+            }
+        });
+
         init();
+        setInterval(syncContent, 30000);
     </script>
 </body>
 </html>
