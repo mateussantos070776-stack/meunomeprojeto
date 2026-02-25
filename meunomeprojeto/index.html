@@ -176,6 +176,91 @@
             color: var(--orange-soft);
         }
 
+        .tool-widget {
+            margin-top: 14px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .tool-widget.collapsible {
+            display: none;
+        }
+
+        .tool-widget.collapsible.is-open {
+            display: grid;
+        }
+
+        .notes-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            place-items: center;
+            z-index: 40;
+        }
+
+        .notes-modal.is-open {
+            display: grid;
+        }
+
+        .notes-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 5, 10, 0.85);
+            backdrop-filter: blur(8px);
+        }
+
+        .notes-modal-card {
+            position: relative;
+            width: min(720px, 94vw);
+            max-height: 90vh;
+            overflow: auto;
+            padding: 18px;
+        }
+
+        .tool-widget label {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .tool-widget input,
+        .tool-widget textarea,
+        .tool-widget select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #0b0b12;
+            color: var(--white);
+            font-family: inherit;
+        }
+
+        .tool-widget textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .tool-inline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .tool-result {
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+
+        .tool-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 0.75rem;
+            opacity: 0.75;
+        }
+
         .footer {
             padding: 40px 0;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -313,7 +398,7 @@
             <h2>Ferramentas</h2>
             <p>Recursos premium para acelerar seus resultados.</p>
             <div class="grid">
-                <div class="service">
+                <div class="service" id="notes-card" role="button" tabindex="0">
                     <h3 data-content-key="tool1Title">Notas</h3>
                     <p data-content-key="tool1Desc">Registre ideias e acompanhamentos em um só lugar.</p>
                 </div>
@@ -337,6 +422,51 @@
     <footer id="contato" class="container footer">
         <span data-content-key="contactText">Entre em contato para uma proposta personalizada.</span>
     </footer>
+
+    <div class="notes-modal" id="notes-modal" aria-hidden="true">
+        <div class="notes-modal-backdrop" id="notes-modal-backdrop"></div>
+        <div class="notes-modal-card glass-card" role="dialog" aria-modal="true" aria-label="Notas">
+            <div class="admin-actions" style="justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0;">Notas</h3>
+                <button class="ghost" id="notes-close">Fechar</button>
+            </div>
+            <div class="tool-widget" id="notes-widget">
+                <div>
+                    <label for="notes-routine">Organização da rotina</label>
+                    <textarea id="notes-routine" placeholder="Planeje sua rotina diária..."></textarea>
+                </div>
+                <div>
+                    <label for="notes-ideas">Anotações</label>
+                    <textarea id="notes-ideas" placeholder="Anote ideias, lembretes e decisões..."></textarea>
+                </div>
+                <div>
+                    <label for="calc-input">Cálculos rápidos</label>
+                    <input id="calc-input" type="text" placeholder="Ex: (2+3)*4 / 5" />
+                    <div class="tool-result" id="calc-result">Resultado: -</div>
+                </div>
+                <div>
+                    <label>Conversão de moedas <span class="tool-badge">tempo real</span></label>
+                    <div class="tool-inline">
+                        <input id="currency-amount" type="number" inputmode="decimal" placeholder="Valor" />
+                        <select id="currency-from">
+                            <option value="BRL">BRL</option>
+                            <option value="USD" selected>USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="GBP">GBP</option>
+                        </select>
+                        <select id="currency-to">
+                            <option value="BRL" selected>BRL</option>
+                            <option value="USD">USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="GBP">GBP</option>
+                        </select>
+                    </div>
+                    <div class="tool-result" id="currency-result">Conversão: -</div>
+                    <div class="tool-result" id="currency-status"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="admin-modal" id="admin-modal" aria-hidden="true">
         <div class="admin-modal-backdrop" id="admin-modal-backdrop"></div>
@@ -603,8 +733,130 @@
             }
         });
 
+        const routineField = document.getElementById("notes-routine");
+        const notesField = document.getElementById("notes-ideas");
+        const calcInput = document.getElementById("calc-input");
+        const calcResult = document.getElementById("calc-result");
+        const currencyAmount = document.getElementById("currency-amount");
+        const currencyFrom = document.getElementById("currency-from");
+        const currencyTo = document.getElementById("currency-to");
+        const currencyResult = document.getElementById("currency-result");
+        const currencyStatus = document.getElementById("currency-status");
+        const notesCard = document.getElementById("notes-card");
+        const notesModal = document.getElementById("notes-modal");
+        const notesBackdrop = document.getElementById("notes-modal-backdrop");
+        const notesClose = document.getElementById("notes-close");
+
+        const NOTES_ROUTINE_KEY = "cs_notes_routine";
+        const NOTES_IDEAS_KEY = "cs_notes_ideas";
+        const RATES_URL = "https://open.er-api.com/v6/latest/USD";
+        const RATES_TTL = 5 * 60 * 1000;
+        let ratesCache = { timestamp: 0, rates: {} };
+
+        const loadNotes = () => {
+            routineField.value = localStorage.getItem(NOTES_ROUTINE_KEY) || "";
+            notesField.value = localStorage.getItem(NOTES_IDEAS_KEY) || "";
+        };
+
+        const saveNotes = () => {
+            localStorage.setItem(NOTES_ROUTINE_KEY, routineField.value);
+            localStorage.setItem(NOTES_IDEAS_KEY, notesField.value);
+        };
+
+        const safeEvalCalc = (expression) => {
+            const normalized = expression.replace(/,/g, ".").replace(/\s+/g, "");
+            if (!normalized) return "-";
+            if (!/^[0-9+\-*/().]+$/.test(normalized)) return "Expressão inválida";
+            try {
+                const result = Function(`"use strict"; return (${normalized})`)();
+                if (typeof result !== "number" || !isFinite(result)) return "Erro";
+                return result.toString();
+            } catch {
+                return "Erro";
+            }
+        };
+
+        const updateCalc = () => {
+            const result = safeEvalCalc(calcInput.value);
+            calcResult.textContent = `Resultado: ${result}`;
+        };
+
+        const fetchRates = async () => {
+            const now = Date.now();
+            if (now - ratesCache.timestamp < RATES_TTL && Object.keys(ratesCache.rates).length) {
+                return ratesCache.rates;
+            }
+            try {
+                const response = await fetch(RATES_URL, { cache: "no-store" });
+                if (!response.ok) throw new Error("rates_error");
+                const data = await response.json();
+                if (data && data.rates) {
+                    ratesCache = { timestamp: now, rates: data.rates };
+                    return data.rates;
+                }
+            } catch {
+                return ratesCache.rates;
+            }
+            return {};
+        };
+
+        const updateCurrency = async () => {
+            const amount = parseFloat(currencyAmount.value.replace(/,/g, "."));
+            if (!amount) {
+                currencyResult.textContent = "Conversão: -";
+                return;
+            }
+            const rates = await fetchRates();
+            const from = currencyFrom.value;
+            const to = currencyTo.value;
+            if (!rates[from] || !rates[to]) {
+                currencyResult.textContent = "Conversão: indisponível";
+                currencyStatus.textContent = "Sem dados de câmbio agora.";
+                return;
+            }
+            const usdAmount = amount / rates[from];
+            const converted = usdAmount * rates[to];
+            currencyResult.textContent = `Conversão: ${converted.toFixed(2)} ${to}`;
+            currencyStatus.textContent = "Atualizado automaticamente.";
+        };
+
+        routineField.addEventListener("input", saveNotes);
+        notesField.addEventListener("input", saveNotes);
+        calcInput.addEventListener("input", updateCalc);
+        currencyAmount.addEventListener("input", updateCurrency);
+        currencyFrom.addEventListener("change", updateCurrency);
+        currencyTo.addEventListener("change", updateCurrency);
+
+        const openNotesModal = () => {
+            notesModal.classList.add("is-open");
+            notesModal.setAttribute("aria-hidden", "false");
+        };
+
+        const closeNotesModal = () => {
+            notesModal.classList.remove("is-open");
+            notesModal.setAttribute("aria-hidden", "true");
+        };
+
+        notesCard.addEventListener("click", () => {
+            openNotesModal();
+        });
+
+        notesCard.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openNotesModal();
+            }
+        });
+
+        notesClose.addEventListener("click", closeNotesModal);
+        notesBackdrop.addEventListener("click", closeNotesModal);
+
         init();
+        loadNotes();
+        updateCalc();
+        updateCurrency();
         setInterval(syncContent, 30000);
+        setInterval(updateCurrency, RATES_TTL);
     </script>
 </body>
 </html>
