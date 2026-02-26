@@ -261,6 +261,126 @@
             opacity: 0.75;
         }
 
+        .tool-card {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .tool-output {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #0b0b12;
+            color: var(--white);
+            border-radius: 12px;
+            padding: 12px;
+            min-height: 96px;
+            white-space: pre-wrap;
+        }
+
+        .tool-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tool-action {
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: #ff8020;
+            color: #0b0b0f;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .tool-action.tool-action-outline {
+            background: transparent;
+            color: var(--white);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .tool-meta {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .tool-metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .tool-metric {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #0b0b12;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .tool-metric span {
+            display: block;
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+
+        .tool-metric strong {
+            font-size: 1.05rem;
+        }
+
+        .link-preview {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #0b0b12;
+            border-radius: 16px;
+            padding: 16px;
+            display: grid;
+            gap: 12px;
+            text-align: center;
+        }
+
+        .link-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #ff8020;
+            margin: 0 auto;
+        }
+
+        .link-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .link-item {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 10px;
+            color: #ff8020;
+            background: #0a0a0f;
+            font-size: 0.85rem;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .palette-swatch {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            background: #0b0b12;
+        }
+
+        .palette-color {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+        }
+
         .footer {
             padding: 40px 0;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -398,21 +518,132 @@
             <h2>Ferramentas</h2>
             <p>Recursos premium para acelerar seus resultados.</p>
             <div class="grid">
-                <div class="service" id="notes-card" role="button" tabindex="0">
-                    <h3 data-content-key="tool1Title">Notas</h3>
-                    <p data-content-key="tool1Desc">Registre ideias e acompanhamentos em um só lugar.</p>
+                <div class="service tool-card" data-tool-card>
+                    <h3>Scanner de Legibilidade</h3>
+                    <p>Troque palavras comuns por termos de luxo e eleve a percepção instantaneamente.</p>
+                    <div class="tool-widget collapsible">
+                        <label for="lux-input">Texto original</label>
+                        <textarea id="lux-input" placeholder="Digite seu texto..."></textarea>
+                        <label for="lux-output">Texto premium</label>
+                        <div class="tool-output" id="lux-output">Seu texto premium aparecerá aqui.</div>
+                        <div class="tool-actions">
+                            <button class="tool-action" id="lux-copy">Copiar</button>
+                            <button class="tool-action tool-action-outline" id="lux-clear">Limpar</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="service">
-                    <h3 data-content-key="tool2Title">Organização</h3>
-                    <p data-content-key="tool2Desc">Planeje tarefas e metas com clareza.</p>
+
+                <div class="service tool-card" data-tool-card>
+                    <h3>Gerador de Bio High-Ticket</h3>
+                    <p>Estruture bios para Instagram com posicionamento de luxo e clareza imediata.</p>
+                    <div class="tool-widget collapsible">
+                        <label for="bio-nome">Nome</label>
+                        <input id="bio-nome" type="text" placeholder="Seu nome" />
+                        <label for="bio-nicho">Nicho</label>
+                        <input id="bio-nicho" type="text" placeholder="Nicho / posicionamento" />
+                        <label for="bio-oferta">Oferta high-ticket</label>
+                        <input id="bio-oferta" type="text" placeholder="Sua oferta premium" />
+                        <label for="bio-resultado">Resultado principal</label>
+                        <input id="bio-resultado" type="text" placeholder="Resultados desejados" />
+                        <label for="bio-prova">Prova social</label>
+                        <input id="bio-prova" type="text" placeholder="Prova / autoridade" />
+                        <label for="bio-cta">CTA</label>
+                        <input id="bio-cta" type="text" placeholder="Chamada para ação" />
+                        <div class="tool-output" id="bio-output">Preencha o formulário para gerar sua bio.</div>
+                        <div class="tool-actions">
+                            <span class="tool-meta" id="bio-count">0 caracteres</span>
+                            <button class="tool-action" id="bio-copy">Copiar bio</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="service">
-                    <h3 data-content-key="tool3Title">Gerar Palavra de Vida</h3>
-                    <p data-content-key="tool3Desc">Banco com frases bíblicas que animam o dia.</p>
+
+                <div class="service tool-card" data-tool-card>
+                    <h3>Calculadora de Break-Even</h3>
+                    <p>Projete o ROI e o ponto de equilíbrio para tráfego pago com clareza premium.</p>
+                    <div class="tool-widget collapsible">
+                        <label for="be-investimento">Investimento em tráfego (R$)</label>
+                        <input id="be-investimento" type="number" value="5000" />
+                        <label for="be-leads">Leads gerados</label>
+                        <input id="be-leads" type="number" value="200" />
+                        <label for="be-conversao">Taxa de conversão (0-1)</label>
+                        <input id="be-conversao" type="number" step="0.01" value="0.05" />
+                        <label for="be-ticket">Ticket médio (R$)</label>
+                        <input id="be-ticket" type="number" value="3000" />
+                        <label for="be-margem">Margem líquida (0-1)</label>
+                        <input id="be-margem" type="number" step="0.01" value="0.6" />
+                        <div class="tool-metric-grid">
+                            <div class="tool-metric"><span>Receita bruta</span><strong id="be-receita">R$ 0,00</strong></div>
+                            <div class="tool-metric"><span>Lucro estimado</span><strong id="be-lucro">R$ 0,00</strong></div>
+                            <div class="tool-metric"><span>ROI</span><strong id="be-roi">0%</strong></div>
+                            <div class="tool-metric"><span>CPL atual</span><strong id="be-cpl">R$ 0,00</strong></div>
+                            <div class="tool-metric"><span>Break-even CPA</span><strong id="be-cpa">R$ 0,00</strong></div>
+                            <div class="tool-metric"><span>ROAS atual</span><strong id="be-roas">0</strong></div>
+                            <div class="tool-metric"><span>ROAS break-even</span><strong id="be-roas-be">0</strong></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="service">
-                    <h3 data-content-key="tool4Title">Busca</h3>
-                    <p data-content-key="tool4Desc">Encontre rapidamente conteúdos e registros.</p>
+
+                <div class="service tool-card" data-tool-card>
+                    <h3>Link-in-Bio Minimalista</h3>
+                    <p>Crie uma página de links com estética sofisticada e foco absoluto no luxo.</p>
+                    <div class="tool-widget collapsible">
+                        <label for="lib-nome">Nome</label>
+                        <input id="lib-nome" type="text" value="Seu Nome" />
+                        <label for="lib-headline">Headline</label>
+                        <input id="lib-headline" type="text" value="Consultor Premium" />
+                        <label for="lib-bio">Bio curta</label>
+                        <textarea id="lib-bio">Estratégia de crescimento com estética de luxo.</textarea>
+                        <label for="lib-link-1">Link 1 (título)</label>
+                        <input id="lib-link-1" type="text" value="Aplicar para consultoria" />
+                        <label for="lib-url-1">Link 1 (URL)</label>
+                        <input id="lib-url-1" type="text" value="https://seusite.com" />
+                        <label for="lib-link-2">Link 2 (título)</label>
+                        <input id="lib-link-2" type="text" value="Conteúdos exclusivos" />
+                        <label for="lib-url-2">Link 2 (URL)</label>
+                        <input id="lib-url-2" type="text" value="https://seusite.com/insights" />
+                        <label for="lib-link-3">Link 3 (título)</label>
+                        <input id="lib-link-3" type="text" value="Podcast" />
+                        <label for="lib-url-3">Link 3 (URL)</label>
+                        <input id="lib-url-3" type="text" value="https://seusite.com/podcast" />
+                        <div class="link-preview" id="lib-preview">
+                            <div class="link-avatar"></div>
+                            <div>
+                                <strong id="lib-preview-nome">Seu Nome</strong>
+                                <div class="tool-meta" id="lib-preview-headline">Consultor Premium</div>
+                            </div>
+                            <div class="tool-meta" id="lib-preview-bio">Estratégia de crescimento com estética de luxo.</div>
+                            <div class="link-list" id="lib-preview-links">
+                                <div class="link-item">Aplicar para consultoria</div>
+                                <div class="link-item">Conteúdos exclusivos</div>
+                                <div class="link-item">Podcast</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service tool-card" data-tool-card>
+                    <h3>Extrator de Paleta</h3>
+                    <p>Faça upload de uma imagem e extraia 3 cores principais via Canvas API.</p>
+                    <div class="tool-widget collapsible">
+                        <label for="palette-input">Imagem</label>
+                        <input id="palette-input" type="file" accept="image/*" />
+                        <img id="palette-preview" alt="Prévia" style="display: none; width: 100%; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.12);" />
+                        <div class="palette-grid" id="palette-colors">
+                            <div class="palette-swatch">
+                                <div class="palette-color" style="background: #1f1f1f;"></div>
+                                <div class="tool-meta">#1F1F1F</div>
+                            </div>
+                            <div class="palette-swatch">
+                                <div class="palette-color" style="background: #ff8020;"></div>
+                                <div class="tool-meta">#FF8020</div>
+                            </div>
+                            <div class="palette-swatch">
+                                <div class="palette-color" style="background: #ffffff;"></div>
+                                <div class="tool-meta">#FFFFFF</div>
+                            </div>
+                        </div>
+                        <canvas id="palette-canvas" style="display: none;"></canvas>
+                    </div>
                 </div>
             </div>
         </section>
@@ -746,6 +977,45 @@
         const notesModal = document.getElementById("notes-modal");
         const notesBackdrop = document.getElementById("notes-modal-backdrop");
         const notesClose = document.getElementById("notes-close");
+        const luxInput = document.getElementById("lux-input");
+        const luxOutput = document.getElementById("lux-output");
+        const luxCopy = document.getElementById("lux-copy");
+        const luxClear = document.getElementById("lux-clear");
+        const bioNome = document.getElementById("bio-nome");
+        const bioNicho = document.getElementById("bio-nicho");
+        const bioOferta = document.getElementById("bio-oferta");
+        const bioResultado = document.getElementById("bio-resultado");
+        const bioProva = document.getElementById("bio-prova");
+        const bioCta = document.getElementById("bio-cta");
+        const bioOutput = document.getElementById("bio-output");
+        const bioCount = document.getElementById("bio-count");
+        const bioCopy = document.getElementById("bio-copy");
+        const beInvestimento = document.getElementById("be-investimento");
+        const beLeads = document.getElementById("be-leads");
+        const beConversao = document.getElementById("be-conversao");
+        const beTicket = document.getElementById("be-ticket");
+        const beMargem = document.getElementById("be-margem");
+        const beReceita = document.getElementById("be-receita");
+        const beLucro = document.getElementById("be-lucro");
+        const beRoi = document.getElementById("be-roi");
+        const beCpl = document.getElementById("be-cpl");
+        const beCpa = document.getElementById("be-cpa");
+        const beRoas = document.getElementById("be-roas");
+        const beRoasBe = document.getElementById("be-roas-be");
+        const libNome = document.getElementById("lib-nome");
+        const libHeadline = document.getElementById("lib-headline");
+        const libBio = document.getElementById("lib-bio");
+        const libLink1 = document.getElementById("lib-link-1");
+        const libLink2 = document.getElementById("lib-link-2");
+        const libLink3 = document.getElementById("lib-link-3");
+        const libPreviewNome = document.getElementById("lib-preview-nome");
+        const libPreviewHeadline = document.getElementById("lib-preview-headline");
+        const libPreviewBio = document.getElementById("lib-preview-bio");
+        const libPreviewLinks = document.getElementById("lib-preview-links");
+        const paletteInput = document.getElementById("palette-input");
+        const palettePreview = document.getElementById("palette-preview");
+        const paletteColors = document.getElementById("palette-colors");
+        const paletteCanvas = document.getElementById("palette-canvas");
 
         const NOTES_ROUTINE_KEY = "cs_notes_routine";
         const NOTES_IDEAS_KEY = "cs_notes_ideas";
@@ -754,11 +1024,13 @@
         let ratesCache = { timestamp: 0, rates: {} };
 
         const loadNotes = () => {
+            if (!routineField || !notesField) return;
             routineField.value = localStorage.getItem(NOTES_ROUTINE_KEY) || "";
             notesField.value = localStorage.getItem(NOTES_IDEAS_KEY) || "";
         };
 
         const saveNotes = () => {
+            if (!routineField || !notesField) return;
             localStorage.setItem(NOTES_ROUTINE_KEY, routineField.value);
             localStorage.setItem(NOTES_IDEAS_KEY, notesField.value);
         };
@@ -777,6 +1049,7 @@
         };
 
         const updateCalc = () => {
+            if (!calcInput || !calcResult) return;
             const result = safeEvalCalc(calcInput.value);
             calcResult.textContent = `Resultado: ${result}`;
         };
@@ -801,6 +1074,7 @@
         };
 
         const updateCurrency = async () => {
+            if (!currencyAmount || !currencyFrom || !currencyTo || !currencyResult || !currencyStatus) return;
             const amount = parseFloat(currencyAmount.value.replace(/,/g, "."));
             if (!amount) {
                 currencyResult.textContent = "Conversão: -";
@@ -820,12 +1094,214 @@
             currencyStatus.textContent = "Atualizado automaticamente.";
         };
 
-        routineField.addEventListener("input", saveNotes);
-        notesField.addEventListener("input", saveNotes);
-        calcInput.addEventListener("input", updateCalc);
-        currencyAmount.addEventListener("input", updateCurrency);
-        currencyFrom.addEventListener("change", updateCurrency);
-        currencyTo.addEventListener("change", updateCurrency);
+        const luxuryMap = {
+            comum: "exclusivo",
+            simples: "refinado",
+            barato: "premium",
+            bom: "excepcional",
+            melhor: "incomparável",
+            rapido: "imediato",
+            rápido: "imediato",
+            facil: "fluido",
+            fácil: "fluido",
+            resultado: "resultado elevado",
+            resultados: "resultados elevados",
+            alto: "elevado",
+            alta: "elevada",
+            valor: "valor estratégico",
+            cliente: "cliente seleto",
+            clientes: "clientes seletos",
+            oferta: "proposta exclusiva",
+            servico: "serviço de alto padrão",
+            serviço: "serviço de alto padrão",
+            servicos: "serviços de alto padrão",
+            serviços: "serviços de alto padrão",
+            produto: "produto de luxo",
+            produtos: "produtos de luxo",
+            objetivo: "meta refinada",
+            garantia: "segurança premium",
+            qualidade: "excelência"
+        };
+
+        const transformText = (text) => {
+            let result = text;
+            Object.entries(luxuryMap).forEach(([key, value]) => {
+                const regex = new RegExp(`\\b${key}\\b`, "gi");
+                result = result.replace(regex, (match) => {
+                    const isUpper = match === match.toUpperCase();
+                    if (isUpper) return value.toUpperCase();
+                    const isCapitalized = match[0] === match[0].toUpperCase();
+                    if (isCapitalized) return value[0].toUpperCase() + value.slice(1);
+                    return value;
+                });
+            });
+            return result;
+        };
+
+        let luxTimer;
+
+        const fetchLux = async (text) => {
+            const response = await fetch("/api/lux-scan", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text }),
+            });
+            if (!response.ok) throw new Error("api_error");
+            const data = await response.json();
+            return data?.output || "";
+        };
+
+        const updateLux = async () => {
+            if (!luxInput || !luxOutput) return;
+            const text = luxInput.value || "";
+            if (!text.trim()) {
+                luxOutput.textContent = "Seu texto premium aparecerá aqui.";
+                return;
+            }
+            luxOutput.textContent = "Gerando versão premium...";
+            try {
+                const output = await fetchLux(text);
+                luxOutput.textContent = output || transformText(text);
+            } catch {
+                luxOutput.textContent = transformText(text);
+            }
+        };
+
+        const buildBio = () => {
+            if (!bioOutput || !bioCount) return;
+            const nome = bioNome?.value.trim() || "Seu Nome";
+            const nicho = bioNicho?.value.trim() || "Seu Nicho";
+            const oferta = bioOferta?.value.trim() || "sua oferta high-ticket";
+            const resultado = bioResultado?.value.trim() || "resultados";
+            const prova = bioProva?.value.trim() || "+R$ 1M gerados para clientes seletos.";
+            const cta = bioCta?.value.trim() || "Aplique para a consultoria premium";
+            const lines = [
+                `${nome} • ${nicho}`,
+                `Aumento ${resultado} com ${oferta}.`,
+                `Prova: ${prova}`,
+                `⬇ ${cta}`
+            ];
+            const text = lines.join("\n");
+            bioOutput.textContent = text;
+            bioCount.textContent = `${text.length} caracteres`;
+        };
+
+        const currencyFormatter = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+        const formatCurrency = (value) => currencyFormatter.format(Number.isFinite(value) ? value : 0);
+        const formatPercent = (value) => `${(Number.isFinite(value) ? value : 0).toFixed(2)}%`;
+
+        const updateBreakEven = () => {
+            if (!beInvestimento || !beLeads || !beConversao || !beTicket || !beMargem) return;
+            const investimento = parseFloat(beInvestimento.value) || 0;
+            const leads = parseFloat(beLeads.value) || 0;
+            const conversao = parseFloat(beConversao.value) || 0;
+            const ticket = parseFloat(beTicket.value) || 0;
+            const margem = parseFloat(beMargem.value) || 0;
+            const receitaBruta = leads * conversao * ticket;
+            const lucro = receitaBruta * margem - investimento;
+            const roi = investimento > 0 ? (lucro / investimento) * 100 : 0;
+            const roas = investimento > 0 ? receitaBruta / investimento : 0;
+            const breakEvenCpa = ticket * margem * conversao;
+            const breakEvenRoas = margem > 0 ? 1 / margem : 0;
+            const custoPorLead = leads > 0 ? investimento / leads : 0;
+
+            if (beReceita) beReceita.textContent = formatCurrency(receitaBruta);
+            if (beLucro) beLucro.textContent = formatCurrency(lucro);
+            if (beRoi) beRoi.textContent = formatPercent(roi);
+            if (beCpl) beCpl.textContent = formatCurrency(custoPorLead);
+            if (beCpa) beCpa.textContent = formatCurrency(breakEvenCpa);
+            if (beRoas) beRoas.textContent = roas.toFixed(2);
+            if (beRoasBe) beRoasBe.textContent = breakEvenRoas.toFixed(2);
+        };
+
+        const updateLinkPreview = () => {
+            if (!libPreviewNome || !libPreviewHeadline || !libPreviewBio || !libPreviewLinks) return;
+            const nome = libNome?.value.trim() || "Seu Nome";
+            const headline = libHeadline?.value.trim() || "Consultor Premium";
+            const bio = libBio?.value.trim() || "Estratégia de crescimento com estética de luxo.";
+            const links = [libLink1?.value, libLink2?.value, libLink3?.value]
+                .map((value) => (value || "").trim())
+                .filter(Boolean);
+
+            libPreviewNome.textContent = nome;
+            libPreviewHeadline.textContent = headline;
+            libPreviewBio.textContent = bio;
+            libPreviewLinks.innerHTML = "";
+            links.forEach((label) => {
+                const item = document.createElement("div");
+                item.className = "link-item";
+                item.textContent = label;
+                libPreviewLinks.appendChild(item);
+            });
+        };
+
+        const rgbToHex = (r, g, b) =>
+            `#${[r, g, b]
+                .map((c) => Math.max(0, Math.min(255, Math.round(c))).toString(16).padStart(2, "0"))
+                .join("")
+                .toUpperCase()}`;
+
+        const quantize = (value, steps = 16) => Math.round(value / (255 / steps)) * (255 / steps);
+
+        const updatePaletteSwatches = (colors) => {
+            if (!paletteColors) return;
+            paletteColors.innerHTML = "";
+            colors.forEach((color) => {
+                const swatch = document.createElement("div");
+                swatch.className = "palette-swatch";
+                const circle = document.createElement("div");
+                circle.className = "palette-color";
+                circle.style.background = color;
+                const label = document.createElement("div");
+                label.className = "tool-meta";
+                label.textContent = color;
+                swatch.appendChild(circle);
+                swatch.appendChild(label);
+                paletteColors.appendChild(swatch);
+            });
+        };
+
+        const extractPalette = (image) => {
+            if (!paletteCanvas) return;
+            const ctx = paletteCanvas.getContext("2d");
+            const size = 200;
+            paletteCanvas.width = size;
+            paletteCanvas.height = size;
+            ctx.drawImage(image, 0, 0, size, size);
+            const { data } = ctx.getImageData(0, 0, size, size);
+            const bucket = new Map();
+
+            for (let i = 0; i < data.length; i += 16) {
+                const r = quantize(data[i]);
+                const g = quantize(data[i + 1]);
+                const b = quantize(data[i + 2]);
+                const key = `${r},${g},${b}`;
+                bucket.set(key, (bucket.get(key) || 0) + 1);
+            }
+
+            const top = [...bucket.entries()]
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 3)
+                .map(([key]) => {
+                    const [r, g, b] = key.split(",").map(Number);
+                    return rgbToHex(r, g, b);
+                });
+
+            if (top.length) updatePaletteSwatches(top);
+        };
+
+        if (routineField && notesField) {
+            routineField.addEventListener("input", saveNotes);
+            notesField.addEventListener("input", saveNotes);
+        }
+        if (calcInput) {
+            calcInput.addEventListener("input", updateCalc);
+        }
+        if (currencyAmount && currencyFrom && currencyTo) {
+            currencyAmount.addEventListener("input", updateCurrency);
+            currencyFrom.addEventListener("change", updateCurrency);
+            currencyTo.addEventListener("change", updateCurrency);
+        }
 
         const openNotesModal = () => {
             notesModal.classList.add("is-open");
@@ -837,24 +1313,95 @@
             notesModal.setAttribute("aria-hidden", "true");
         };
 
-        notesCard.addEventListener("click", () => {
-            openNotesModal();
-        });
-
-        notesCard.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
+        if (notesCard && notesModal && notesClose && notesBackdrop) {
+            notesCard.addEventListener("click", () => {
                 openNotesModal();
-            }
+            });
+
+            notesCard.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    openNotesModal();
+                }
+            });
+
+            notesClose.addEventListener("click", closeNotesModal);
+            notesBackdrop.addEventListener("click", closeNotesModal);
+        }
+
+        if (luxInput) {
+            luxInput.addEventListener("input", () => {
+                clearTimeout(luxTimer);
+                luxTimer = setTimeout(updateLux, 600);
+            });
+        }
+        if (luxCopy) {
+            luxCopy.addEventListener("click", () => {
+                if (luxOutput?.textContent) navigator.clipboard?.writeText(luxOutput.textContent);
+            });
+        }
+        if (luxClear) {
+            luxClear.addEventListener("click", () => {
+                if (luxInput) luxInput.value = "";
+                updateLux();
+            });
+        }
+
+        [bioNome, bioNicho, bioOferta, bioResultado, bioProva, bioCta].forEach((field) => {
+            if (field) field.addEventListener("input", buildBio);
+        });
+        if (bioCopy) {
+            bioCopy.addEventListener("click", () => {
+                if (bioOutput?.textContent) navigator.clipboard?.writeText(bioOutput.textContent);
+            });
+        }
+
+        [beInvestimento, beLeads, beConversao, beTicket, beMargem].forEach((field) => {
+            if (field) field.addEventListener("input", updateBreakEven);
         });
 
-        notesClose.addEventListener("click", closeNotesModal);
-        notesBackdrop.addEventListener("click", closeNotesModal);
+        [libNome, libHeadline, libBio, libLink1, libLink2, libLink3].forEach((field) => {
+            if (field) field.addEventListener("input", updateLinkPreview);
+        });
+
+        if (paletteInput) {
+            paletteInput.addEventListener("change", (event) => {
+                const file = event.target.files?.[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const img = new Image();
+                    img.onload = () => {
+                        if (palettePreview) {
+                            palettePreview.src = reader.result;
+                            palettePreview.style.display = "block";
+                        }
+                        extractPalette(img);
+                    };
+                    img.src = reader.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        document.querySelectorAll("[data-tool-card]").forEach((card) => {
+            const collapsible = card.querySelector(".tool-widget.collapsible");
+            if (!collapsible) return;
+            card.addEventListener("click", (event) => {
+                const isInteractive = event.target.closest("input, textarea, button, select, a, label");
+                if (isInteractive) return;
+                collapsible.classList.toggle("is-open");
+            });
+        });
 
         init();
         loadNotes();
         updateCalc();
         updateCurrency();
+        updateLux();
+        buildBio();
+        updateBreakEven();
+        updateLinkPreview();
         setInterval(syncContent, 30000);
         setInterval(updateCurrency, RATES_TTL);
     </script>

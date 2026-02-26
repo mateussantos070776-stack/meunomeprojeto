@@ -7,6 +7,8 @@ services:
     envVars:
       - key: ADMIN_TOKEN
         value: troque-este-token
+      - key: OPENAI_API_KEY
+        value: REPLACE_ME
     headers:
       - path: "/*"
         name: "Cache-Control"

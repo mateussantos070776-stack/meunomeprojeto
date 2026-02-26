@@ -1,10 +1,12 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
+const fetch = require("node-fetch");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || "troque-este-token";
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const CONTENT_FILE = path.join(__dirname, "data", "content.json");
 const STATIC_DIR = path.join(__dirname, "meunomeprojeto");
 
@@ -42,6 +44,61 @@ app.post("/api/content", (req, res) => {
 
     writeContent(payload);
     return res.json({ ok: true });
+});
+
+app.post("/api/lux-scan", async (req, res) => {
+    if (!OPENAI_API_KEY) {
+        return res.status(500).json({ error: "missing_api_key" });
+    }
+
+    const { text } = req.body || {};
+    if (!text || typeof text !== "string") {
+        return res.status(400).json({ error: "invalid_text" });
+    }
+
+    try {
+        const response = await fetch("https://api.openai.com/v1/responses", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${OPENAI_API_KEY}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                model: "gpt-4.1-mini",
+                input: [
+                    {
+                        role: "system",
+                        content: [
+                            {
+                                type: "text",
+                                text:
+                                    "Você é um revisor de texto premium. Reescreva o texto recebido em português do Brasil com linguagem sofisticada, elegante e de alto padrão, mantendo o sentido original. Devolva apenas o texto final, sem aspas, sem lista e sem explicações.",
+                            },
+                        ],
+                    },
+                    {
+                        role: "user",
+                        content: [{ type: "text", text }],
+                    },
+                ],
+                temperature: 0.6,
+            }),
+        });
+
+        if (!response.ok) {
+            return res.status(500).json({ error: "openai_error" });
+        }
+
+        const data = await response.json();
+        const output = data?.output?.[0]?.content?.[0]?.text || data?.output_text || "";
+        if (!output) {
+            return res.status(500).json({ error: "empty_output" });
+        }
+
+        return res.json({ output });
+    } catch (error) {
+        return res.status(500).json({ error: "request_failed" });
+    }
 });
 
 app.use(express.static(STATIC_DIR));
