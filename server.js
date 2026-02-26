@@ -72,7 +72,7 @@ app.post("/api/lux-scan", async (req, res) => {
                             {
                                 type: "text",
                                 text:
-                                    "Você é um revisor de texto premium. Reescreva o texto recebido em português do Brasil com linguagem sofisticada, elegante e de alto padrão, mantendo o sentido original. Devolva apenas o texto final, sem aspas, sem lista e sem explicações.",
+                                    "Você é um revisor de texto premium. Reescreva TODO o texto recebido em português do Brasil com linguagem sofisticada, elegante e de alto padrão, mantendo o sentido original. Substitua todas as expressões comuns por alternativas premium sempre que possível. Devolva apenas o texto final, sem aspas, sem lista e sem explicações.",
                             },
                         ],
                     },
