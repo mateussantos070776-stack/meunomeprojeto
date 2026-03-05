@@ -720,96 +720,7 @@
     <div class="admin-modal" id="admin-modal" aria-hidden="true">
         <div class="admin-modal-backdrop" id="admin-modal-backdrop"></div>
         <div class="admin-modal-content admin-card" role="dialog" aria-modal="true" aria-label="Área admin">
-            <div class="admin-login admin-card-block" id="admin-login">
-                <h3>Login Admin</h3>
-                <label for="admin-user">Usuário</label>
-                <input id="admin-user" type="text" autocomplete="username" placeholder="Seu usuário" />
-                <label for="admin-pass">Senha</label>
-                <input id="admin-pass" type="password" autocomplete="current-password" placeholder="Sua senha" />
-                <div class="admin-actions">
-                    <button class="cta" id="admin-login-btn">Entrar</button>
-                    <button class="ghost" id="admin-close">Fechar</button>
-                </div>
-                <div class="admin-message" id="admin-message"></div>
-            </div>
-
-            <div class="admin-panel hidden" id="admin-panel">
-                <div class="admin-cards">
-                    <div class="admin-card-block edit-card">
-                        <h4>Edições do site</h4>
-                        <div>
-                            <label for="admin-hero-title">Título principal</label>
-                            <input id="admin-hero-title" type="text" data-edit-key="heroTitle" />
-                        </div>
-                        <div>
-                            <label for="admin-hero-desc">Descrição principal</label>
-                            <textarea id="admin-hero-desc" data-edit-key="heroDesc"></textarea>
-                        </div>
-                        <div>
-                            <label for="admin-tool-1">Ferramenta 1 (título)</label>
-                            <input id="admin-tool-1" type="text" data-edit-key="tool1Title" />
-                        </div>
-                        <div>
-                            <label for="admin-tool-1-desc">Ferramenta 1 (descrição)</label>
-                            <textarea id="admin-tool-1-desc" data-edit-key="tool1Desc"></textarea>
-                        </div>
-                        <div>
-                            <label for="admin-tool-2">Ferramenta 2 (título)</label>
-                            <input id="admin-tool-2" type="text" data-edit-key="tool2Title" />
-                        </div>
-                        <div>
-                            <label for="admin-tool-2-desc">Ferramenta 2 (descrição)</label>
-                            <textarea id="admin-tool-2-desc" data-edit-key="tool2Desc"></textarea>
-                        </div>
-                        <div>
-                            <label for="admin-tool-3">Ferramenta 3 (título)</label>
-                            <input id="admin-tool-3" type="text" data-edit-key="tool3Title" />
-                        </div>
-                        <div>
-                            <label for="admin-tool-3-desc">Ferramenta 3 (descrição)</label>
-                            <textarea id="admin-tool-3-desc" data-edit-key="tool3Desc"></textarea>
-                        </div>
-                        <div>
-                            <label for="admin-tool-4">Ferramenta 4 (título)</label>
-                            <input id="admin-tool-4" type="text" data-edit-key="tool4Title" />
-                        </div>
-                        <div>
-                            <label for="admin-tool-4-desc">Ferramenta 4 (descrição)</label>
-                            <textarea id="admin-tool-4-desc" data-edit-key="tool4Desc"></textarea>
-                        </div>
-                        <div>
-                            <label for="admin-contact">Texto de contato</label>
-                            <textarea id="admin-contact" data-edit-key="contactText"></textarea>
-                        </div>
-                        <div class="admin-actions">
-                            <button class="cta" id="admin-save">Salvar</button>
-                            <button class="ghost" id="admin-logout">Sair</button>
-                        </div>
-                        <div class="admin-message" id="admin-save-message"></div>
-                    </div>
-
-                    <div class="admin-card-block">
-                        <h4>Função futura 1</h4>
-                        <p class="admin-message">Reservado para próximas automações.</p>
-                    </div>
-                    <div class="admin-card-block">
-                        <h4>Função futura 2</h4>
-                        <p class="admin-message">Reservado para próximas automações.</p>
-                    </div>
-                    <div class="admin-card-block">
-                        <h4>Função futura 3</h4>
-                        <p class="admin-message">Reservado para próximas automações.</p>
-                    </div>
-                    <div class="admin-card-block">
-                        <h4>Função futura 4</h4>
-                        <p class="admin-message">Reservado para próximas automações.</p>
-                    </div>
-                    <div class="admin-card-block">
-                        <h4>Função futura 5</h4>
-                        <p class="admin-message">Reservado para próximas automações.</p>
-                    </div>
-                </div>
-            </div>
+            <div class="admin-panel" id="admin-panel"></div>
         </div>
     </div>
 
@@ -820,7 +731,7 @@
         const API_URL = "/api/content";
         const CONTENT_KEY = "cs_content";
         const WHATSAPP_NUMBER = "5587999920172";
-        let isAuthed = false;
+        let isAuthed = true;
 
         const modal = document.getElementById("admin-modal");
         const modalBackdrop = document.getElementById("admin-modal-backdrop");
@@ -829,6 +740,10 @@
         const loginMessage = document.getElementById("admin-message");
         const saveMessage = document.getElementById("admin-save-message");
         const adminSecretTrigger = document.getElementById("admin-secret-trigger");
+        const adminLoginBtn = document.getElementById("admin-login-btn");
+        const adminCloseBtn = document.getElementById("admin-close");
+        const adminSaveBtn = document.getElementById("admin-save");
+        const adminLogoutBtn = document.getElementById("admin-logout");
 
         const applyContent = (data) => {
             Object.entries(data).forEach(([key, value]) => {
@@ -877,30 +792,26 @@
         };
 
         const showPanel = () => {
-            loginWrapper.classList.add("hidden");
-            panelWrapper.classList.remove("hidden");
+            if (loginWrapper) loginWrapper.classList.add("hidden");
+            if (panelWrapper) panelWrapper.classList.remove("hidden");
             setFormValues(loadContent());
         };
 
         const showLogin = () => {
-            loginWrapper.classList.remove("hidden");
-            panelWrapper.classList.add("hidden");
+            if (loginWrapper) loginWrapper.classList.remove("hidden");
+            if (panelWrapper) panelWrapper.classList.add("hidden");
         };
 
         const openModal = () => {
             modal.classList.add("is-open");
             modal.setAttribute("aria-hidden", "false");
-            if (!isAuthed) {
-                showLogin();
-            } else {
-                showPanel();
-            }
+            showPanel();
         };
 
         const closeModal = () => {
             modal.classList.remove("is-open");
             modal.setAttribute("aria-hidden", "true");
-            loginMessage.textContent = "";
+            if (loginMessage) loginMessage.textContent = "";
         };
 
         const maybeOpenAdminFromHash = () => {
@@ -921,22 +832,18 @@
             applyContent(data);
         };
 
-        document.getElementById("admin-login-btn").addEventListener("click", () => {
-            const user = document.getElementById("admin-user").value.trim();
-            const pass = document.getElementById("admin-pass").value.trim();
-            if (user === ADMIN_USER && pass === ADMIN_PASS) {
+        if (adminLoginBtn) {
+            adminLoginBtn.addEventListener("click", () => {
                 isAuthed = true;
-                loginMessage.textContent = "Acesso liberado.";
+                if (loginMessage) loginMessage.textContent = "";
                 showPanel();
-            } else {
-                loginMessage.textContent = "Usuário ou senha inválidos.";
-            }
-        });
+            });
+        }
 
-        document.getElementById("admin-close").addEventListener("click", closeModal);
+        if (adminCloseBtn) adminCloseBtn.addEventListener("click", closeModal);
         modalBackdrop.addEventListener("click", closeModal);
 
-        document.getElementById("admin-save").addEventListener("click", async () => {
+        if (adminSaveBtn) adminSaveBtn.addEventListener("click", async () => {
             const data = loadContent();
             document.querySelectorAll("[data-edit-key]").forEach((input) => {
                 const key = input.getAttribute("data-edit-key");
@@ -956,19 +863,20 @@
                 if (!response.ok) throw new Error("save_error");
                 localStorage.setItem(CONTENT_KEY, JSON.stringify(data));
                 applyContent(data);
-                saveMessage.textContent = "Atualizações salvas no servidor.";
+                if (saveMessage) saveMessage.textContent = "Atualizações salvas no servidor.";
             } catch {
                 localStorage.setItem(CONTENT_KEY, JSON.stringify(data));
                 applyContent(data);
-                saveMessage.textContent = "Falha ao salvar no servidor. Salvo apenas neste navegador.";
+                if (saveMessage) saveMessage.textContent = "Falha ao salvar no servidor. Salvo apenas neste navegador.";
             }
         });
 
-        document.getElementById("admin-logout").addEventListener("click", () => {
-            isAuthed = false;
-            saveMessage.textContent = "";
-            showLogin();
-        });
+        if (adminLogoutBtn) {
+            adminLogoutBtn.addEventListener("click", () => {
+                if (saveMessage) saveMessage.textContent = "";
+                closeModal();
+            });
+        }
 
         if (adminSecretTrigger) {
             let secretClicks = 0;
