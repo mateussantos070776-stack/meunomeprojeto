@@ -248,6 +248,12 @@
             letter-spacing: 0.4px;
         }
 
+        .product-image svg {
+            width: 78%;
+            max-width: 240px;
+            height: auto;
+        }
+
         .product-price {
             font-weight: 700;
             color: var(--orange-soft);
@@ -577,7 +583,7 @@
 <body>
     <header>
         <div class="container nav">
-            <div class="logo">Christ<span>Saves</span></div>
+            <div class="logo" id="admin-secret-trigger">Christ<span>Saves</span></div>
             <nav class="nav-links">
                 <a href="#produtos">Produtos</a>
                 <a href="#contato">Contato</a>
@@ -598,15 +604,35 @@
             <h2>Produtos</h2>
             <p>Cards prontos para receber produtos e iniciar vendas.</p>
             <div class="grid">
-                <div class="service product-card">
-                    <div class="product-image">Imagem do produto</div>
-                    <h3 data-content-key="tool1Title">Produto 1</h3>
+                <div class="service product-card" data-product-link="https://seusite.com/produto-1">
+                    <div class="product-image" aria-label="Caixa de ferramentas premium">
+                        <svg viewBox="0 0 420 260" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stop-color="#ff9a3d"/>
+                                    <stop offset="100%" stop-color="#ff6a00"/>
+                                </linearGradient>
+                                <linearGradient id="dark" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#1d1d28"/>
+                                    <stop offset="100%" stop-color="#111119"/>
+                                </linearGradient>
+                            </defs>
+
+                            <rect x="55" y="88" width="310" height="128" rx="22" fill="url(#dark)" stroke="url(#gold)" stroke-width="5"/>
+                            <rect x="175" y="58" width="70" height="34" rx="12" fill="none" stroke="url(#gold)" stroke-width="5"/>
+                            <rect x="195" y="130" width="30" height="44" rx="8" fill="url(#gold)"/>
+                            <path d="M110 162 h70" stroke="#ffcf9f" stroke-width="8" stroke-linecap="round"/>
+                            <path d="M248 152 l38 38" stroke="#ffcf9f" stroke-width="8" stroke-linecap="round"/>
+                            <path d="M281 119 a20 20 0 1 1 -29 29" fill="none" stroke="#ffcf9f" stroke-width="8"/>
+                        </svg>
+                    </div>
+                    <h3 data-content-key="tool1Title">Pacote Premium de Ferramentas</h3>
                     <p data-content-key="tool1Desc">Descrição curta do produto, benefícios e diferenciais para conversão.</p>
                     <div class="product-price">R$ 0,00</div>
                     <button class="product-cta">Comprar agora</button>
                 </div>
 
-                <div class="service product-card">
+                <div class="service product-card" data-product-link="https://seusite.com/produto-2">
                     <div class="product-image">Imagem do produto</div>
                     <h3 data-content-key="tool2Title">Produto 2</h3>
                     <p data-content-key="tool2Desc">Espaço para descrição comercial com foco em valor percebido e urgência.</p>
@@ -614,7 +640,7 @@
                     <button class="product-cta">Comprar agora</button>
                 </div>
 
-                <div class="service product-card">
+                <div class="service product-card" data-product-link="https://seusite.com/produto-3">
                     <div class="product-image">Imagem do produto</div>
                     <h3 data-content-key="tool3Title">Produto 3</h3>
                     <p data-content-key="tool3Desc">Use este card para produto digital, serviço ou assinatura.</p>
@@ -622,7 +648,7 @@
                     <button class="product-cta">Comprar agora</button>
                 </div>
 
-                <div class="service product-card">
+                <div class="service product-card" data-product-link="https://seusite.com/produto-4">
                     <div class="product-image">Imagem do produto</div>
                     <h3 data-content-key="tool4Title">Produto 4</h3>
                     <p data-content-key="tool4Desc">Card preparado para oferta com descrição, preço e CTA de compra.</p>
@@ -630,7 +656,7 @@
                     <button class="product-cta">Comprar agora</button>
                 </div>
 
-                <div class="service product-card">
+                <div class="service product-card" data-product-link="https://seusite.com/produto-5">
                     <div class="product-image">Imagem do produto</div>
                     <h3>Produto 5</h3>
                     <p>Espaço extra para novo item de catálogo ou campanha sazonal.</p>
@@ -802,6 +828,7 @@
         const panelWrapper = document.getElementById("admin-panel");
         const loginMessage = document.getElementById("admin-message");
         const saveMessage = document.getElementById("admin-save-message");
+        const adminSecretTrigger = document.getElementById("admin-secret-trigger");
 
         const applyContent = (data) => {
             Object.entries(data).forEach(([key, value]) => {
@@ -876,6 +903,12 @@
             loginMessage.textContent = "";
         };
 
+        const maybeOpenAdminFromHash = () => {
+            if (window.location.hash.toLowerCase() === "#admin") {
+                openModal();
+            }
+        };
+
         const init = async () => {
             const data = await fetchContent();
             applyContent(data);
@@ -937,6 +970,24 @@
             showLogin();
         });
 
+        if (adminSecretTrigger) {
+            let secretClicks = 0;
+            let secretTimer;
+
+            adminSecretTrigger.addEventListener("click", () => {
+                secretClicks += 1;
+                clearTimeout(secretTimer);
+                secretTimer = setTimeout(() => {
+                    secretClicks = 0;
+                }, 1800);
+
+                if (secretClicks >= 5) {
+                    secretClicks = 0;
+                    openModal();
+                }
+            });
+        }
+
         document.addEventListener("keydown", (event) => {
             if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === "l") {
                 event.preventDefault();
@@ -956,6 +1007,8 @@
                 syncContent();
             }
         });
+
+        window.addEventListener("hashchange", maybeOpenAdminFromHash);
 
         const routineField = document.getElementById("notes-routine");
         const notesField = document.getElementById("notes-ideas");
@@ -1295,8 +1348,8 @@
             topRightMenuBtn.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
         };
 
-        const openWhatsAppForProduct = (productName) => {
-            const message = `Olá! Tenho interesse em comprar: ${productName}.`;
+        const openWhatsAppForProduct = (productName, productLink) => {
+            const message = `Tenho interesse ${productName} e o link dele: ${productLink}`;
             const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
             window.open(url, "_blank");
         };
@@ -1424,7 +1477,8 @@
 
             buyButton.addEventListener("click", () => {
                 const productName = card.querySelector("h3")?.textContent?.trim() || "Produto";
-                openWhatsAppForProduct(productName);
+                const productLink = card.getAttribute("data-product-link") || `${window.location.origin}${window.location.pathname}#produtos`;
+                openWhatsAppForProduct(productName, productLink);
             });
         });
 
@@ -1439,6 +1493,7 @@
         });
 
         init();
+        maybeOpenAdminFromHash();
         loadNotes();
         updateCalc();
         updateCurrency();
