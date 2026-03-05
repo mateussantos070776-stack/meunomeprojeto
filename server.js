@@ -3,6 +3,8 @@ const path = require("path");
 const fs = require("fs");
 const fetch = require("node-fetch");
 
+require("dotenv").config();
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || "troque-este-token";
@@ -72,7 +74,7 @@ app.post("/api/lux-scan", async (req, res) => {
                             {
                                 type: "text",
                                 text:
-                                    "Você é um revisor de texto premium. Reescreva TODO o texto recebido em português do Brasil com linguagem sofisticada, elegante e de alto padrão, mantendo o sentido original. Substitua todas as expressões comuns por alternativas premium sempre que possível. Devolva apenas o texto final, sem aspas, sem lista e sem explicações.",
+                                    "Você é um revisor de texto premium. Reescreva TODO o texto recebido em português do Brasil com linguagem sofisticada, elegante e de alto padrão, mantendo o sentido original. Substitua todas as expressões comuns por alternativas premium sempre que possível. Não repita a frase original; reformule integralmente. Devolva apenas o texto final, sem aspas, sem lista e sem explicações.",
                             },
                         ],
                     },

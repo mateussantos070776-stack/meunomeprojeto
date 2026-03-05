@@ -84,6 +84,59 @@
             cursor: pointer;
         }
 
+        .top-right-menu {
+            position: relative;
+            z-index: 12;
+            display: grid;
+            gap: 8px;
+            justify-items: end;
+            margin-left: 12px;
+        }
+
+        .menu-toggle-btn {
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(10, 10, 14, 0.92);
+            color: var(--white);
+            padding: 10px 14px;
+            border-radius: 999px;
+            font-weight: 700;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+        }
+
+        .top-right-menu-panel {
+            display: none;
+            position: absolute;
+            top: calc(100% + 6px);
+            right: 0;
+            min-width: 200px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(10, 10, 14, 0.96);
+            border-radius: 14px;
+            padding: 10px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+        }
+
+        .top-right-menu-panel.is-open {
+            display: grid;
+            gap: 4px;
+        }
+
+        .top-right-menu-panel a {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.85;
+            padding: 9px 10px;
+            border-radius: 10px;
+            font-size: 0.92rem;
+        }
+
+        .top-right-menu-panel a:hover {
+            opacity: 1;
+            background: rgba(255, 154, 61, 0.12);
+            color: var(--orange-soft);
+        }
+
         .hero {
             padding: 70px 0 30px;
             display: grid;
@@ -174,6 +227,42 @@
         .service h3 {
             margin: 0 0 8px;
             color: var(--orange-soft);
+        }
+
+        .product-card {
+            display: grid;
+            gap: 12px;
+            align-content: start;
+        }
+
+        .product-image {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: linear-gradient(140deg, #1a1a24, #101018);
+            display: grid;
+            place-items: center;
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 0.85rem;
+            letter-spacing: 0.4px;
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: var(--orange-soft);
+            font-size: 1.05rem;
+        }
+
+        .product-cta {
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 999px;
+            background: #ff8020;
+            color: #0b0b0f;
+            font-weight: 700;
+            padding: 10px 14px;
+            cursor: pointer;
+            width: fit-content;
         }
 
         .tool-widget {
@@ -490,160 +579,63 @@
         <div class="container nav">
             <div class="logo">Christ<span>Saves</span></div>
             <nav class="nav-links">
-                <a href="#ferramentas">Ferramentas</a>
+                <a href="#produtos">Produtos</a>
                 <a href="#contato">Contato</a>
             </nav>
-            <button class="cta">Solicitar proposta</button>
+            <div class="top-right-menu" id="top-right-menu">
+                <button class="menu-toggle-btn" id="top-right-menu-btn" aria-expanded="false" aria-controls="top-right-menu-panel">Menu</button>
+                <div class="top-right-menu-panel" id="top-right-menu-panel">
+                    <a href="#">Início</a>
+                    <a href="#produtos">Produtos</a>
+                    <a href="#contato">Contato</a>
+                </div>
+            </div>
         </div>
     </header>
 
     <main class="container">
-        <section class="hero">
-            <div>
-                <h1 data-content-key="heroTitle">Experiências digitais luxuosas e de alta tecnologia</h1>
-                <p data-content-key="heroDesc">Transforme seu negócio com design premium, performance impecável e presença digital de alto padrão.</p>
-                <div class="hero-actions">
-                    <button class="cta">Agendar diagnóstico</button>
-                    <button class="ghost">Ver portfólio</button>
-                </div>
-            </div>
-            <div class="glass-card">
-                <h2>Visão estratégica</h2>
-                <p>Projetamos sites, landing pages e experiências digitais que comunicam exclusividade e confiança.</p>
-                <p>Automação, branding e tecnologia alinhados à sua marca.</p>
-            </div>
-        </section>
-
-        <section id="ferramentas" class="section">
-            <h2>Ferramentas</h2>
-            <p>Recursos premium para acelerar seus resultados.</p>
+        <section id="produtos" class="section">
+            <h2>Produtos</h2>
+            <p>Cards prontos para receber produtos e iniciar vendas.</p>
             <div class="grid">
-                <div class="service tool-card" data-tool-card>
-                    <h3>Scanner de Legibilidade</h3>
-                    <p>Troque palavras comuns por termos de luxo e eleve a percepção instantaneamente.</p>
-                    <div class="tool-widget collapsible">
-                        <label for="lux-input">Texto original</label>
-                        <textarea id="lux-input" placeholder="Digite seu texto..."></textarea>
-                        <label for="lux-output">Texto premium</label>
-                        <div class="tool-output" id="lux-output">Seu texto premium aparecerá aqui.</div>
-                        <div class="tool-actions">
-                            <button class="tool-action" id="lux-copy">Copiar</button>
-                            <button class="tool-action tool-action-outline" id="lux-clear">Limpar</button>
-                        </div>
-                    </div>
+                <div class="service product-card">
+                    <div class="product-image">Imagem do produto</div>
+                    <h3 data-content-key="tool1Title">Produto 1</h3>
+                    <p data-content-key="tool1Desc">Descrição curta do produto, benefícios e diferenciais para conversão.</p>
+                    <div class="product-price">R$ 0,00</div>
+                    <button class="product-cta">Comprar agora</button>
                 </div>
 
-                <div class="service tool-card" data-tool-card>
-                    <h3>Gerador de Bio High-Ticket</h3>
-                    <p>Estruture bios para Instagram com posicionamento de luxo e clareza imediata.</p>
-                    <div class="tool-widget collapsible">
-                        <label for="bio-nome">Nome</label>
-                        <input id="bio-nome" type="text" placeholder="Seu nome" />
-                        <label for="bio-nicho">Nicho</label>
-                        <input id="bio-nicho" type="text" placeholder="Nicho / posicionamento" />
-                        <label for="bio-oferta">Oferta high-ticket</label>
-                        <input id="bio-oferta" type="text" placeholder="Sua oferta premium" />
-                        <label for="bio-resultado">Resultado principal</label>
-                        <input id="bio-resultado" type="text" placeholder="Resultados desejados" />
-                        <label for="bio-prova">Prova social</label>
-                        <input id="bio-prova" type="text" placeholder="Prova / autoridade" />
-                        <label for="bio-cta">CTA</label>
-                        <input id="bio-cta" type="text" placeholder="Chamada para ação" />
-                        <div class="tool-output" id="bio-output">Preencha o formulário para gerar sua bio.</div>
-                        <div class="tool-actions">
-                            <span class="tool-meta" id="bio-count">0 caracteres</span>
-                            <button class="tool-action" id="bio-copy">Copiar bio</button>
-                        </div>
-                    </div>
+                <div class="service product-card">
+                    <div class="product-image">Imagem do produto</div>
+                    <h3 data-content-key="tool2Title">Produto 2</h3>
+                    <p data-content-key="tool2Desc">Espaço para descrição comercial com foco em valor percebido e urgência.</p>
+                    <div class="product-price">R$ 0,00</div>
+                    <button class="product-cta">Comprar agora</button>
                 </div>
 
-                <div class="service tool-card" data-tool-card>
-                    <h3>Calculadora de Break-Even</h3>
-                    <p>Projete o ROI e o ponto de equilíbrio para tráfego pago com clareza premium.</p>
-                    <div class="tool-widget collapsible">
-                        <label for="be-investimento">Investimento em tráfego (R$)</label>
-                        <input id="be-investimento" type="number" value="5000" />
-                        <label for="be-leads">Leads gerados</label>
-                        <input id="be-leads" type="number" value="200" />
-                        <label for="be-conversao">Taxa de conversão (0-1)</label>
-                        <input id="be-conversao" type="number" step="0.01" value="0.05" />
-                        <label for="be-ticket">Ticket médio (R$)</label>
-                        <input id="be-ticket" type="number" value="3000" />
-                        <label for="be-margem">Margem líquida (0-1)</label>
-                        <input id="be-margem" type="number" step="0.01" value="0.6" />
-                        <div class="tool-metric-grid">
-                            <div class="tool-metric"><span>Receita bruta</span><strong id="be-receita">R$ 0,00</strong></div>
-                            <div class="tool-metric"><span>Lucro estimado</span><strong id="be-lucro">R$ 0,00</strong></div>
-                            <div class="tool-metric"><span>ROI</span><strong id="be-roi">0%</strong></div>
-                            <div class="tool-metric"><span>CPL atual</span><strong id="be-cpl">R$ 0,00</strong></div>
-                            <div class="tool-metric"><span>Break-even CPA</span><strong id="be-cpa">R$ 0,00</strong></div>
-                            <div class="tool-metric"><span>ROAS atual</span><strong id="be-roas">0</strong></div>
-                            <div class="tool-metric"><span>ROAS break-even</span><strong id="be-roas-be">0</strong></div>
-                        </div>
-                    </div>
+                <div class="service product-card">
+                    <div class="product-image">Imagem do produto</div>
+                    <h3 data-content-key="tool3Title">Produto 3</h3>
+                    <p data-content-key="tool3Desc">Use este card para produto digital, serviço ou assinatura.</p>
+                    <div class="product-price">R$ 0,00</div>
+                    <button class="product-cta">Comprar agora</button>
                 </div>
 
-                <div class="service tool-card" data-tool-card>
-                    <h3>Link-in-Bio Minimalista</h3>
-                    <p>Crie uma página de links com estética sofisticada e foco absoluto no luxo.</p>
-                    <div class="tool-widget collapsible">
-                        <label for="lib-nome">Nome</label>
-                        <input id="lib-nome" type="text" value="Seu Nome" />
-                        <label for="lib-headline">Headline</label>
-                        <input id="lib-headline" type="text" value="Consultor Premium" />
-                        <label for="lib-bio">Bio curta</label>
-                        <textarea id="lib-bio">Estratégia de crescimento com estética de luxo.</textarea>
-                        <label for="lib-link-1">Link 1 (título)</label>
-                        <input id="lib-link-1" type="text" value="Aplicar para consultoria" />
-                        <label for="lib-url-1">Link 1 (URL)</label>
-                        <input id="lib-url-1" type="text" value="https://seusite.com" />
-                        <label for="lib-link-2">Link 2 (título)</label>
-                        <input id="lib-link-2" type="text" value="Conteúdos exclusivos" />
-                        <label for="lib-url-2">Link 2 (URL)</label>
-                        <input id="lib-url-2" type="text" value="https://seusite.com/insights" />
-                        <label for="lib-link-3">Link 3 (título)</label>
-                        <input id="lib-link-3" type="text" value="Podcast" />
-                        <label for="lib-url-3">Link 3 (URL)</label>
-                        <input id="lib-url-3" type="text" value="https://seusite.com/podcast" />
-                        <div class="link-preview" id="lib-preview">
-                            <div class="link-avatar"></div>
-                            <div>
-                                <strong id="lib-preview-nome">Seu Nome</strong>
-                                <div class="tool-meta" id="lib-preview-headline">Consultor Premium</div>
-                            </div>
-                            <div class="tool-meta" id="lib-preview-bio">Estratégia de crescimento com estética de luxo.</div>
-                            <div class="link-list" id="lib-preview-links">
-                                <div class="link-item">Aplicar para consultoria</div>
-                                <div class="link-item">Conteúdos exclusivos</div>
-                                <div class="link-item">Podcast</div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="service product-card">
+                    <div class="product-image">Imagem do produto</div>
+                    <h3 data-content-key="tool4Title">Produto 4</h3>
+                    <p data-content-key="tool4Desc">Card preparado para oferta com descrição, preço e CTA de compra.</p>
+                    <div class="product-price">R$ 0,00</div>
+                    <button class="product-cta">Comprar agora</button>
                 </div>
 
-                <div class="service tool-card" data-tool-card>
-                    <h3>Extrator de Paleta</h3>
-                    <p>Faça upload de uma imagem e extraia 3 cores principais via Canvas API.</p>
-                    <div class="tool-widget collapsible">
-                        <label for="palette-input">Imagem</label>
-                        <input id="palette-input" type="file" accept="image/*" />
-                        <img id="palette-preview" alt="Prévia" style="display: none; width: 100%; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.12);" />
-                        <div class="palette-grid" id="palette-colors">
-                            <div class="palette-swatch">
-                                <div class="palette-color" style="background: #1f1f1f;"></div>
-                                <div class="tool-meta">#1F1F1F</div>
-                            </div>
-                            <div class="palette-swatch">
-                                <div class="palette-color" style="background: #ff8020;"></div>
-                                <div class="tool-meta">#FF8020</div>
-                            </div>
-                            <div class="palette-swatch">
-                                <div class="palette-color" style="background: #ffffff;"></div>
-                                <div class="tool-meta">#FFFFFF</div>
-                            </div>
-                        </div>
-                        <canvas id="palette-canvas" style="display: none;"></canvas>
-                    </div>
+                <div class="service product-card">
+                    <div class="product-image">Imagem do produto</div>
+                    <h3>Produto 5</h3>
+                    <p>Espaço extra para novo item de catálogo ou campanha sazonal.</p>
+                    <div class="product-price">R$ 0,00</div>
+                    <button class="product-cta">Comprar agora</button>
                 </div>
             </div>
         </section>
@@ -801,6 +793,7 @@
         const ADMIN_TOKEN = "troque-este-token";
         const API_URL = "/api/content";
         const CONTENT_KEY = "cs_content";
+        const WHATSAPP_NUMBER = "5587999920172";
         let isAuthed = false;
 
         const modal = document.getElementById("admin-modal");
@@ -1016,6 +1009,9 @@
         const palettePreview = document.getElementById("palette-preview");
         const paletteColors = document.getElementById("palette-colors");
         const paletteCanvas = document.getElementById("palette-canvas");
+        const topRightMenu = document.getElementById("top-right-menu");
+        const topRightMenuBtn = document.getElementById("top-right-menu-btn");
+        const topRightMenuPanel = document.getElementById("top-right-menu-panel");
 
         const NOTES_ROUTINE_KEY = "cs_notes_routine";
         const NOTES_IDEAS_KEY = "cs_notes_ideas";
@@ -1290,6 +1286,21 @@
             if (top.length) updatePaletteSwatches(top);
         };
 
+        const toggleTopRightMenu = (forceState) => {
+            if (!topRightMenuBtn || !topRightMenuPanel) return;
+            const shouldOpen = typeof forceState === "boolean"
+                ? forceState
+                : !topRightMenuPanel.classList.contains("is-open");
+            topRightMenuPanel.classList.toggle("is-open", shouldOpen);
+            topRightMenuBtn.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
+        };
+
+        const openWhatsAppForProduct = (productName) => {
+            const message = `Olá! Tenho interesse em comprar: ${productName}.`;
+            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(url, "_blank");
+        };
+
         if (routineField && notesField) {
             routineField.addEventListener("input", saveNotes);
             notesField.addEventListener("input", saveNotes);
@@ -1383,6 +1394,39 @@
                 reader.readAsDataURL(file);
             });
         }
+
+        if (topRightMenu && topRightMenuBtn && topRightMenuPanel) {
+            topRightMenuBtn.addEventListener("click", (event) => {
+                event.stopPropagation();
+                toggleTopRightMenu();
+            });
+
+            topRightMenuPanel.addEventListener("click", () => {
+                toggleTopRightMenu(false);
+            });
+
+            document.addEventListener("click", (event) => {
+                if (!topRightMenu.contains(event.target)) {
+                    toggleTopRightMenu(false);
+                }
+            });
+
+            document.addEventListener("keydown", (event) => {
+                if (event.key === "Escape") {
+                    toggleTopRightMenu(false);
+                }
+            });
+        }
+
+        document.querySelectorAll(".product-card").forEach((card) => {
+            const buyButton = card.querySelector(".product-cta");
+            if (!buyButton) return;
+
+            buyButton.addEventListener("click", () => {
+                const productName = card.querySelector("h3")?.textContent?.trim() || "Produto";
+                openWhatsAppForProduct(productName);
+            });
+        });
 
         document.querySelectorAll("[data-tool-card]").forEach((card) => {
             const collapsible = card.querySelector(".tool-widget.collapsible");
