@@ -2,13 +2,44 @@
   "name": "meunomeprojeto",
   "version": "1.0.0",
   "private": true,
-  "main": "server.js",
+  "main": "electron-main.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "desktop": "electron .",
+    "dist:win": "electron-builder --win portable",
+    "android:sync": "npx cap sync android",
+    "android:open": "npx cap open android",
+    "android:apk": "cd android && gradlew.bat assembleDebug"
   },
   "dependencies": {
+    "@capacitor/android": "^8.2.0",
+    "@capacitor/cli": "^8.2.0",
+    "@capacitor/core": "^8.2.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "electron": "^37.2.0",
+    "electron-builder": "^25.1.8",
+    "png-to-ico": "^3.0.1"
+  },
+  "build": {
+    "appId": "com.meunomeprojeto.biblia",
+    "productName": "Central de Estudos Biblicos",
+    "asar": true,
+    "files": [
+      "electron-main.js",
+      "server.js",
+      "data/**/*",
+      "meunomeprojeto/**/*",
+      "package.json"
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        "portable"
+      ]
+    }
   }
 }

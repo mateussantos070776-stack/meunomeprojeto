@@ -1,1417 +1,2227 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Christ Saves</title>
-    <style>
-        :root {
-            --black: #0b0b0f;
-            --black-2: #12121a;
-            --white: #ffffff;
-            --orange: #ff6a00;
-            --orange-soft: #ff9a3d;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: "Inter", "Segoe UI", sans-serif;
-            color: var(--white);
-            background: radial-gradient(1200px 800px at 80% -10%, #1f1308 0%, transparent 60%),
-                radial-gradient(900px 700px at 10% 0%, #111 0%, transparent 50%),
-                var(--black);
-        }
-
-        .container {
-            width: min(1200px, 92vw);
-            margin: 0 auto;
-        }
-
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            backdrop-filter: blur(10px);
-            background: rgba(10, 10, 14, 0.75);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 0;
-        }
-
-        .logo {
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            color: var(--white);
-        }
-
-        .logo span {
-            color: var(--orange);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 22px;
-        }
-
-        .nav-links a {
-            color: var(--white);
-            text-decoration: none;
-            opacity: 0.8;
-            font-size: 0.95rem;
-        }
-
-        .nav-links a:hover {
-            opacity: 1;
-            color: var(--orange-soft);
-        }
-
-        .cta {
-            background: linear-gradient(135deg, var(--orange), var(--orange-soft));
-            color: #0b0b0f;
-            border: none;
-            padding: 12px 18px;
-            border-radius: 999px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .top-right-menu {
-            position: relative;
-            z-index: 12;
-            display: grid;
-            gap: 8px;
-            justify-items: end;
-            margin-left: 12px;
-        }
-
-        .menu-toggle-btn {
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            background: rgba(10, 10, 14, 0.92);
-            color: var(--white);
-            padding: 10px 14px;
-            border-radius: 999px;
-            font-weight: 700;
-            cursor: pointer;
-            backdrop-filter: blur(8px);
-        }
-
-        .top-right-menu-panel {
-            display: none;
-            position: absolute;
-            top: calc(100% + 6px);
-            right: 0;
-            min-width: 200px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(10, 10, 14, 0.96);
-            border-radius: 14px;
-            padding: 10px;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
-        }
-
-        .top-right-menu-panel.is-open {
-            display: grid;
-            gap: 4px;
-        }
-
-        .top-right-menu-panel a {
-            color: var(--white);
-            text-decoration: none;
-            opacity: 0.85;
-            padding: 9px 10px;
-            border-radius: 10px;
-            font-size: 0.92rem;
-        }
-
-        .top-right-menu-panel a:hover {
-            opacity: 1;
-            background: rgba(255, 154, 61, 0.12);
-            color: var(--orange-soft);
-        }
-
-        .hero {
-            padding: 70px 0 30px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-            align-items: center;
-        }
-
-        .hero h1 {
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            margin: 0 0 12px;
-        }
-
-        .hero p {
-            opacity: 0.8;
-            line-height: 1.6;
-            margin: 0 0 20px;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .ghost {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--white);
-            padding: 12px 18px;
-            border-radius: 999px;
-        }
-
-        .glass-card {
-            background: linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 16px;
-            margin-top: 18px;
-        }
-
-        .stat h3 {
-            margin: 0;
-            color: var(--orange-soft);
-            font-size: 1.4rem;
-        }
-
-        .section {
-            padding: 50px 0;
-        }
-
-        .section h2 {
-            margin: 0 0 8px;
-        }
-
-        .section p {
-            margin: 0 0 24px;
-            opacity: 0.75;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 16px;
-        }
-
-        .service {
-            padding: 18px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: #0f0f16;
-            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .service:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255, 154, 61, 0.6);
-            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
-        }
-
-        .service h3 {
-            margin: 0 0 8px;
-            color: var(--orange-soft);
-        }
-
-        .product-card {
-            display: grid;
-            gap: 12px;
-            align-content: start;
-        }
-
-        .product-image {
-            width: 100%;
-            aspect-ratio: 16 / 10;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: linear-gradient(140deg, #1a1a24, #101018);
-            display: grid;
-            place-items: center;
-            color: rgba(255, 255, 255, 0.45);
-            font-size: 0.85rem;
-            letter-spacing: 0.4px;
-        }
-
-        .product-image svg {
-            width: 78%;
-            max-width: 240px;
-            height: auto;
-        }
-
-        .product-price {
-            font-weight: 700;
-            color: var(--orange-soft);
-            font-size: 1.05rem;
-        }
-
-        .product-cta {
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 999px;
-            background: #ff8020;
-            color: #0b0b0f;
-            font-weight: 700;
-            padding: 10px 14px;
-            cursor: pointer;
-            width: fit-content;
-        }
-
-        .tool-widget {
-            margin-top: 14px;
-            display: grid;
-            gap: 12px;
-        }
-
-        .tool-widget.collapsible {
-            display: none;
-        }
-
-        .tool-widget.collapsible.is-open {
-            display: grid;
-        }
-
-        .notes-modal {
-            position: fixed;
-            inset: 0;
-            display: none;
-            place-items: center;
-            z-index: 40;
-        }
-
-        .notes-modal.is-open {
-            display: grid;
-        }
-
-        .notes-modal-backdrop {
-            position: absolute;
-            inset: 0;
-            background: rgba(5, 5, 10, 0.85);
-            backdrop-filter: blur(8px);
-        }
-
-        .notes-modal-card {
-            position: relative;
-            width: min(720px, 94vw);
-            max-height: 90vh;
-            overflow: auto;
-            padding: 18px;
-        }
-
-        .tool-widget label {
-            font-size: 0.85rem;
-            opacity: 0.85;
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .tool-widget input,
-        .tool-widget textarea,
-        .tool-widget select {
-            width: 100%;
-            padding: 10px 12px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: #0b0b12;
-            color: var(--white);
-            font-family: inherit;
-        }
-
-        .tool-widget textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
-
-        .tool-inline {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 10px;
-        }
-
-        .tool-result {
-            font-size: 0.9rem;
-            opacity: 0.85;
-        }
-
-        .tool-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            font-size: 0.75rem;
-            opacity: 0.75;
-        }
-
-        .tool-card {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            cursor: pointer;
-        }
-
-        .tool-output {
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: #0b0b12;
-            color: var(--white);
-            border-radius: 12px;
-            padding: 12px;
-            min-height: 96px;
-            white-space: pre-wrap;
-        }
-
-        .tool-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .tool-action {
-            padding: 8px 14px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            background: #ff8020;
-            color: #0b0b0f;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .tool-action.tool-action-outline {
-            background: transparent;
-            color: var(--white);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .tool-meta {
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
-
-        .tool-metric-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 10px;
-        }
-
-        .tool-metric {
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: #0b0b12;
-            border-radius: 12px;
-            padding: 12px;
-        }
-
-        .tool-metric span {
-            display: block;
-            font-size: 0.75rem;
-            opacity: 0.7;
-        }
-
-        .tool-metric strong {
-            font-size: 1.05rem;
-        }
-
-        .link-preview {
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: #0b0b12;
-            border-radius: 16px;
-            padding: 16px;
-            display: grid;
-            gap: 12px;
-            text-align: center;
-        }
-
-        .link-avatar {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: #ff8020;
-            margin: 0 auto;
-        }
-
-        .link-list {
-            display: grid;
-            gap: 8px;
-        }
-
-        .link-item {
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 12px;
-            padding: 10px;
-            color: #ff8020;
-            background: #0a0a0f;
-            font-size: 0.85rem;
-        }
-
-        .palette-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 10px;
-        }
-
-        .palette-swatch {
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 12px;
-            padding: 12px;
-            text-align: center;
-            background: #0b0b12;
-        }
-
-        .palette-color {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            margin: 0 auto 8px;
-        }
-
-        .footer {
-            padding: 40px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
-
-        .admin-card {
-            display: grid;
-            gap: 18px;
-        }
-
-        .admin-card label {
-            display: block;
-            font-size: 0.85rem;
-            opacity: 0.8;
-            margin-bottom: 6px;
-        }
-
-        .admin-card input,
-        .admin-card textarea {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: #0b0b12;
-            color: var(--white);
-            font-family: inherit;
-        }
-
-        .admin-card textarea {
-            min-height: 90px;
-            resize: vertical;
-        }
-
-        .admin-actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .admin-message {
-            font-size: 0.85rem;
-            opacity: 0.8;
-        }
-
-        .admin-cards {
-            display: grid;
-            gap: 16px;
-        }
-
-        .admin-card-block {
-            padding: 16px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-            display: grid;
-            gap: 12px;
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
-        }
-
-        .admin-card-block.edit-card {
-            border: 1px solid rgba(255, 154, 61, 0.35);
-            background: linear-gradient(160deg, rgba(255, 154, 61, 0.12), rgba(255, 255, 255, 0.02));
-            box-shadow: 0 22px 50px rgba(0, 0, 0, 0.45);
-        }
-
-        .admin-card-block h4 {
-            margin: 0;
-            color: var(--orange-soft);
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .admin-modal {
-            position: fixed;
-            inset: 0;
-            display: none;
-            place-items: center;
-            z-index: 50;
-        }
-
-        .admin-modal.is-open {
-            display: grid;
-        }
-
-        .admin-modal-backdrop {
-            position: absolute;
-            inset: 0;
-            background: rgba(5, 5, 10, 0.85);
-            backdrop-filter: blur(8px);
-        }
-
-        .admin-modal-content {
-            position: relative;
-            width: min(720px, 94vw);
-            max-height: 90vh;
-            overflow: auto;
-            padding: 8px;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="container nav">
-            <div class="logo" id="admin-secret-trigger">Christ<span>Saves</span></div>
-            <nav class="nav-links">
-                <a href="#produtos">Produtos</a>
-                <a href="#contato">Contato</a>
-            </nav>
-            <div class="top-right-menu" id="top-right-menu">
-                <button class="menu-toggle-btn" id="top-right-menu-btn" aria-expanded="false" aria-controls="top-right-menu-panel">Menu</button>
-                <button class="menu-toggle-btn" id="login-btn">Entrar</button>
-                <div class="top-right-menu-panel" id="top-right-menu-panel">
-                    <a href="#">Início</a>
-                    <a href="#produtos">Produtos</a>
-                    <a href="#contato">Contato</a>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="container">
-        <section id="produtos" class="section">
-            <h2>Produtos</h2>
-            <p>Cards prontos para receber produtos e iniciar vendas.</p>
-            <div class="grid">
-                <div class="service product-card" data-product-link="https://seusite.com/produto-1">
-                    <div class="product-image" aria-label="Caixa de ferramentas premium">
-                        <svg viewBox="0 0 420 260" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
-                                    <stop offset="0%" stop-color="#ff9a3d"/>
-                                    <stop offset="100%" stop-color="#ff6a00"/>
-                                </linearGradient>
-                                <linearGradient id="dark" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stop-color="#1d1d28"/>
-                                    <stop offset="100%" stop-color="#111119"/>
-                                </linearGradient>
-                            </defs>
-
-                            <rect x="55" y="88" width="310" height="128" rx="22" fill="url(#dark)" stroke="url(#gold)" stroke-width="5"/>
-                            <rect x="175" y="58" width="70" height="34" rx="12" fill="none" stroke="url(#gold)" stroke-width="5"/>
-                            <rect x="195" y="130" width="30" height="44" rx="8" fill="url(#gold)"/>
-                            <path d="M110 162 h70" stroke="#ffcf9f" stroke-width="8" stroke-linecap="round"/>
-                            <path d="M248 152 l38 38" stroke="#ffcf9f" stroke-width="8" stroke-linecap="round"/>
-                            <path d="M281 119 a20 20 0 1 1 -29 29" fill="none" stroke="#ffcf9f" stroke-width="8"/>
-                        </svg>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="theme-color" content="#1f7ae0">
+            <meta name="apple-mobile-web-app-capable" content="yes">
+            <meta name="apple-mobile-web-app-status-bar-style" content="default">
+            <meta name="apple-mobile-web-app-title" content="Estudos Bíblicos">
+            <link rel="manifest" href="./manifest.webmanifest">
+            <link rel="apple-touch-icon" href="./icons/icon-192.svg">
+            <title>Central de Estudos Bíblicos</title>
+            <style>
+                :root {
+                    color-scheme: light;
+                    --bg: #f2f4f8;
+                    --card: #ffffff;
+                    --primary: #1f7ae0;
+                    --primary-dark: #1556a8;
+                    --accent: #f7b500;
+                    --muted: #4b5563;
+                    --border: #e2e8f0;
+                    --radius: 14px;
+                    --shadow: 0 12px 30px rgba(18, 38, 63, 0.12);
+                    font-size: 16px;
+                }
+
+                * {
+                    box-sizing: border-box;
+                }
+
+                body {
+                    margin: 0;
+                    font-family: "Segoe UI", "Inter", system-ui;
+                    background: var(--bg);
+                    color: #0f172a;
+                }
+
+                .page {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 40px 20px 80px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 24px;
+                }
+
+                header {
+                    background: linear-gradient(135deg, #0d1b2a, #1b263b 70%);
+                    color: #f8fafc;
+                    padding: 32px;
+                    border-radius: var(--radius);
+                    box-shadow: var(--shadow);
+                }
+
+                header h1 {
+                    margin: 0 0 8px;
+                    font-size: 1.9rem;
+                }
+
+                header p {
+                    margin: 4px 0;
+                    color: #cbd5f5;
+                }
+
+                .cards-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                    gap: 12px;
+                    margin-top: 18px;
+                }
+
+                .status-card {
+                    background: rgba(255, 255, 255, 0.08);
+                    border-radius: var(--radius);
+                    padding: 16px;
+                    border: 1px solid rgba(255, 255, 255, 0.14);
+                }
+
+                .status-card h3 {
+                    margin: 0;
+                    font-size: 0.95rem;
+                    letter-spacing: 0.05em;
+                    text-transform: uppercase;
+                    color: #e2e8ff;
+                }
+
+                .status-card span {
+                    font-size: 1.5rem;
+                    font-weight: 600;
+                }
+
+                .pwa-box {
+                    margin-top: 14px;
+                }
+
+                .pwa-note {
+                    margin-top: 8px;
+                    color: #cbd5f5;
+                    font-size: 0.9rem;
+                }
+
+                .card {
+                    background: var(--card);
+                    border-radius: var(--radius);
+                    padding: 28px;
+                    box-shadow: var(--shadow);
+                    border: 1px solid var(--border);
+                }
+
+                .card h2 {
+                    margin: 0 0 18px;
+                    font-size: 1.4rem;
+                    color: #0f172a;
+                }
+
+                .card p {
+                    margin-top: 0;
+                    color: var(--muted);
+                }
+
+                form {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 14px;
+                }
+
+                label {
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    color: #1f2937;
+                }
+
+                .field {
+                    flex: 1 1 180px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                }
+
+                select, input, textarea {
+                    border-radius: 12px;
+                    border: 1px solid #ced7e5;
+                    padding: 12px 14px;
+                    font-size: 1rem;
+                    background: #fdfdfe;
+                    transition: border 0.2s, box-shadow 0.2s;
+                }
+
+                select:focus, input:focus, textarea:focus {
+                    outline: none;
+                    border-color: var(--primary);
+                    box-shadow: 0 0 0 3px rgba(31, 122, 224, 0.2);
+                }
+
+                button {
+                    border: none;
+                    border-radius: 999px;
+                    padding: 12px 26px;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: transform 0.15s, box-shadow 0.15s;
+                }
+
+                button.primary {
+                    background: var(--primary);
+                    color: #fff;
+                    box-shadow: 0 10px 18px rgba(31, 122, 224, 0.25);
+                }
+
+                button.primary:hover {
+                    background: var(--primary-dark);
+                    transform: translateY(-1px);
+                }
+
+                button.ghost {
+                    background: transparent;
+                    border: 1px solid #cdd5e9;
+                    color: #1f2937;
+                }
+
+                button.danger {
+                    background: #dc2626;
+                    color: #fff;
+                }
+
+                .actions-row {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 12px;
+                    margin-top: 18px;
+                }
+
+                .result-shell {
+                    background: #0f172a;
+                    color: #f8fafc;
+                    padding: 24px;
+                    border-radius: var(--radius);
+                    border: 1px solid #1f2937;
+                }
+
+                .result-shell h3 {
+                    margin: 0 0 10px;
+                    font-size: 1.15rem;
+                }
+
+                .verses {
+                    line-height: 1.7;
+                    letter-spacing: 0.01em;
+                }
+
+                .verse-line {
+                    display: block;
+                    margin-bottom: 6px;
+                }
+
+                .verse-line b {
+                    color: var(--accent);
+                    margin-right: 6px;
+                }
+
+                .verse-line.highlight {
+                    background: rgba(247, 181, 0, 0.15);
+                    padding: 3px 8px;
+                    border-radius: 8px;
+                }
+
+                .word-token {
+                    cursor: help;
+                    border-bottom: 1px dashed transparent;
+                }
+
+                .word-token.translated-term {
+                    text-decoration: underline;
+                    text-decoration-thickness: 2px;
+                    text-underline-offset: 3px;
+                    text-decoration-color: rgba(125, 211, 252, 0.7);
+                }
+
+                .word-token:hover {
+                    border-bottom-color: #7dd3fc;
+                    background: rgba(125, 211, 252, 0.14);
+                    border-radius: 4px;
+                }
+
+                .lex-tooltip {
+                    position: fixed;
+                    z-index: 9999;
+                    max-width: 320px;
+                    pointer-events: none;
+                    background: #0f172a;
+                    color: #e2e8f0;
+                    border: 1px solid #334155;
+                    border-radius: 10px;
+                    padding: 10px;
+                    box-shadow: 0 8px 24px rgba(2, 6, 23, 0.35);
+                    font-size: 0.88rem;
+                    line-height: 1.4;
+                }
+
+                .lex-tooltip .lex-title {
+                    color: #7dd3fc;
+                    font-weight: 700;
+                    margin-bottom: 4px;
+                }
+
+                .badge {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    border-radius: 999px;
+                    padding: 6px 14px;
+                    background: rgba(255, 255, 255, 0.1);
+                    color: #fef9c3;
+                    font-size: 0.85rem;
+                    margin-right: 10px;
+                }
+
+                .parallel-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                    gap: 18px;
+                    margin-top: 18px;
+                }
+
+                .parallel-card {
+                    border: 1px solid var(--border);
+                    border-radius: var(--radius);
+                    padding: 18px;
+                    background: #fdfdff;
+                }
+
+                .split-columns {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 24px;
+                }
+
+                ul.list {
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    max-height: 280px;
+                    overflow: auto;
+                }
+
+                ul.list li {
+                    padding: 12px;
+                    border: 1px solid var(--border);
+                    border-radius: 12px;
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 12px;
+                    align-items: center;
+                }
+
+                ul.list li span {
+                    flex: 1;
+                }
+
+                .notes-area {
+                    width: 100%;
+                    min-height: 160px;
+                    resize: vertical;
+                }
+
+                .plan-list {
+                    margin-top: 14px;
+                    padding-left: 20px;
+                    color: var(--muted);
+                }
+
+                .tag {
+                    display: inline-block;
+                    padding: 4px 10px;
+                    border-radius: 999px;
+                    font-size: 0.8rem;
+                    background: rgba(31, 122, 224, 0.12);
+                    color: var(--primary-dark);
+                    margin-right: 6px;
+                }
+
+                .empty-state {
+                    color: #94a3b8;
+                    font-style: italic;
+                }
+
+                .download-box {
+                    margin-top: 12px;
+                    border: 1px solid var(--border);
+                    border-radius: 12px;
+                    padding: 12px;
+                    background: #f8fafc;
+                    display: none;
+                }
+
+                .small {
+                    font-size: 0.86rem;
+                    color: var(--muted);
+                }
+
+                .progress-track {
+                    width: 100%;
+                    height: 10px;
+                    border-radius: 999px;
+                    overflow: hidden;
+                    background: #e2e8f0;
+                    margin-top: 10px;
+                }
+
+                .progress-bar {
+                    width: 0%;
+                    height: 100%;
+                    background: linear-gradient(90deg, #1f7ae0, #22c55e);
+                    transition: width 0.2s ease;
+                }
+
+                .chapter-picker-card {
+                    margin-top: 8px;
+                    border: 1px solid var(--border);
+                    border-radius: 12px;
+                    padding: 12px;
+                    background: #f8fafc;
+                }
+
+                .chapter-picker-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 10px;
+                    margin-bottom: 10px;
+                }
+
+                .chapter-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(54px, 1fr));
+                    gap: 8px;
+                    max-height: 240px;
+                    overflow: auto;
+                }
+
+                .chapter-chip {
+                    border: 1px solid #cdd5e9;
+                    border-radius: 10px;
+                    background: #fff;
+                    padding: 8px 4px;
+                    font-weight: 600;
+                    cursor: pointer;
+                }
+
+                .chapter-chip:hover {
+                    border-color: var(--primary);
+                    color: var(--primary-dark);
+                }
+
+                .chapter-chip.active {
+                    border-color: var(--primary);
+                    background: rgba(31, 122, 224, 0.12);
+                    color: var(--primary-dark);
+                }
+
+                .mini-btn {
+                    margin-top: 8px;
+                    border: 1px solid #cdd5e9;
+                    border-radius: 10px;
+                    background: #fff;
+                    padding: 8px 12px;
+                    font-size: 0.9rem;
+                    cursor: pointer;
+                }
+
+                @media (max-width: 640px) {
+                    button {
+                        width: 100%;
+                        text-align: center;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="page">
+                <header>
+                    <h1>Central de Estudos Bíblicos</h1>
+                    <p>Compare traduções, salve favoritos, organize notas e tenha planos de leitura guiados.</p>
+                    <div class="cards-grid">
+                        <div class="status-card">
+                            <h3>Capítulos em cache</h3>
+                            <span id="cacheCount">0</span>
+                        </div>
                     </div>
-                    <h3 data-content-key="tool1Title">Pacote Premium de Ferramentas</h3>
-                    <p data-content-key="tool1Desc">Descrição curta do produto, benefícios e diferenciais para conversão.</p>
-                    <div class="product-price">R$ 0,00</div>
-                    <button class="product-cta">Comprar agora</button>
-                </div>
-
-                <div class="service product-card" data-product-link="https://seusite.com/produto-2">
-                    <div class="product-image">Imagem do produto</div>
-                    <h3 data-content-key="tool2Title">Produto 2</h3>
-                    <p data-content-key="tool2Desc">Espaço para descrição comercial com foco em valor percebido e urgência.</p>
-                    <div class="product-price">R$ 0,00</div>
-                    <button class="product-cta">Comprar agora</button>
-                </div>
-
-                <div class="service product-card" data-product-link="https://seusite.com/produto-3">
-                    <div class="product-image">Imagem do produto</div>
-                    <h3 data-content-key="tool3Title">Produto 3</h3>
-                    <p data-content-key="tool3Desc">Use este card para produto digital, serviço ou assinatura.</p>
-                    <div class="product-price">R$ 0,00</div>
-                    <button class="product-cta">Comprar agora</button>
-                </div>
-
-                <div class="service product-card" data-product-link="https://seusite.com/produto-4">
-                    <div class="product-image">Imagem do produto</div>
-                    <h3 data-content-key="tool4Title">Produto 4</h3>
-                    <p data-content-key="tool4Desc">Card preparado para oferta com descrição, preço e CTA de compra.</p>
-                    <div class="product-price">R$ 0,00</div>
-                    <button class="product-cta">Comprar agora</button>
-                </div>
-
-                <div class="service product-card" data-product-link="https://seusite.com/produto-5">
-                    <div class="product-image">Imagem do produto</div>
-                    <h3>Produto 5</h3>
-                    <p>Espaço extra para novo item de catálogo ou campanha sazonal.</p>
-                    <div class="product-price">R$ 0,00</div>
-                    <button class="product-cta">Comprar agora</button>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer id="contato" class="container footer">
-        <span data-content-key="contactText">Entre em contato para uma proposta personalizada.</span>
-    </footer>
-
-    <div class="notes-modal" id="notes-modal" aria-hidden="true">
-        <div class="notes-modal-backdrop" id="notes-modal-backdrop"></div>
-        <div class="notes-modal-card glass-card" role="dialog" aria-modal="true" aria-label="Notas">
-            <div class="admin-actions" style="justify-content: space-between; align-items: center;">
-                <h3 style="margin: 0;">Notas</h3>
-                <button class="ghost" id="notes-close">Fechar</button>
-            </div>
-            <div class="tool-widget" id="notes-widget">
-                <div>
-                    <label for="notes-routine">Organização da rotina</label>
-                    <textarea id="notes-routine" placeholder="Planeje sua rotina diária..."></textarea>
-                </div>
-                <div>
-                    <label for="notes-ideas">Anotações</label>
-                    <textarea id="notes-ideas" placeholder="Anote ideias, lembretes e decisões..."></textarea>
-                </div>
-                <div>
-                    <label for="calc-input">Cálculos rápidos</label>
-                    <input id="calc-input" type="text" placeholder="Ex: (2+3)*4 / 5" />
-                    <div class="tool-result" id="calc-result">Resultado: -</div>
-                </div>
-                <div>
-                    <label>Conversão de moedas <span class="tool-badge">tempo real</span></label>
-                    <div class="tool-inline">
-                        <input id="currency-amount" type="number" inputmode="decimal" placeholder="Valor" />
-                        <select id="currency-from">
-                            <option value="BRL">BRL</option>
-                            <option value="USD" selected>USD</option>
-                            <option value="EUR">EUR</option>
-                            <option value="GBP">GBP</option>
-                        </select>
-                        <select id="currency-to">
-                            <option value="BRL" selected>BRL</option>
-                            <option value="USD">USD</option>
-                            <option value="EUR">EUR</option>
-                            <option value="GBP">GBP</option>
-                        </select>
+                    <div class="pwa-box">
+                        <button type="button" class="primary" id="installAppBtn" style="display:none;">Baixar app no celular</button>
+                        <div id="installAppHint" class="pwa-note"></div>
                     </div>
-                    <div class="tool-result" id="currency-result">Conversão: -</div>
-                    <div class="tool-result" id="currency-status"></div>
-                </div>
+                </header>
+
+                <section class="card" id="lookup-card">
+                    <h2>Buscar passagens</h2>
+                    <p>Selecione o livro, capítulo e (opcionalmente) o versículo para carregar a tradução desejada.</p>
+                    <form id="lookupForm">
+                        <div class="field">
+                            <label for="version">Versão</label>
+                            <select id="version" required>
+                                <option value="nvi">NVI - Nova Versão Internacional</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="book">Livro</label>
+                            <select id="book" required>
+                                <option value="">Selecione o livro</option>
+                                <option value="Gênesis">Gênesis</option>
+                                <option value="Êxodo">Êxodo</option>
+                                <option value="Levítico">Levítico</option>
+                                <option value="Números">Números</option>
+                                <option value="Deuteronômio">Deuteronômio</option>
+                                <option value="Josué">Josué</option>
+                                <option value="Juízes">Juízes</option>
+                                <option value="Rute">Rute</option>
+                                <option value="1 Samuel">1 Samuel</option>
+                                <option value="2 Samuel">2 Samuel</option>
+                                <option value="1 Reis">1 Reis</option>
+                                <option value="2 Reis">2 Reis</option>
+                                <option value="1 Crônicas">1 Crônicas</option>
+                                <option value="2 Crônicas">2 Crônicas</option>
+                                <option value="Esdras">Esdras</option>
+                                <option value="Neemias">Neemias</option>
+                                <option value="Ester">Ester</option>
+                                <option value="Jó">Jó</option>
+                                <option value="Salmos">Salmos</option>
+                                <option value="Provérbios">Provérbios</option>
+                                <option value="Eclesiastes">Eclesiastes</option>
+                                <option value="Cânticos">Cânticos</option>
+                                <option value="Isaías">Isaías</option>
+                                <option value="Jeremias">Jeremias</option>
+                                <option value="Lamentações">Lamentações</option>
+                                <option value="Ezequiel">Ezequiel</option>
+                                <option value="Daniel">Daniel</option>
+                                <option value="Oséias">Oséias</option>
+                                <option value="Joel">Joel</option>
+                                <option value="Amós">Amós</option>
+                                <option value="Obadias">Obadias</option>
+                                <option value="Jonas">Jonas</option>
+                                <option value="Miquéias">Miquéias</option>
+                                <option value="Naum">Naum</option>
+                                <option value="Habacuque">Habacuque</option>
+                                <option value="Sofonias">Sofonias</option>
+                                <option value="Ageu">Ageu</option>
+                                <option value="Zacarias">Zacarias</option>
+                                <option value="Malaquias">Malaquias</option>
+                                <option value="Mateus">Mateus</option>
+                                <option value="Marcos">Marcos</option>
+                                <option value="Lucas">Lucas</option>
+                                <option value="João">João</option>
+                                <option value="Atos">Atos</option>
+                                <option value="Romanos">Romanos</option>
+                                <option value="1 Coríntios">1 Coríntios</option>
+                                <option value="2 Coríntios">2 Coríntios</option>
+                                <option value="Gálatas">Gálatas</option>
+                                <option value="Efésios">Efésios</option>
+                                <option value="Filipenses">Filipenses</option>
+                                <option value="Colossenses">Colossenses</option>
+                                <option value="1 Tessalonicenses">1 Tessalonicenses</option>
+                                <option value="2 Tessalonicenses">2 Tessalonicenses</option>
+                                <option value="1 Timóteo">1 Timóteo</option>
+                                <option value="2 Timóteo">2 Timóteo</option>
+                                <option value="Tito">Tito</option>
+                                <option value="Filemom">Filemom</option>
+                                <option value="Hebreus">Hebreus</option>
+                                <option value="Tiago">Tiago</option>
+                                <option value="1 Pedro">1 Pedro</option>
+                                <option value="2 Pedro">2 Pedro</option>
+                                <option value="1 João">1 João</option>
+                                <option value="2 João">2 João</option>
+                                <option value="3 João">3 João</option>
+                                <option value="Judas">Judas</option>
+                                <option value="Apocalipse">Apocalipse</option>
+                            </select>
+                            <small id="bookChapterHint" class="small">Selecione um livro para ver a quantidade de capítulos.</small>
+                        </div>
+                        <div class="field">
+                            <label for="chapter">Capítulo</label>
+                            <select id="chapter" required>
+                                <option value="">Selecione o capítulo</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="verse">Versículo (opcional)</label>
+                            <input type="number" id="verse" min="1" placeholder="Ex: 16">
+                        </div>
+                        <div class="field" style="flex: 0 0 100%;">
+                            <button class="primary" type="submit">Buscar passagem</button>
+                        </div>
+                    </form>
+                    <div class="actions-row">
+                    </div>
+                    <div class="download-box">
+                        <div class="small"><strong>Modo offline completo:</strong> baixe todos os 1189 capítulos para uma versão (ou para as três versões).</div>
+                        <div class="actions-row" style="margin-top:10px;">
+                            <button type="button" class="primary" id="downloadCurrentVersionBtn">Baixar Bíblia completa da versão selecionada</button>
+                            <button type="button" class="ghost" id="downloadAllVersionsBtn">Baixar as 3 versões completas</button>
+                            <button type="button" class="danger" id="cancelDownloadBtn">Cancelar download</button>
+                        </div>
+                        <div class="small" id="downloadStatus">Nenhum download em andamento.</div>
+                        <div class="progress-track">
+                            <div id="downloadProgressBar" class="progress-bar"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card" id="resultCard">
+                    <h2>Passagem atual</h2>
+                    <div class="result-shell" id="resultShell">
+                        <h3 id="resultTitle">Nenhuma passagem carregada.</h3>
+                        <div class="verses" id="verseContent">Use o formulário acima para pesquisar uma referência.</div>
+                        <div class="badge" id="resultMeta" style="display:none;"></div>
+                    </div>
+                    <div class="actions-row" id="resultActions" style="display:none;">
+                        <button type="button" class="ghost" id="copyBtn">Copiar texto</button>
+                    </div>
+                </section>
+
             </div>
-        </div>
-    </div>
+            <div id="lexTooltip" class="lex-tooltip" style="display:none;"></div>
 
-    <div class="admin-modal" id="admin-modal" aria-hidden="true">
-        <div class="admin-modal-backdrop" id="admin-modal-backdrop"></div>
-        <div class="admin-modal-content admin-card" role="dialog" aria-modal="true" aria-label="Área admin">
-            <div class="admin-panel" id="admin-panel"></div>
-        </div>
-    </div>
-
-    <script>
-        const ADMIN_USER = "admin";
-        const ADMIN_PASS = "1234";
-        const ADMIN_TOKEN = "troque-este-token";
-        const API_URL = "/api/content";
-        const CONTENT_KEY = "cs_content";
-        const WHATSAPP_NUMBER = "5587999920172";
-        let isAuthed = true;
-
-        const modal = document.getElementById("admin-modal");
-        const modalBackdrop = document.getElementById("admin-modal-backdrop");
-        const loginWrapper = document.getElementById("admin-login");
-        const panelWrapper = document.getElementById("admin-panel");
-        const loginMessage = document.getElementById("admin-message");
-        const saveMessage = document.getElementById("admin-save-message");
-        const adminSecretTrigger = document.getElementById("admin-secret-trigger");
-        const adminLoginBtn = document.getElementById("admin-login-btn");
-        const adminCloseBtn = document.getElementById("admin-close");
-        const adminSaveBtn = document.getElementById("admin-save");
-        const adminLogoutBtn = document.getElementById("admin-logout");
-
-        const applyContent = (data) => {
-            Object.entries(data).forEach(([key, value]) => {
-                const nodes = document.querySelectorAll(`[data-content-key="${key}"]`);
-                nodes.forEach((node) => {
-                    node.textContent = value;
-                });
-            });
-        };
-
-        const loadContent = () => {
-            const raw = localStorage.getItem(CONTENT_KEY);
-            if (!raw) return {};
-            try {
-                return JSON.parse(raw);
-            } catch {
-                return {};
-            }
-        };
-
-        const fetchContent = async () => {
-            try {
-                const response = await fetch(API_URL, { cache: "no-store" });
-                if (!response.ok) throw new Error("api_error");
-                const data = await response.json();
-                if (data && typeof data === "object") {
-                    localStorage.setItem(CONTENT_KEY, JSON.stringify(data));
-                    return data;
-                }
-            } catch {
-                return loadContent();
-            }
-            return {};
-        };
-
-        const setFormValues = (data) => {
-            document.querySelectorAll("[data-edit-key]").forEach((input) => {
-                const key = input.getAttribute("data-edit-key");
-                if (key && data[key] !== undefined) {
-                    input.value = data[key];
-                } else {
-                    const fallback = document.querySelector(`[data-content-key="${key}"]`);
-                    input.value = fallback ? fallback.textContent.trim() : "";
-                }
-            });
-        };
-
-        const showPanel = () => {
-            if (loginWrapper) loginWrapper.classList.add("hidden");
-            if (panelWrapper) panelWrapper.classList.remove("hidden");
-            setFormValues(loadContent());
-        };
-
-        const showLogin = () => {
-            if (loginWrapper) loginWrapper.classList.remove("hidden");
-            if (panelWrapper) panelWrapper.classList.add("hidden");
-        };
-
-        const openModal = () => {
-            modal.classList.add("is-open");
-            modal.setAttribute("aria-hidden", "false");
-            showPanel();
-        };
-
-        const closeModal = () => {
-            modal.classList.remove("is-open");
-            modal.setAttribute("aria-hidden", "true");
-            if (loginMessage) loginMessage.textContent = "";
-        };
-
-        const maybeOpenAdminFromHash = () => {
-            if (window.location.hash.toLowerCase() === "#admin") {
-                openModal();
-            }
-        };
-
-        const init = async () => {
-            const data = await fetchContent();
-            applyContent(data);
-            closeModal();
-        };
-
-        const syncContent = async () => {
-            if (modal.classList.contains("is-open") && isAuthed) return;
-            const data = await fetchContent();
-            applyContent(data);
-        };
-
-        if (adminLoginBtn) {
-            adminLoginBtn.addEventListener("click", () => {
-                isAuthed = true;
-                if (loginMessage) loginMessage.textContent = "";
-                showPanel();
-            });
-        }
-
-        if (adminCloseBtn) adminCloseBtn.addEventListener("click", closeModal);
-        modalBackdrop.addEventListener("click", closeModal);
-
-        if (adminSaveBtn) adminSaveBtn.addEventListener("click", async () => {
-            const data = loadContent();
-            document.querySelectorAll("[data-edit-key]").forEach((input) => {
-                const key = input.getAttribute("data-edit-key");
-                if (key) {
-                    data[key] = input.value.trim();
-                }
-            });
-            try {
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-Admin-Token": ADMIN_TOKEN,
-                    },
-                    body: JSON.stringify(data),
-                });
-                if (!response.ok) throw new Error("save_error");
-                localStorage.setItem(CONTENT_KEY, JSON.stringify(data));
-                applyContent(data);
-                if (saveMessage) saveMessage.textContent = "Atualizações salvas no servidor.";
-            } catch {
-                localStorage.setItem(CONTENT_KEY, JSON.stringify(data));
-                applyContent(data);
-                if (saveMessage) saveMessage.textContent = "Falha ao salvar no servidor. Salvo apenas neste navegador.";
-            }
-        });
-
-        if (adminLogoutBtn) {
-            adminLogoutBtn.addEventListener("click", () => {
-                if (saveMessage) saveMessage.textContent = "";
-                closeModal();
-            });
-        }
-
-        if (adminSecretTrigger) {
-            let secretClicks = 0;
-            let secretTimer;
-
-            adminSecretTrigger.addEventListener("click", () => {
-                secretClicks += 1;
-                clearTimeout(secretTimer);
-                secretTimer = setTimeout(() => {
-                    secretClicks = 0;
-                }, 1800);
-
-                if (secretClicks >= 5) {
-                    secretClicks = 0;
-                    openModal();
-                }
-            });
-        }
-
-        document.addEventListener("keydown", (event) => {
-            if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === "l") {
-                event.preventDefault();
-                if (!modal.classList.contains("is-open")) {
-                    openModal();
-                } else {
-                    closeModal();
-                }
-            }
-            if (event.key === "Escape" && modal.classList.contains("is-open")) {
-                closeModal();
-            }
-        });
-
-        document.addEventListener("visibilitychange", () => {
-            if (!document.hidden) {
-                syncContent();
-            }
-        });
-
-        window.addEventListener("hashchange", maybeOpenAdminFromHash);
-
-        const routineField = document.getElementById("notes-routine");
-        const notesField = document.getElementById("notes-ideas");
-        const calcInput = document.getElementById("calc-input");
-        const calcResult = document.getElementById("calc-result");
-        const currencyAmount = document.getElementById("currency-amount");
-        const currencyFrom = document.getElementById("currency-from");
-        const currencyTo = document.getElementById("currency-to");
-        const currencyResult = document.getElementById("currency-result");
-        const currencyStatus = document.getElementById("currency-status");
-        const notesCard = document.getElementById("notes-card");
-        const notesModal = document.getElementById("notes-modal");
-        const notesBackdrop = document.getElementById("notes-modal-backdrop");
-        const notesClose = document.getElementById("notes-close");
-        const luxInput = document.getElementById("lux-input");
-        const luxOutput = document.getElementById("lux-output");
-        const luxCopy = document.getElementById("lux-copy");
-        const luxClear = document.getElementById("lux-clear");
-        const bioNome = document.getElementById("bio-nome");
-        const bioNicho = document.getElementById("bio-nicho");
-        const bioOferta = document.getElementById("bio-oferta");
-        const bioResultado = document.getElementById("bio-resultado");
-        const bioProva = document.getElementById("bio-prova");
-        const bioCta = document.getElementById("bio-cta");
-        const bioOutput = document.getElementById("bio-output");
-        const bioCount = document.getElementById("bio-count");
-        const bioCopy = document.getElementById("bio-copy");
-        const beInvestimento = document.getElementById("be-investimento");
-        const beLeads = document.getElementById("be-leads");
-        const beConversao = document.getElementById("be-conversao");
-        const beTicket = document.getElementById("be-ticket");
-        const beMargem = document.getElementById("be-margem");
-        const beReceita = document.getElementById("be-receita");
-        const beLucro = document.getElementById("be-lucro");
-        const beRoi = document.getElementById("be-roi");
-        const beCpl = document.getElementById("be-cpl");
-        const beCpa = document.getElementById("be-cpa");
-        const beRoas = document.getElementById("be-roas");
-        const beRoasBe = document.getElementById("be-roas-be");
-        const libNome = document.getElementById("lib-nome");
-        const libHeadline = document.getElementById("lib-headline");
-        const libBio = document.getElementById("lib-bio");
-        const libLink1 = document.getElementById("lib-link-1");
-        const libLink2 = document.getElementById("lib-link-2");
-        const libLink3 = document.getElementById("lib-link-3");
-        const libPreviewNome = document.getElementById("lib-preview-nome");
-        const libPreviewHeadline = document.getElementById("lib-preview-headline");
-        const libPreviewBio = document.getElementById("lib-preview-bio");
-        const libPreviewLinks = document.getElementById("lib-preview-links");
-        const paletteInput = document.getElementById("palette-input");
-        const palettePreview = document.getElementById("palette-preview");
-        const paletteColors = document.getElementById("palette-colors");
-        const paletteCanvas = document.getElementById("palette-canvas");
-        const topRightMenu = document.getElementById("top-right-menu");
-        const topRightMenuBtn = document.getElementById("top-right-menu-btn");
-        const topRightMenuPanel = document.getElementById("top-right-menu-panel");
-
-        const NOTES_ROUTINE_KEY = "cs_notes_routine";
-        const NOTES_IDEAS_KEY = "cs_notes_ideas";
-        const RATES_URL = "https://open.er-api.com/v6/latest/USD";
-        const RATES_TTL = 5 * 60 * 1000;
-        let ratesCache = { timestamp: 0, rates: {} };
-
-        const loadNotes = () => {
-            if (!routineField || !notesField) return;
-            routineField.value = localStorage.getItem(NOTES_ROUTINE_KEY) || "";
-            notesField.value = localStorage.getItem(NOTES_IDEAS_KEY) || "";
-        };
-
-        const saveNotes = () => {
-            if (!routineField || !notesField) return;
-            localStorage.setItem(NOTES_ROUTINE_KEY, routineField.value);
-            localStorage.setItem(NOTES_IDEAS_KEY, notesField.value);
-        };
-
-        const safeEvalCalc = (expression) => {
-            const normalized = expression.replace(/,/g, ".").replace(/\s+/g, "");
-            if (!normalized) return "-";
-            if (!/^[0-9+\-*/().]+$/.test(normalized)) return "Expressão inválida";
-            try {
-                const result = Function(`"use strict"; return (${normalized})`)();
-                if (typeof result !== "number" || !isFinite(result)) return "Erro";
-                return result.toString();
-            } catch {
-                return "Erro";
-            }
-        };
-
-        const updateCalc = () => {
-            if (!calcInput || !calcResult) return;
-            const result = safeEvalCalc(calcInput.value);
-            calcResult.textContent = `Resultado: ${result}`;
-        };
-
-        const fetchRates = async () => {
-            const now = Date.now();
-            if (now - ratesCache.timestamp < RATES_TTL && Object.keys(ratesCache.rates).length) {
-                return ratesCache.rates;
-            }
-            try {
-                const response = await fetch(RATES_URL, { cache: "no-store" });
-                if (!response.ok) throw new Error("rates_error");
-                const data = await response.json();
-                if (data && data.rates) {
-                    ratesCache = { timestamp: now, rates: data.rates };
-                    return data.rates;
-                }
-            } catch {
-                return ratesCache.rates;
-            }
-            return {};
-        };
-
-        const updateCurrency = async () => {
-            if (!currencyAmount || !currencyFrom || !currencyTo || !currencyResult || !currencyStatus) return;
-            const amount = parseFloat(currencyAmount.value.replace(/,/g, "."));
-            if (!amount) {
-                currencyResult.textContent = "Conversão: -";
-                return;
-            }
-            const rates = await fetchRates();
-            const from = currencyFrom.value;
-            const to = currencyTo.value;
-            if (!rates[from] || !rates[to]) {
-                currencyResult.textContent = "Conversão: indisponível";
-                currencyStatus.textContent = "Sem dados de câmbio agora.";
-                return;
-            }
-            const usdAmount = amount / rates[from];
-            const converted = usdAmount * rates[to];
-            currencyResult.textContent = `Conversão: ${converted.toFixed(2)} ${to}`;
-            currencyStatus.textContent = "Atualizado automaticamente.";
-        };
-
-        const luxuryMap = {
-            comum: "exclusivo",
-            simples: "refinado",
-            barato: "premium",
-            bom: "excepcional",
-            melhor: "incomparável",
-            rapido: "imediato",
-            rápido: "imediato",
-            facil: "fluido",
-            fácil: "fluido",
-            resultado: "resultado elevado",
-            resultados: "resultados elevados",
-            alto: "elevado",
-            alta: "elevada",
-            valor: "valor estratégico",
-            cliente: "cliente seleto",
-            clientes: "clientes seletos",
-            oferta: "proposta exclusiva",
-            servico: "serviço de alto padrão",
-            serviço: "serviço de alto padrão",
-            servicos: "serviços de alto padrão",
-            serviços: "serviços de alto padrão",
-            produto: "produto de luxo",
-            produtos: "produtos de luxo",
-            objetivo: "meta refinada",
-            garantia: "segurança premium",
-            qualidade: "excelência"
-        };
-
-        const transformText = (text) => {
-            let result = text;
-            Object.entries(luxuryMap).forEach(([key, value]) => {
-                const regex = new RegExp(`\\b${key}\\b`, "gi");
-                result = result.replace(regex, (match) => {
-                    const isUpper = match === match.toUpperCase();
-                    if (isUpper) return value.toUpperCase();
-                    const isCapitalized = match[0] === match[0].toUpperCase();
-                    if (isCapitalized) return value[0].toUpperCase() + value.slice(1);
-                    return value;
-                });
-            });
-            return result;
-        };
-
-        let luxTimer;
-
-        const fetchLux = async (text) => {
-            const response = await fetch("/api/lux-scan", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ text }),
-            });
-            if (!response.ok) throw new Error("api_error");
-            const data = await response.json();
-            return data?.output || "";
-        };
-
-        const updateLux = async () => {
-            if (!luxInput || !luxOutput) return;
-            const text = luxInput.value || "";
-            if (!text.trim()) {
-                luxOutput.textContent = "Seu texto premium aparecerá aqui.";
-                return;
-            }
-            luxOutput.textContent = "Gerando versão premium...";
-            try {
-                const output = await fetchLux(text);
-                luxOutput.textContent = output || transformText(text);
-            } catch {
-                luxOutput.textContent = transformText(text);
-            }
-        };
-
-        const buildBio = () => {
-            if (!bioOutput || !bioCount) return;
-            const nome = bioNome?.value.trim() || "Seu Nome";
-            const nicho = bioNicho?.value.trim() || "Seu Nicho";
-            const oferta = bioOferta?.value.trim() || "sua oferta high-ticket";
-            const resultado = bioResultado?.value.trim() || "resultados";
-            const prova = bioProva?.value.trim() || "+R$ 1M gerados para clientes seletos.";
-            const cta = bioCta?.value.trim() || "Aplique para a consultoria premium";
-            const lines = [
-                `${nome} • ${nicho}`,
-                `Aumento ${resultado} com ${oferta}.`,
-                `Prova: ${prova}`,
-                `⬇ ${cta}`
-            ];
-            const text = lines.join("\n");
-            bioOutput.textContent = text;
-            bioCount.textContent = `${text.length} caracteres`;
-        };
-
-        const currencyFormatter = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
-        const formatCurrency = (value) => currencyFormatter.format(Number.isFinite(value) ? value : 0);
-        const formatPercent = (value) => `${(Number.isFinite(value) ? value : 0).toFixed(2)}%`;
-
-        const updateBreakEven = () => {
-            if (!beInvestimento || !beLeads || !beConversao || !beTicket || !beMargem) return;
-            const investimento = parseFloat(beInvestimento.value) || 0;
-            const leads = parseFloat(beLeads.value) || 0;
-            const conversao = parseFloat(beConversao.value) || 0;
-            const ticket = parseFloat(beTicket.value) || 0;
-            const margem = parseFloat(beMargem.value) || 0;
-            const receitaBruta = leads * conversao * ticket;
-            const lucro = receitaBruta * margem - investimento;
-            const roi = investimento > 0 ? (lucro / investimento) * 100 : 0;
-            const roas = investimento > 0 ? receitaBruta / investimento : 0;
-            const breakEvenCpa = ticket * margem * conversao;
-            const breakEvenRoas = margem > 0 ? 1 / margem : 0;
-            const custoPorLead = leads > 0 ? investimento / leads : 0;
-
-            if (beReceita) beReceita.textContent = formatCurrency(receitaBruta);
-            if (beLucro) beLucro.textContent = formatCurrency(lucro);
-            if (beRoi) beRoi.textContent = formatPercent(roi);
-            if (beCpl) beCpl.textContent = formatCurrency(custoPorLead);
-            if (beCpa) beCpa.textContent = formatCurrency(breakEvenCpa);
-            if (beRoas) beRoas.textContent = roas.toFixed(2);
-            if (beRoasBe) beRoasBe.textContent = breakEvenRoas.toFixed(2);
-        };
-
-        const updateLinkPreview = () => {
-            if (!libPreviewNome || !libPreviewHeadline || !libPreviewBio || !libPreviewLinks) return;
-            const nome = libNome?.value.trim() || "Seu Nome";
-            const headline = libHeadline?.value.trim() || "Consultor Premium";
-            const bio = libBio?.value.trim() || "Estratégia de crescimento com estética de luxo.";
-            const links = [libLink1?.value, libLink2?.value, libLink3?.value]
-                .map((value) => (value || "").trim())
-                .filter(Boolean);
-
-            libPreviewNome.textContent = nome;
-            libPreviewHeadline.textContent = headline;
-            libPreviewBio.textContent = bio;
-            libPreviewLinks.innerHTML = "";
-            links.forEach((label) => {
-                const item = document.createElement("div");
-                item.className = "link-item";
-                item.textContent = label;
-                libPreviewLinks.appendChild(item);
-            });
-        };
-
-        const rgbToHex = (r, g, b) =>
-            `#${[r, g, b]
-                .map((c) => Math.max(0, Math.min(255, Math.round(c))).toString(16).padStart(2, "0"))
-                .join("")
-                .toUpperCase()}`;
-
-        const quantize = (value, steps = 16) => Math.round(value / (255 / steps)) * (255 / steps);
-
-        const updatePaletteSwatches = (colors) => {
-            if (!paletteColors) return;
-            paletteColors.innerHTML = "";
-            colors.forEach((color) => {
-                const swatch = document.createElement("div");
-                swatch.className = "palette-swatch";
-                const circle = document.createElement("div");
-                circle.className = "palette-color";
-                circle.style.background = color;
-                const label = document.createElement("div");
-                label.className = "tool-meta";
-                label.textContent = color;
-                swatch.appendChild(circle);
-                swatch.appendChild(label);
-                paletteColors.appendChild(swatch);
-            });
-        };
-
-        const extractPalette = (image) => {
-            if (!paletteCanvas) return;
-            const ctx = paletteCanvas.getContext("2d");
-            const size = 200;
-            paletteCanvas.width = size;
-            paletteCanvas.height = size;
-            ctx.drawImage(image, 0, 0, size, size);
-            const { data } = ctx.getImageData(0, 0, size, size);
-            const bucket = new Map();
-
-            for (let i = 0; i < data.length; i += 16) {
-                const r = quantize(data[i]);
-                const g = quantize(data[i + 1]);
-                const b = quantize(data[i + 2]);
-                const key = `${r},${g},${b}`;
-                bucket.set(key, (bucket.get(key) || 0) + 1);
-            }
-
-            const top = [...bucket.entries()]
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 3)
-                .map(([key]) => {
-                    const [r, g, b] = key.split(",").map(Number);
-                    return rgbToHex(r, g, b);
-                });
-
-            if (top.length) updatePaletteSwatches(top);
-        };
-
-        const toggleTopRightMenu = (forceState) => {
-            if (!topRightMenuBtn || !topRightMenuPanel) return;
-            const shouldOpen = typeof forceState === "boolean"
-                ? forceState
-                : !topRightMenuPanel.classList.contains("is-open");
-            topRightMenuPanel.classList.toggle("is-open", shouldOpen);
-            topRightMenuBtn.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
-        };
-
-        const openWhatsAppForProduct = (productName, productLink) => {
-            const message = `Tenho interesse ${productName} e o link dele: ${productLink}`;
-            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-            window.open(url, "_blank");
-        };
-
-        if (routineField && notesField) {
-            routineField.addEventListener("input", saveNotes);
-            notesField.addEventListener("input", saveNotes);
-        }
-        if (calcInput) {
-            calcInput.addEventListener("input", updateCalc);
-        }
-        if (currencyAmount && currencyFrom && currencyTo) {
-            currencyAmount.addEventListener("input", updateCurrency);
-            currencyFrom.addEventListener("change", updateCurrency);
-            currencyTo.addEventListener("change", updateCurrency);
-        }
-
-        const openNotesModal = () => {
-            notesModal.classList.add("is-open");
-            notesModal.setAttribute("aria-hidden", "false");
-        };
-
-        const closeNotesModal = () => {
-            notesModal.classList.remove("is-open");
-            notesModal.setAttribute("aria-hidden", "true");
-        };
-
-        if (notesCard && notesModal && notesClose && notesBackdrop) {
-            notesCard.addEventListener("click", () => {
-                openNotesModal();
-            });
-
-            notesCard.addEventListener("keydown", (event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    openNotesModal();
-                }
-            });
-
-            notesClose.addEventListener("click", closeNotesModal);
-            notesBackdrop.addEventListener("click", closeNotesModal);
-        }
-
-        if (luxInput) {
-            luxInput.addEventListener("input", () => {
-                clearTimeout(luxTimer);
-                luxTimer = setTimeout(updateLux, 600);
-            });
-        }
-        if (luxCopy) {
-            luxCopy.addEventListener("click", () => {
-                if (luxOutput?.textContent) navigator.clipboard?.writeText(luxOutput.textContent);
-            });
-        }
-        if (luxClear) {
-            luxClear.addEventListener("click", () => {
-                if (luxInput) luxInput.value = "";
-                updateLux();
-            });
-        }
-
-        [bioNome, bioNicho, bioOferta, bioResultado, bioProva, bioCta].forEach((field) => {
-            if (field) field.addEventListener("input", buildBio);
-        });
-        if (bioCopy) {
-            bioCopy.addEventListener("click", () => {
-                if (bioOutput?.textContent) navigator.clipboard?.writeText(bioOutput.textContent);
-            });
-        }
-
-        [beInvestimento, beLeads, beConversao, beTicket, beMargem].forEach((field) => {
-            if (field) field.addEventListener("input", updateBreakEven);
-        });
-
-        [libNome, libHeadline, libBio, libLink1, libLink2, libLink3].forEach((field) => {
-            if (field) field.addEventListener("input", updateLinkPreview);
-        });
-
-        if (paletteInput) {
-            paletteInput.addEventListener("change", (event) => {
-                const file = event.target.files?.[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = () => {
-                    const img = new Image();
-                    img.onload = () => {
-                        if (palettePreview) {
-                            palettePreview.src = reader.result;
-                            palettePreview.style.display = "block";
-                        }
-                        extractPalette(img);
-                    };
-                    img.src = reader.result;
+            <script>
+                const bookMap = {
+                    "Gênesis": "Genesis",
+                    "Êxodo": "Exodus",
+                    "Levítico": "Leviticus",
+                    "Números": "Numbers",
+                    "Deuteronômio": "Deuteronomy",
+                    "Josué": "Joshua",
+                    "Juízes": "Judges",
+                    "Rute": "Ruth",
+                    "1 Samuel": "1 Samuel",
+                    "2 Samuel": "2 Samuel",
+                    "1 Reis": "1 Kings",
+                    "2 Reis": "2 Kings",
+                    "1 Crônicas": "1 Chronicles",
+                    "2 Crônicas": "2 Chronicles",
+                    "Esdras": "Ezra",
+                    "Neemias": "Nehemiah",
+                    "Ester": "Esther",
+                    "Jó": "Job",
+                    "Salmos": "Psalms",
+                    "Provérbios": "Proverbs",
+                    "Eclesiastes": "Ecclesiastes",
+                    "Cânticos": "Song of Solomon",
+                    "Isaías": "Isaiah",
+                    "Jeremias": "Jeremiah",
+                    "Lamentações": "Lamentations",
+                    "Ezequiel": "Ezekiel",
+                    "Daniel": "Daniel",
+                    "Oséias": "Hosea",
+                    "Joel": "Joel",
+                    "Amós": "Amos",
+                    "Obadias": "Obadiah",
+                    "Jonas": "Jonah",
+                    "Miquéias": "Micah",
+                    "Naum": "Nahum",
+                    "Habacuque": "Habakkuk",
+                    "Sofonias": "Zephaniah",
+                    "Ageu": "Haggai",
+                    "Zacarias": "Zechariah",
+                    "Malaquias": "Malachi",
+                    "Mateus": "Matthew",
+                    "Marcos": "Mark",
+                    "Lucas": "Luke",
+                    "João": "John",
+                    "Atos": "Acts",
+                    "Romanos": "Romans",
+                    "1 Coríntios": "1 Corinthians",
+                    "2 Coríntios": "2 Corinthians",
+                    "Gálatas": "Galatians",
+                    "Efésios": "Ephesians",
+                    "Filipenses": "Philippians",
+                    "Colossenses": "Colossians",
+                    "1 Tessalonicenses": "1 Thessalonians",
+                    "2 Tessalonicenses": "2 Thessalonians",
+                    "1 Timóteo": "1 Timothy",
+                    "2 Timóteo": "2 Timothy",
+                    "Tito": "Titus",
+                    "Filemom": "Philemon",
+                    "Hebreus": "Hebrews",
+                    "Tiago": "James",
+                    "1 Pedro": "1 Peter",
+                    "2 Pedro": "2 Peter",
+                    "1 João": "1 John",
+                    "2 João": "2 John",
+                    "3 João": "3 John",
+                    "Judas": "Jude",
+                    "Apocalipse": "Revelation"
                 };
-                reader.readAsDataURL(file);
-            });
-        }
 
-        if (topRightMenu && topRightMenuBtn && topRightMenuPanel) {
-            topRightMenuBtn.addEventListener("click", (event) => {
-                event.stopPropagation();
-                toggleTopRightMenu();
-            });
+                const versionsMeta = {
+                    nvi: { label: "NVI", description: "Nova Versão Internacional" }
+                };
 
-            topRightMenuPanel.addEventListener("click", () => {
-                toggleTopRightMenu(false);
-            });
+                const apiVersionCodeMap = {
+                    nvi: "almeida"
+                };
 
-            document.addEventListener("click", (event) => {
-                if (!topRightMenu.contains(event.target)) {
-                    toggleTopRightMenu(false);
-                }
-            });
+                const bookApiAliases = {
+                    "Song of Solomon": ["Song of Solomon", "Song of Songs", "Canticles"],
+                    "Psalms": ["Psalms", "Psalm"],
+                    "1 Samuel": ["1 Samuel", "I Samuel"],
+                    "2 Samuel": ["2 Samuel", "II Samuel"],
+                    "1 Kings": ["1 Kings", "I Kings"],
+                    "2 Kings": ["2 Kings", "II Kings"],
+                    "1 Chronicles": ["1 Chronicles", "I Chronicles"],
+                    "2 Chronicles": ["2 Chronicles", "II Chronicles"],
+                    "1 Corinthians": ["1 Corinthians", "I Corinthians"],
+                    "2 Corinthians": ["2 Corinthians", "II Corinthians"],
+                    "1 Thessalonians": ["1 Thessalonians", "I Thessalonians"],
+                    "2 Thessalonians": ["2 Thessalonians", "II Thessalonians"],
+                    "1 Timothy": ["1 Timothy", "I Timothy"],
+                    "2 Timothy": ["2 Timothy", "II Timothy"],
+                    "1 Peter": ["1 Peter", "I Peter"],
+                    "2 Peter": ["2 Peter", "II Peter"],
+                    "1 John": ["1 John", "I John"],
+                    "2 John": ["2 John", "II John"],
+                    "3 John": ["3 John", "III John"]
+                };
 
-            document.addEventListener("keydown", (event) => {
-                if (event.key === "Escape") {
-                    toggleTopRightMenu(false);
-                }
-            });
-        }
+                const OT_BOOKS = new Set([
+                    "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy", "Joshua", "Judges", "Ruth",
+                    "1 Samuel", "2 Samuel", "1 Kings", "2 Kings", "1 Chronicles", "2 Chronicles", "Ezra",
+                    "Nehemiah", "Esther", "Job", "Psalms", "Proverbs", "Ecclesiastes", "Song of Solomon",
+                    "Isaiah", "Jeremiah", "Lamentations", "Ezekiel", "Daniel", "Hosea", "Joel", "Amos",
+                    "Obadiah", "Jonah", "Micah", "Nahum", "Habakkuk", "Zephaniah", "Haggai", "Zechariah", "Malachi"
+                ]);
 
-        document.querySelectorAll(".product-card").forEach((card) => {
-            const buyButton = card.querySelector(".product-cta");
-            if (!buyButton) return;
+                const LEXICON_BY_PT = {
+                    deus: { he: { original: "אֱלֹהִים", translit: "Elohim", meaning: "Deus" }, gr: { original: "θεός", translit: "theos", meaning: "Deus" } },
+                    senhor: { he: { original: "יְהוָה", translit: "YHWH", meaning: "SENHOR" }, gr: { original: "κύριος", translit: "kyrios", meaning: "Senhor" } },
+                    jesus: { gr: { original: "Ἰησοῦς", translit: "Iesous", meaning: "Jesus" } },
+                    cristo: { gr: { original: "Χριστός", translit: "Christos", meaning: "Ungido / Cristo" } },
+                    espirito: { he: { original: "רוּחַ", translit: "ruach", meaning: "espírito / vento" }, gr: { original: "πνεῦμα", translit: "pneuma", meaning: "espírito" } },
+                    palavra: { he: { original: "דָּבָר", translit: "davar", meaning: "palavra" }, gr: { original: "λόγος", translit: "logos", meaning: "palavra / razão" } },
+                    amor: { he: { original: "אַהֲבָה", translit: "ahavah", meaning: "amor" }, gr: { original: "ἀγάπη", translit: "agape", meaning: "amor sacrificial" } },
+                    fe: { he: { original: "אֱמוּנָה", translit: "emunah", meaning: "fidelidade / fé" }, gr: { original: "πίστις", translit: "pistis", meaning: "fé / confiança" } },
+                    graca: { he: { original: "חֵן", translit: "chen", meaning: "graça / favor" }, gr: { original: "χάρις", translit: "charis", meaning: "graça" } },
+                    paz: { he: { original: "שָׁלוֹם", translit: "shalom", meaning: "paz / plenitude" }, gr: { original: "εἰρήνη", translit: "eirene", meaning: "paz" } },
+                    verdade: { he: { original: "אֱמֶת", translit: "emet", meaning: "verdade" }, gr: { original: "ἀλήθεια", translit: "aletheia", meaning: "verdade" } },
+                    vida: { he: { original: "חַיִּים", translit: "chayyim", meaning: "vida" }, gr: { original: "ζωή", translit: "zoe", meaning: "vida" } },
+                    luz: { he: { original: "אוֹר", translit: "or", meaning: "luz" }, gr: { original: "φῶς", translit: "phos", meaning: "luz" } },
+                    coracao: { he: { original: "לֵב", translit: "lev", meaning: "coração" }, gr: { original: "καρδία", translit: "kardia", meaning: "coração" } },
+                    justica: { he: { original: "צְדָקָה", translit: "tsedaqah", meaning: "justiça" }, gr: { original: "δικαιοσύνη", translit: "dikaiosyne", meaning: "justiça" } },
+                    salvacao: { he: { original: "יְשׁוּעָה", translit: "yeshuah", meaning: "salvação" }, gr: { original: "σωτηρία", translit: "soteria", meaning: "salvação" } },
+                    pecado: { he: { original: "חַטָּאת", translit: "chatta't", meaning: "pecado" }, gr: { original: "ἁμαρτία", translit: "hamartia", meaning: "pecado" } },
+                    perdao: { he: { original: "סְלִיחָה", translit: "selichah", meaning: "perdão" }, gr: { original: "ἄφεσις", translit: "aphesis", meaning: "perdão / remissão" } },
+                    reino: { he: { original: "מַלְכוּת", translit: "malkuth", meaning: "reino" }, gr: { original: "βασιλεία", translit: "basileia", meaning: "reino" } },
+                    ceu: { he: { original: "שָׁמַיִם", translit: "shamayim", meaning: "céus" }, gr: { original: "οὐρανός", translit: "ouranos", meaning: "céu" } },
+                    terra: { he: { original: "אֶרֶץ", translit: "erets", meaning: "terra" }, gr: { original: "γῆ", translit: "ge", meaning: "terra" } },
+                    santo: { he: { original: "קָדוֹשׁ", translit: "qadosh", meaning: "santo" }, gr: { original: "ἅγιος", translit: "hagios", meaning: "santo" } },
+                    santidade: { he: { original: "קֹדֶשׁ", translit: "qodesh", meaning: "santidade" }, gr: { original: "ἁγιασμός", translit: "hagiasmos", meaning: "santificação" } },
+                    gloria: { he: { original: "כָּבוֹד", translit: "kavod", meaning: "glória / peso" }, gr: { original: "δόξα", translit: "doxa", meaning: "glória" } },
+                    louvor: { he: { original: "תְּהִלָּה", translit: "tehillah", meaning: "louvor" }, gr: { original: "αἶνος", translit: "ainos", meaning: "louvor" } },
+                    adoracao: { he: { original: "שָׁחָה", translit: "shachah", meaning: "prostrar-se / adorar" }, gr: { original: "προσκυνέω", translit: "proskyneo", meaning: "adorar" } },
+                    sabedoria: { he: { original: "חָכְמָה", translit: "chokmah", meaning: "sabedoria" }, gr: { original: "σοφία", translit: "sophia", meaning: "sabedoria" } },
+                    conhecimento: { he: { original: "דַּעַת", translit: "da'at", meaning: "conhecimento" }, gr: { original: "γνῶσις", translit: "gnosis", meaning: "conhecimento" } },
+                    entendimento: { he: { original: "בִּינָה", translit: "binah", meaning: "entendimento" }, gr: { original: "σύνεσις", translit: "synesis", meaning: "entendimento" } },
+                    conselho: { he: { original: "עֵצָה", translit: "etsah", meaning: "conselho" }, gr: { original: "βουλή", translit: "boule", meaning: "conselho / plano" } },
+                    poder: { he: { original: "גְּבוּרָה", translit: "gevurah", meaning: "força / poder" }, gr: { original: "δύναμις", translit: "dynamis", meaning: "poder" } },
+                    forca: { he: { original: "כֹּחַ", translit: "koach", meaning: "força" }, gr: { original: "ἰσχύς", translit: "ischys", meaning: "força" } },
+                    bondade: { he: { original: "טוֹב", translit: "tov", meaning: "bondade" }, gr: { original: "ἀγαθωσύνη", translit: "agathosyne", meaning: "bondade" } },
+                    misericordia: { he: { original: "חֶסֶד", translit: "chesed", meaning: "misericórdia / amor leal" }, gr: { original: "ἔλεος", translit: "eleos", meaning: "misericórdia" } },
+                    compaixao: { he: { original: "רַחֲמִים", translit: "rachamim", meaning: "compaixão" }, gr: { original: "οἰκτιρμός", translit: "oiktirmos", meaning: "compaixão" } },
+                    fidelidade: { he: { original: "אֱמוּנָה", translit: "emunah", meaning: "fidelidade" }, gr: { original: "πιστός", translit: "pistos", meaning: "fiel" } },
+                    obediencia: { he: { original: "שָׁמַע", translit: "shama", meaning: "ouvir / obedecer" }, gr: { original: "ὑπακοή", translit: "hypakoe", meaning: "obediência" } },
+                    mandamento: { he: { original: "מִצְוָה", translit: "mitsvah", meaning: "mandamento" }, gr: { original: "ἐντολή", translit: "entole", meaning: "mandamento" } },
+                    lei: { he: { original: "תּוֹרָה", translit: "torah", meaning: "lei / instrução" }, gr: { original: "νόμος", translit: "nomos", meaning: "lei" } },
+                    profeta: { he: { original: "נָבִיא", translit: "navi", meaning: "profeta" }, gr: { original: "προφήτης", translit: "prophetes", meaning: "profeta" } },
+                    profecia: { he: { original: "נְבוּאָה", translit: "nevuah", meaning: "profecia" }, gr: { original: "προφητεία", translit: "propheteia", meaning: "profecia" } },
+                    alianca: { he: { original: "בְּרִית", translit: "berit", meaning: "aliança" }, gr: { original: "διαθήκη", translit: "diatheke", meaning: "aliança" } },
+                    templo: { he: { original: "הֵיכָל", translit: "heikal", meaning: "templo" }, gr: { original: "ναός", translit: "naos", meaning: "santuário / templo" } },
+                    altar: { he: { original: "מִזְבֵּחַ", translit: "mizbeach", meaning: "altar" }, gr: { original: "θυσιαστήριον", translit: "thysiastērion", meaning: "altar" } },
+                    sacrificio: { he: { original: "זֶבַח", translit: "zevach", meaning: "sacrifício" }, gr: { original: "θυσία", translit: "thysia", meaning: "sacrifício" } },
+                    sangue: { he: { original: "דָּם", translit: "dam", meaning: "sangue" }, gr: { original: "αἷμα", translit: "haima", meaning: "sangue" } },
+                    cordeiro: { he: { original: "שֶׂה", translit: "seh", meaning: "cordeiro" }, gr: { original: "ἀρνίον", translit: "arnion", meaning: "cordeiro" } },
+                    pastor: { he: { original: "רֹעֶה", translit: "ro'eh", meaning: "pastor" }, gr: { original: "ποιμήν", translit: "poimen", meaning: "pastor" } },
+                    ovelha: { he: { original: "צֹאן", translit: "tson", meaning: "rebanho / ovelha" }, gr: { original: "πρόβατον", translit: "probaton", meaning: "ovelha" } },
+                    rei: { he: { original: "מֶלֶךְ", translit: "melech", meaning: "rei" }, gr: { original: "βασιλεύς", translit: "basileus", meaning: "rei" } },
+                    reinoeterno: { he: { original: "עוֹלָם", translit: "olam", meaning: "eternidade" }, gr: { original: "αἰώνιος", translit: "aionios", meaning: "eterno" } },
+                    servo: { he: { original: "עֶבֶד", translit: "eved", meaning: "servo" }, gr: { original: "δοῦλος", translit: "doulos", meaning: "servo / escravo" } },
+                    filho: { he: { original: "בֵּן", translit: "ben", meaning: "filho" }, gr: { original: "υἱός", translit: "huios", meaning: "filho" } },
+                    pai: { he: { original: "אָב", translit: "av", meaning: "pai" }, gr: { original: "πατήρ", translit: "pater", meaning: "pai" } },
+                    irmao: { he: { original: "אָח", translit: "ach", meaning: "irmão" }, gr: { original: "ἀδελφός", translit: "adelphos", meaning: "irmão" } },
+                    noiva: { he: { original: "כַּלָּה", translit: "kallah", meaning: "noiva" }, gr: { original: "νύμφη", translit: "nymphe", meaning: "noiva" } },
+                    igreja: { gr: { original: "ἐκκλησία", translit: "ekklesia", meaning: "assembleia / igreja" } },
+                    corpo: { he: { original: "בָּשָׂר", translit: "basar", meaning: "carne / corpo" }, gr: { original: "σῶμα", translit: "soma", meaning: "corpo" } },
+                    carne: { he: { original: "בָּשָׂר", translit: "basar", meaning: "carne" }, gr: { original: "σάρξ", translit: "sarx", meaning: "carne / natureza humana" } },
+                    alma: { he: { original: "נֶפֶשׁ", translit: "nefesh", meaning: "alma / vida" }, gr: { original: "ψυχή", translit: "psyche", meaning: "alma" } },
+                    mente: { he: { original: "מַחֲשָׁבָה", translit: "machashavah", meaning: "pensamento" }, gr: { original: "νοῦς", translit: "nous", meaning: "mente" } },
+                    vontade: { he: { original: "רָצוֹן", translit: "ratzon", meaning: "vontade / favor" }, gr: { original: "θέλημα", translit: "thelema", meaning: "vontade" } },
+                    oracao: { he: { original: "תְּפִלָּה", translit: "tefillah", meaning: "oração" }, gr: { original: "προσευχή", translit: "proseuche", meaning: "oração" } },
+                    jejum: { he: { original: "צוֹם", translit: "tsom", meaning: "jejum" }, gr: { original: "νηστεία", translit: "nesteia", meaning: "jejum" } },
+                    arrependimento: { he: { original: "שׁוּב", translit: "shuv", meaning: "voltar-se / arrepender-se" }, gr: { original: "μετάνοια", translit: "metanoia", meaning: "arrependimento" } },
+                    confissao: { he: { original: "יָדָה", translit: "yadah", meaning: "confessar / agradecer" }, gr: { original: "ὁμολογέω", translit: "homologeo", meaning: "confessar" } },
+                    justificado: { gr: { original: "δικαιόω", translit: "dikaioo", meaning: "justificar" } },
+                    santificacao: { gr: { original: "ἁγιασμός", translit: "hagiasmos", meaning: "santificação" } },
+                    redencao: { he: { original: "גְּאֻלָּה", translit: "geullah", meaning: "redenção" }, gr: { original: "ἀπολύτρωσις", translit: "apolytrōsis", meaning: "redenção" } },
+                    reconciliacao: { gr: { original: "καταλλαγή", translit: "katallage", meaning: "reconciliação" } },
+                    expiacao: { he: { original: "כָּפַר", translit: "kafar", meaning: "cobrir / expiar" }, gr: { original: "ἱλασμός", translit: "hilasmos", meaning: "propiciação / expiação" } },
+                    cruz: { gr: { original: "σταυρός", translit: "stauros", meaning: "cruz" } },
+                    ressurreicao: { gr: { original: "ἀνάστασις", translit: "anastasis", meaning: "ressurreição" } },
+                    evangelho: { gr: { original: "εὐαγγέλιον", translit: "euangelion", meaning: "boas-novas / evangelho" } },
+                    apostolo: { gr: { original: "ἀπόστολος", translit: "apostolos", meaning: "enviado / apóstolo" } },
+                    discipulo: { gr: { original: "μαθητής", translit: "mathetes", meaning: "discípulo" } },
+                    ministerio: { gr: { original: "διακονία", translit: "diakonia", meaning: "serviço / ministério" } },
+                    dons: { gr: { original: "χαρίσματα", translit: "charismata", meaning: "dons" } },
+                    dom: { gr: { original: "χάρισμα", translit: "charisma", meaning: "dom" } },
+                    profetas: { gr: { original: "προφῆται", translit: "prophetai", meaning: "profetas" } },
+                    anjo: { he: { original: "מַלְאָךְ", translit: "mal'akh", meaning: "mensageiro / anjo" }, gr: { original: "ἄγγελος", translit: "angelos", meaning: "anjo / mensageiro" } },
+                    demonio: { gr: { original: "δαιμόνιον", translit: "daimonion", meaning: "demônio" } },
+                    diabo: { gr: { original: "διάβολος", translit: "diabolos", meaning: "acusador / diabo" } },
+                    satanas: { he: { original: "שָׂטָן", translit: "satan", meaning: "adversário" }, gr: { original: "Σατανᾶς", translit: "Satanas", meaning: "Satanás" } },
+                    tentacao: { he: { original: "נָסָה", translit: "nasah", meaning: "provar / testar" }, gr: { original: "πειρασμός", translit: "peirasmos", meaning: "tentação / prova" } },
+                    tribulacao: { he: { original: "צָרָה", translit: "tsarah", meaning: "aflição" }, gr: { original: "θλῖψις", translit: "thlipsis", meaning: "tribulação" } },
+                    sofrimento: { he: { original: "עָנָה", translit: "anah", meaning: "afligir" }, gr: { original: "πάθημα", translit: "pathema", meaning: "sofrimento" } },
+                    esperanca: { he: { original: "תִּקְוָה", translit: "tikvah", meaning: "esperança" }, gr: { original: "ἐλπίς", translit: "elpis", meaning: "esperança" } },
+                    alegria: { he: { original: "שִׂמְחָה", translit: "simchah", meaning: "alegria" }, gr: { original: "χαρά", translit: "chara", meaning: "alegria" } },
+                    gozo: { he: { original: "שָׂשׂוֹן", translit: "sason", meaning: "júbilo" }, gr: { original: "χαρά", translit: "chara", meaning: "alegria" } },
+                    temor: { he: { original: "יִרְאָה", translit: "yirah", meaning: "temor reverente" }, gr: { original: "φόβος", translit: "phobos", meaning: "temor" } },
+                    confianca: { he: { original: "בָּטַח", translit: "batach", meaning: "confiar" }, gr: { original: "πεποίθησις", translit: "pepoithesis", meaning: "confiança" } },
+                    descanso: { he: { original: "מְנוּחָה", translit: "menuchah", meaning: "descanso" }, gr: { original: "ἀνάπαυσις", translit: "anapausis", meaning: "descanso" } },
+                    descansoeterno: { gr: { original: "σαββατισμός", translit: "sabbatismos", meaning: "repouso sabático" } },
+                    caminho: { he: { original: "דֶּרֶךְ", translit: "derekh", meaning: "caminho" }, gr: { original: "ὁδός", translit: "hodos", meaning: "caminho" } },
+                    porta: { he: { original: "שַׁעַר", translit: "sha'ar", meaning: "porta / portão" }, gr: { original: "θύρα", translit: "thyra", meaning: "porta" } },
+                    pedra: { he: { original: "אֶבֶן", translit: "even", meaning: "pedra" }, gr: { original: "λίθος", translit: "lithos", meaning: "pedra" } },
+                    rocha: { he: { original: "צוּר", translit: "tsur", meaning: "rocha" }, gr: { original: "πέτρα", translit: "petra", meaning: "rocha" } },
+                    agua: { he: { original: "מַיִם", translit: "mayim", meaning: "água" }, gr: { original: "ὕδωρ", translit: "hydor", meaning: "água" } },
+                    vinho: { he: { original: "יַיִן", translit: "yayin", meaning: "vinho" }, gr: { original: "οἶνος", translit: "oinos", meaning: "vinho" } },
+                    pao: { he: { original: "לֶחֶם", translit: "lechem", meaning: "pão" }, gr: { original: "ἄρτος", translit: "artos", meaning: "pão" } },
+                    trigo: { he: { original: "חִטָּה", translit: "chittah", meaning: "trigo" }, gr: { original: "σῖτος", translit: "sitos", meaning: "trigo" } },
+                    semente: { he: { original: "זֶרַע", translit: "zera", meaning: "semente" }, gr: { original: "σπέρμα", translit: "sperma", meaning: "semente" } },
+                    fruto: { he: { original: "פְּרִי", translit: "peri", meaning: "fruto" }, gr: { original: "καρπός", translit: "karpos", meaning: "fruto" } },
+                    vinha: { he: { original: "כֶּרֶם", translit: "kerem", meaning: "vinha" }, gr: { original: "ἀμπελών", translit: "ampelon", meaning: "vinha" } },
+                    videira: { he: { original: "גֶּפֶן", translit: "gefen", meaning: "videira" }, gr: { original: "ἄμπελος", translit: "ampelos", meaning: "videira" } },
+                    oliveira: { he: { original: "זַיִת", translit: "zayit", meaning: "oliveira" }, gr: { original: "ἐλαία", translit: "elaia", meaning: "oliveira" } },
+                    azeite: { he: { original: "שֶׁמֶן", translit: "shemen", meaning: "azeite / óleo" }, gr: { original: "ἔλαιον", translit: "elaion", meaning: "óleo" } },
+                    fogo: { he: { original: "אֵשׁ", translit: "esh", meaning: "fogo" }, gr: { original: "πῦρ", translit: "pyr", meaning: "fogo" } },
+                    vento: { he: { original: "רוּחַ", translit: "ruach", meaning: "vento" }, gr: { original: "ἄνεμος", translit: "anemos", meaning: "vento" } },
+                    voz: { he: { original: "קוֹל", translit: "qol", meaning: "voz" }, gr: { original: "φωνή", translit: "phone", meaning: "voz" } },
+                    nome: { he: { original: "שֵׁם", translit: "shem", meaning: "nome" }, gr: { original: "ὄνομα", translit: "onoma", meaning: "nome" } },
+                    memoria: { he: { original: "זֵכֶר", translit: "zeker", meaning: "memória" }, gr: { original: "μνημόσυνον", translit: "mnemosynon", meaning: "memorial" } },
+                    dia: { he: { original: "יוֹם", translit: "yom", meaning: "dia" }, gr: { original: "ἡμέρα", translit: "hemera", meaning: "dia" } },
+                    noite: { he: { original: "לַיְלָה", translit: "laylah", meaning: "noite" }, gr: { original: "νύξ", translit: "nyx", meaning: "noite" } },
+                    manha: { he: { original: "בֹּקֶר", translit: "boqer", meaning: "manhã" }, gr: { original: "πρωΐ", translit: "proi", meaning: "manhã" } },
+                    eternidade: { he: { original: "עוֹלָם", translit: "olam", meaning: "eternidade" }, gr: { original: "αἰών", translit: "aion", meaning: "era / eternidade" } },
+                    julgamento: { he: { original: "מִשְׁפָּט", translit: "mishpat", meaning: "juízo / justiça" }, gr: { original: "κρίσις", translit: "krisis", meaning: "juízo" } },
+                    juizo: { he: { original: "מִשְׁפָּט", translit: "mishpat", meaning: "juízo" }, gr: { original: "κρίμα", translit: "krima", meaning: "condenação / juízo" } },
+                    condenacao: { gr: { original: "κατάκριμα", translit: "katakrima", meaning: "condenação" } },
+                    vitoria: { he: { original: "נָצַח", translit: "natsach", meaning: "prevalecer" }, gr: { original: "νῖκος", translit: "nikos", meaning: "vitória" } },
+                    coroa: { he: { original: "עֲטָרָה", translit: "atarah", meaning: "coroa" }, gr: { original: "στέφανος", translit: "stephanos", meaning: "coroa" } },
+                    heranca: { he: { original: "נַחֲלָה", translit: "nachalah", meaning: "herança" }, gr: { original: "κληρονομία", translit: "kleronomia", meaning: "herança" } },
+                    promessa: { he: { original: "הַבְטָחָה", translit: "havtachah", meaning: "promessa" }, gr: { original: "ἐπαγγελία", translit: "epangelia", meaning: "promessa" } },
+                    testemunho: { he: { original: "עֵדוּת", translit: "edut", meaning: "testemunho" }, gr: { original: "μαρτυρία", translit: "martyria", meaning: "testemunho" } },
+                    testemunha: { he: { original: "עֵד", translit: "ed", meaning: "testemunha" }, gr: { original: "μάρτυς", translit: "martys", meaning: "testemunha" } },
+                    bencao: { he: { original: "בְּרָכָה", translit: "berakhah", meaning: "bênção" }, gr: { original: "εὐλογία", translit: "eulogia", meaning: "bênção" } },
+                    maldicao: { he: { original: "קְלָלָה", translit: "qelalah", meaning: "maldição" }, gr: { original: "κατάρα", translit: "katara", meaning: "maldição" } },
+                    humildade: { he: { original: "עֲנָוָה", translit: "anavah", meaning: "humildade" }, gr: { original: "ταπεινοφροσύνη", translit: "tapeinophrosyne", meaning: "humildade" } },
+                    mansidao: { he: { original: "עֲנָו", translit: "anav", meaning: "manso" }, gr: { original: "πραΰτης", translit: "prautes", meaning: "mansidão" } },
+                    paciencia: { he: { original: "אֶרֶךְ אַפַּיִם", translit: "erekh appayim", meaning: "longanimidade" }, gr: { original: "μακροθυμία", translit: "makrothymia", meaning: "paciência" } },
+                    alegriaespiritual: { gr: { original: "ἀγαλλίασις", translit: "agalliasis", meaning: "júbilo espiritual" } },
+                    gentio: { he: { original: "גּוֹי", translit: "goy", meaning: "nação / gentio" }, gr: { original: "ἔθνος", translit: "ethnos", meaning: "nação / gentio" } },
+                    israel: { he: { original: "יִשְׂרָאֵל", translit: "Yisra'el", meaning: "Israel" }, gr: { original: "Ἰσραήλ", translit: "Israel", meaning: "Israel" } },
+                    jerusalem: { he: { original: "יְרוּשָׁלַיִם", translit: "Yerushalayim", meaning: "Jerusalém" }, gr: { original: "Ἰερουσαλήμ", translit: "Ierousalēm", meaning: "Jerusalém" } },
+                    messias: { he: { original: "מָשִׁיחַ", translit: "Mashiach", meaning: "Messias / Ungido" }, gr: { original: "Χριστός", translit: "Christos", meaning: "Messias / Cristo" } }
+                };
 
-            buyButton.addEventListener("click", () => {
-                const productName = card.querySelector("h3")?.textContent?.trim() || "Produto";
-                const productLink = card.getAttribute("data-product-link") || `${window.location.origin}${window.location.pathname}#produtos`;
-                openWhatsAppForProduct(productName, productLink);
-            });
-        });
+                const LEXICON_ALIASES = {
+                    deuses: "deus", do: "deus", senhorio: "senhor", senhora: "senhor", senhores: "senhor",
+                    jesu: "jesus", cristos: "cristo", espiritos: "espirito", espiritual: "espirito", espirituais: "espirito",
+                    palavras: "palavra", verbo: "palavra", logos: "palavra",
+                    amores: "amor", amar: "amor", ama: "amor",
+                    crer: "fe", cre: "fe", creu: "fe", cremos: "fe", fiel: "fidelidade", fiéis: "fidelidade",
+                    gracioso: "graca", gracas: "graca", pacifico: "paz", pacificadores: "paz",
+                    verdadeiro: "verdade", verdadeiros: "verdade", vivam: "vida", viver: "vida", vive: "vida", viveu: "vida",
+                    luminosa: "luz", luzes: "luz", coracoes: "coracao", coracaoes: "coracao",
+                    justo: "justica", justos: "justica", justificada: "justica", justificados: "justificado",
+                    salvar: "salvacao", salvo: "salvacao", salvos: "salvacao", pecados: "pecado",
+                    perdoar: "perdao", perdoado: "perdao", perdoados: "perdao", reinos: "reino",
+                    ceus: "ceu", terrestre: "terra", terrena: "terra", santoespirito: "espirito",
+                    santos: "santo", santas: "santo", santificar: "santificacao", santificados: "santificacao",
+                    glorioso: "gloria", glorificar: "gloria", louvores: "louvor", adorar: "adoracao", adorem: "adoracao",
+                    sabio: "sabedoria", sabios: "sabedoria", conhecer: "conhecimento", entende: "entendimento",
+                    forte: "forca", poderosos: "poder", bondoso: "bondade", bondosos: "bondade",
+                    misericordioso: "misericordia", misericordiosos: "misericordia", compassivo: "compaixao",
+                    obedecer: "obediencia", obedientes: "obediencia", mandamentos: "mandamento", leis: "lei",
+                    profetas: "profeta", profetizar: "profecia", aliancas: "alianca", templos: "templo", altares: "altar",
+                    sacrificios: "sacrificio", sanguee: "sangue", cordeiros: "cordeiro", pastores: "pastor", ovelhas: "ovelha",
+                    reis: "rei", servoa: "servo", servos: "servo", filhos: "filho", pais: "pai", irmaos: "irmao",
+                    noivo: "noiva", igrejas: "igreja", corpoa: "corpo", carnal: "carne", almas: "alma",
+                    pensamentos: "mente", vontadea: "vontade", orar: "oracao", oracoes: "oracao", jejuar: "jejum",
+                    arrepender: "arrependimento", confessar: "confissao", redimir: "redencao", reconciliar: "reconciliacao",
+                    expiar: "expiacao", cruzes: "cruz", ressuscitou: "ressurreicao", ressuscitar: "ressurreicao",
+                    evangelhos: "evangelho", apostolos: "apostolo", discipulos: "discipulo", ministerios: "ministerio",
+                    donsespirituais: "dons", anjos: "anjo", demonios: "demonio", tentacoes: "tentacao",
+                    tribulacoes: "tribulacao", sofrimentos: "sofrimento", esperancas: "esperanca", alegrem: "alegria",
+                    temei: "temor", confiar: "confianca", descansoa: "descanso", caminhos: "caminho", portas: "porta",
+                    pedras: "pedra", rochas: "rocha", aguas: "agua", vinhos: "vinho", paes: "pao", sementes: "semente",
+                    frutos: "fruto", vinhas: "vinha", videiras: "videira", oliveiras: "oliveira", azeites: "azeite",
+                    fogos: "fogo", ventos: "vento", vozes: "voz", nomes: "nome", dias: "dia", noites: "noite",
+                    eternas: "eternidade", julgara: "julgamento", juizos: "juizo", condenados: "condenacao",
+                    vencedor: "vitoria", vencedores: "vitoria", coroas: "coroa", herancas: "heranca",
+                    promessas: "promessa", testemunhos: "testemunho", testemunhas: "testemunha", bencao: "bencao",
+                    bencaos: "bencao", maldicoes: "maldicao", humilde: "humildade", mansos: "mansidao",
+                    paciente: "paciencia", gentios: "gentio", messianico: "messias"
+                };
 
-        document.querySelectorAll("[data-tool-card]").forEach((card) => {
-            const collapsible = card.querySelector(".tool-widget.collapsible");
-            if (!collapsible) return;
-            card.addEventListener("click", (event) => {
-                const isInteractive = event.target.closest("input, textarea, button, select, a, label");
-                if (isInteractive) return;
-                collapsible.classList.toggle("is-open");
-            });
-        });
+                const BIBLICAL_CHARACTERS = {
+                    adao: { name: "Adão", who: "Primeiro homem", spouse: "Eva", tribe: "Não se aplica", lineage: "Pai da humanidade" },
+                    eva: { name: "Eva", who: "Primeira mulher", spouse: "Adão", tribe: "Não se aplica", lineage: "Mãe da humanidade" },
+                    noe: { name: "Noé", who: "Patriarca do dilúvio", spouse: "Esposa de Noé (não nomeada)", tribe: "Pré-Israel", lineage: "Descendente de Sete" },
+                    abraao: { name: "Abraão", who: "Patriarca da fé", spouse: "Sara", tribe: "Pré-Israel", lineage: "Pai de Israel pela promessa" },
+                    sara: { name: "Sara", who: "Matriarca da promessa", spouse: "Abraão", tribe: "Pré-Israel", lineage: "Mãe de Isaque" },
+                    isaque: { name: "Isaque", who: "Filho da promessa", spouse: "Rebeca", tribe: "Pré-Israel", lineage: "Filho de Abraão" },
+                    rebeca: { name: "Rebeca", who: "Matriarca", spouse: "Isaque", tribe: "Pré-Israel", lineage: "Mãe de Jacó e Esaú" },
+                    jaco: { name: "Jacó (Israel)", who: "Patriarca das 12 tribos", spouse: "Leia e Raquel", tribe: "Pai das tribos", lineage: "Filho de Isaque" },
+                    israel: { name: "Israel", who: "Nome dado a Jacó", spouse: "Leia e Raquel", tribe: "Pai das tribos", lineage: "Filho de Isaque" },
+                    leia: { name: "Leia", who: "Matriarca", spouse: "Jacó", tribe: "Não se aplica", lineage: "Mãe de Judá e outros" },
+                    raquel: { name: "Raquel", who: "Matriarca", spouse: "Jacó", tribe: "Não se aplica", lineage: "Mãe de José e Benjamim" },
+                    jose: { name: "José", who: "Filho de Jacó vendido e governador do Egito", spouse: "Asenate", tribe: "José", lineage: "Filho de Jacó" },
+                    benjamim: { name: "Benjamim", who: "Filho caçula de Jacó", spouse: "Não informado", tribe: "Benjamim", lineage: "Filho de Jacó e Raquel" },
+                    moises: { name: "Moisés", who: "Libertador e legislador", spouse: "Zípora", tribe: "Levi", lineage: "Filho de Anrão e Joquebede" },
+                    arao: { name: "Arão", who: "Primeiro sumo sacerdote", spouse: "Eliseba", tribe: "Levi", lineage: "Irmão de Moisés" },
+                    miria: { name: "Miriã", who: "Profetisa", spouse: "Não informado", tribe: "Levi", lineage: "Irmã de Moisés" },
+                    josue: { name: "Josué", who: "Sucessor de Moisés", spouse: "Não informado", tribe: "Efraim", lineage: "Filho de Num" },
+                    calebe: { name: "Calebe", who: "Espia fiel", spouse: "Não informado", tribe: "Judá", lineage: "Filho de Jefoné" },
+                    samuel: { name: "Samuel", who: "Profeta e juiz", spouse: "Não informado", tribe: "Levita (família de Efraim)", lineage: "Filho de Elcana" },
+                    saul: { name: "Saul", who: "Primeiro rei de Israel", spouse: "Ainoã", tribe: "Benjamim", lineage: "Filho de Quis" },
+                    davi: { name: "Davi", who: "Rei de Israel", spouse: "Mical, Abigail, Bate-Seba e outras", tribe: "Judá", lineage: "Filho de Jessé" },
+                    salomao: { name: "Salomão", who: "Rei e sábio", spouse: "Muitas esposas", tribe: "Judá", lineage: "Filho de Davi" },
+                    elias: { name: "Elias", who: "Profeta", spouse: "Não informado", tribe: "Não informado", lineage: "Tisbita, Gileade" },
+                    eliseu: { name: "Eliseu", who: "Profeta", spouse: "Não informado", tribe: "Não informado", lineage: "Filho de Safate" },
+                    isaias: { name: "Isaías", who: "Profeta", spouse: "Profetisa (não nomeada)", tribe: "Judá (tradicional)", lineage: "Filho de Amoz" },
+                    jeremias: { name: "Jeremias", who: "Profeta", spouse: "Não informado", tribe: "Levita", lineage: "Filho de Hilquias" },
+                    ezequiel: { name: "Ezequiel", who: "Profeta", spouse: "Esposa (não nomeada)", tribe: "Levi", lineage: "Filho de Buzi" },
+                    daniel: { name: "Daniel", who: "Profeta no exílio", spouse: "Não informado", tribe: "Judá", lineage: "Nobre de Judá" },
+                    ester: { name: "Ester", who: "Rainha da Pérsia", spouse: "Rei Assuero", tribe: "Benjamim", lineage: "Prima/filha adotiva de Mardoqueu" },
+                    mardoqueu: { name: "Mardoqueu", who: "Líder judeu no exílio", spouse: "Não informado", tribe: "Benjamim", lineage: "Descendente de Quis" },
+                    boaz: { name: "Boaz", who: "Parente-remidor", spouse: "Rute", tribe: "Judá", lineage: "Antepassado de Davi" },
+                    rute: { name: "Rute", who: "Moabita fiel", spouse: "Boaz", tribe: "Não israelita (moabita)", lineage: "Bisavó de Davi" },
+                    jo: { name: "Jó", who: "Homem justo provado", spouse: "Esposa de Jó (não nomeada)", tribe: "Não informado", lineage: "Terra de Uz" },
+                    esdras: { name: "Esdras", who: "Escriba e sacerdote", spouse: "Não informado", tribe: "Levi", lineage: "Descendente de Arão" },
+                    neemias: { name: "Neemias", who: "Governador de Jerusalém", spouse: "Não informado", tribe: "Não informado", lineage: "Filho de Hacalias" },
 
-        init();
-        maybeOpenAdminFromHash();
-        loadNotes();
-        updateCalc();
-        updateCurrency();
-        updateLux();
-        buildBio();
-        updateBreakEven();
-        updateLinkPreview();
-        setInterval(syncContent, 30000);
-        setInterval(updateCurrency, RATES_TTL);
-    </script>
-</body>
-</html>
+                    maria: { name: "Maria", who: "Mãe de Jesus", spouse: "José", tribe: "Judá (associada à linhagem davídica)", lineage: "Parente de Isabel" },
+                    jesus: { name: "Jesus", who: "Messias, Filho de Deus", spouse: "Não se aplica", tribe: "Judá", lineage: "Linhagem de Davi" },
+                    josepai: { name: "José (pai terreno de Jesus)", who: "Justo, carpinteiro", spouse: "Maria", tribe: "Judá", lineage: "Casa de Davi" },
+                    joaobatista: { name: "João Batista", who: "Precursor do Messias", spouse: "Não informado", tribe: "Levi (linhagem sacerdotal)", lineage: "Filho de Zacarias e Isabel" },
+                    pedro: { name: "Pedro", who: "Apóstolo", spouse: "Casado (sogra citada)", tribe: "Não informado", lineage: "Filho de João/Jonas" },
+                    andre: { name: "André", who: "Apóstolo", spouse: "Não informado", tribe: "Não informado", lineage: "Irmão de Pedro" },
+                    tiago: { name: "Tiago", who: "Apóstolo", spouse: "Não informado", tribe: "Não informado", lineage: "Filho de Zebedeu" },
+                    joao: { name: "João", who: "Apóstolo e evangelista", spouse: "Não informado", tribe: "Não informado", lineage: "Filho de Zebedeu" },
+                    mateus: { name: "Mateus", who: "Apóstolo e evangelista", spouse: "Não informado", tribe: "Não informado", lineage: "Levi, filho de Alfeu (tradição)" },
+                    tome: { name: "Tomé", who: "Apóstolo", spouse: "Não informado", tribe: "Não informado", lineage: "Não informado" },
+                    filipe: { name: "Filipe", who: "Apóstolo", spouse: "Não informado", tribe: "Não informado", lineage: "Não informado" },
+                    bartolomeu: { name: "Bartolomeu", who: "Apóstolo", spouse: "Não informado", tribe: "Não informado", lineage: "Não informado" },
+                    tadeu: { name: "Tadeu (Judas, filho de Tiago)", who: "Apóstolo", spouse: "Não informado", tribe: "Não informado", lineage: "Não informado" },
+                    simao: { name: "Simão (o Zelote)", who: "Apóstolo", spouse: "Não informado", tribe: "Não informado", lineage: "Não informado" },
+                    judasiscariotes: { name: "Judas Iscariotes", who: "Apóstolo que traiu Jesus", spouse: "Não informado", tribe: "Não informado", lineage: "Filho de Simão Iscariotes" },
+                    paulo: { name: "Paulo", who: "Apóstolo aos gentios", spouse: "Não informado", tribe: "Benjamim", lineage: "Hebreu de hebreus" },
+                    barnabe: { name: "Barnabé", who: "Companheiro missionário de Paulo", spouse: "Não informado", tribe: "Levi", lineage: "Natural de Chipre" },
+                    timoteo: { name: "Timóteo", who: "Cooperador de Paulo", spouse: "Não informado", tribe: "Não informado", lineage: "Mãe judia e pai grego" },
+                    tito: { name: "Tito", who: "Cooperador de Paulo", spouse: "Não informado", tribe: "Não israelita", lineage: "Grego" },
+                    lucas: { name: "Lucas", who: "Evangelista e médico", spouse: "Não informado", tribe: "Não israelita", lineage: "Gentio (tradicional)" },
+                    marcos: { name: "Marcos", who: "Evangelista", spouse: "Não informado", tribe: "Não informado", lineage: "João Marcos, primo de Barnabé" },
+                    lazaro: { name: "Lázaro", who: "Amigo de Jesus ressuscitado", spouse: "Não informado", tribe: "Não informado", lineage: "Irmão de Marta e Maria" },
+                    marta: { name: "Marta", who: "Discípula em Betânia", spouse: "Não informado", tribe: "Não informado", lineage: "Irmã de Maria e Lázaro" },
+                    mariamagdalena: { name: "Maria Madalena", who: "Discípula de Jesus", spouse: "Não informado", tribe: "Não informado", lineage: "De Magdala" },
+                    pilatos: { name: "Pôncio Pilatos", who: "Governador romano da Judeia", spouse: "Esposa de Pilatos (não nomeada)", tribe: "Não se aplica", lineage: "Romano" },
+                    herodes: { name: "Herodes", who: "Dinastia de governantes da Judeia", spouse: "Variável", tribe: "Não se aplica", lineage: "Idumeu" },
+
+                    cain: { name: "Caim", who: "Primogênito de Adão e Eva", spouse: "Não informado", tribe: "Não se aplica", lineage: "Filho de Adão" },
+                    abel: { name: "Abel", who: "Filho de Adão e Eva", spouse: "Não informado", tribe: "Não se aplica", lineage: "Filho de Adão" },
+                    sete: { name: "Sete", who: "Filho de Adão e Eva", spouse: "Não informado", tribe: "Não se aplica", lineage: "Linhagem piedosa pré-dilúvio" },
+                    melquisedeque: { name: "Melquisedeque", who: "Rei de Salém e sacerdote do Deus Altíssimo", spouse: "Não informado", tribe: "Não se aplica", lineage: "Sem genealogia registrada" },
+                    ismael: { name: "Ismael", who: "Filho de Abraão e Hagar", spouse: "Egípcia", tribe: "Não se aplica", lineage: "Descendente de Abraão" },
+                    esau: { name: "Esaú", who: "Irmão de Jacó", spouse: "Judite/Basemate e outras", tribe: "Edom", lineage: "Filho de Isaque" },
+                    juda: { name: "Judá", who: "Filho de Jacó", spouse: "Filha de Sua", tribe: "Judá", lineage: "Antepassado da linhagem real" },
+                    levi: { name: "Levi", who: "Filho de Jacó", spouse: "Não informado", tribe: "Levi", lineage: "Tribo sacerdotal" },
+                    ruben: { name: "Rúben", who: "Primogênito de Jacó", spouse: "Não informado", tribe: "Rúben", lineage: "Filho de Jacó" },
+                    simeao: { name: "Simeão", who: "Filho de Jacó", spouse: "Não informado", tribe: "Simeão", lineage: "Filho de Jacó" },
+                    gade: { name: "Gade", who: "Filho de Jacó", spouse: "Não informado", tribe: "Gade", lineage: "Filho de Jacó" },
+                    aser: { name: "Aser", who: "Filho de Jacó", spouse: "Não informado", tribe: "Aser", lineage: "Filho de Jacó" },
+                    issacar: { name: "Issacar", who: "Filho de Jacó", spouse: "Não informado", tribe: "Issacar", lineage: "Filho de Jacó" },
+                    zebulom: { name: "Zebulom", who: "Filho de Jacó", spouse: "Não informado", tribe: "Zebulom", lineage: "Filho de Jacó" },
+                    efraim: { name: "Efraim", who: "Filho de José", spouse: "Não informado", tribe: "Efraim", lineage: "Neto de Jacó" },
+                    manasses: { name: "Manassés", who: "Filho de José", spouse: "Não informado", tribe: "Manassés", lineage: "Neto de Jacó" },
+
+                    farao: { name: "Faraó", who: "Título dos reis do Egito", spouse: "Variável", tribe: "Não se aplica", lineage: "Dinastia egípcia" },
+                    zipora: { name: "Zípora", who: "Esposa de Moisés", spouse: "Moisés", tribe: "Midianita", lineage: "Filha de Jetro" },
+                    jetro: { name: "Jetro", who: "Sacerdote de Midiã", spouse: "Não informado", tribe: "Midianita", lineage: "Sogro de Moisés" },
+                    fineias: { name: "Fineias", who: "Sacerdote zeloso", spouse: "Não informado", tribe: "Levi", lineage: "Neto de Arão" },
+                    aca: { name: "Acã", who: "Israelita que desobedeceu em Jericó", spouse: "Não informado", tribe: "Judá", lineage: "Filho de Carmi" },
+                    debora: { name: "Débora", who: "Juíza e profetisa", spouse: "Lapidote", tribe: "Efraim (região)", lineage: "Líder em Israel" },
+                    gideao: { name: "Gideão", who: "Juiz de Israel", spouse: "Muitas esposas", tribe: "Manassés", lineage: "Filho de Joás" },
+                    sansao: { name: "Sansão", who: "Juiz nazireu", spouse: "Filisteia (primeira)", tribe: "Dã", lineage: "Filho de Manoá" },
+                    dalila: { name: "Dalila", who: "Mulher ligada à queda de Sansão", spouse: "Não informado", tribe: "Filisteia", lineage: "Não informado" },
+                    ana: { name: "Ana", who: "Mãe de Samuel", spouse: "Elcana", tribe: "Levita (família)", lineage: "Mulher piedosa" },
+                    jonatas: { name: "Jônatas", who: "Filho de Saul e amigo de Davi", spouse: "Não informado", tribe: "Benjamim", lineage: "Filho do rei Saul" },
+                    mical: { name: "Mical", who: "Filha de Saul", spouse: "Davi", tribe: "Benjamim", lineage: "Casa de Saul" },
+                    absalao: { name: "Absalão", who: "Filho rebelde de Davi", spouse: "Não informado", tribe: "Judá", lineage: "Filho de Davi" },
+                    natã: { name: "Natã", who: "Profeta na corte de Davi", spouse: "Não informado", tribe: "Não informado", lineage: "Profeta" },
+                    bateseba: { name: "Bate-Seba", who: "Esposa de Davi", spouse: "Urias / Davi", tribe: "Não informado", lineage: "Mãe de Salomão" },
+                    urias: { name: "Urias", who: "Soldado heteu de Davi", spouse: "Bate-Seba", tribe: "Não israelita (heteu)", lineage: "Valente do exército" },
+                    roboao: { name: "Roboão", who: "Rei de Judá", spouse: "Maalate e outras", tribe: "Judá", lineage: "Filho de Salomão" },
+                    jeroboao: { name: "Jeroboão", who: "Primeiro rei do reino do Norte", spouse: "Não informado", tribe: "Efraim", lineage: "Filho de Nebate" },
+                    asa: { name: "Asa", who: "Rei de Judá", spouse: "Não informado", tribe: "Judá", lineage: "Descendente de Davi" },
+                    josafa: { name: "Josafá", who: "Rei de Judá", spouse: "Não informado", tribe: "Judá", lineage: "Filho de Asa" },
+                    ezequias: { name: "Ezequias", who: "Rei de Judá", spouse: "Hefzibá", tribe: "Judá", lineage: "Filho de Acaz" },
+                    josias: { name: "Josias", who: "Rei reformador de Judá", spouse: "Jedida", tribe: "Judá", lineage: "Filho de Amom" },
+
+                    osias: { name: "Oséias", who: "Profeta", spouse: "Gômer", tribe: "Não informado", lineage: "Filho de Beeri" },
+                    amos: { name: "Amós", who: "Profeta", spouse: "Não informado", tribe: "Judá", lineage: "Pastor de Tecoa" },
+                    jonas: { name: "Jonas", who: "Profeta", spouse: "Não informado", tribe: "Não informado", lineage: "Filho de Amitai" },
+                    miquias: { name: "Miqueias", who: "Profeta", spouse: "Não informado", tribe: "Judá", lineage: "Moresete" },
+                    ageu: { name: "Ageu", who: "Profeta pós-exílio", spouse: "Não informado", tribe: "Não informado", lineage: "Não informado" },
+                    zacarias: { name: "Zacarias", who: "Profeta pós-exílio", spouse: "Não informado", tribe: "Levi (sacerdotal)", lineage: "Filho de Berequias" },
+                    malaquias: { name: "Malaquias", who: "Profeta", spouse: "Não informado", tribe: "Não informado", lineage: "Não informado" },
+
+                    isabel: { name: "Isabel", who: "Mãe de João Batista", spouse: "Zacarias", tribe: "Levi", lineage: "Filha de Arão" },
+                    zacariaspai: { name: "Zacarias (pai de João)", who: "Sacerdote", spouse: "Isabel", tribe: "Levi", lineage: "Sacerdote da ordem de Abias" },
+                    anaetemplo: { name: "Ana (profetisa)", who: "Profetisa no templo", spouse: "Viúva", tribe: "Aser", lineage: "Filha de Fanuel" },
+                    simeaojusto: { name: "Simeão", who: "Homem justo no templo", spouse: "Não informado", tribe: "Não informado", lineage: "Recebeu o menino Jesus" },
+                    nicodemos: { name: "Nicodemos", who: "Fariseu e membro do Sinédrio", spouse: "Não informado", tribe: "Não informado", lineage: "Líder judeu" },
+                    zaqueu: { name: "Zaqueu", who: "Chefe dos publicanos", spouse: "Não informado", tribe: "Não informado", lineage: "Filho de Abraão (pela fé)" },
+                    josearimateia: { name: "José de Arimateia", who: "Membro do Sinédrio", spouse: "Não informado", tribe: "Não informado", lineage: "Discípulo de Jesus" },
+                    gamaliel: { name: "Gamaliel", who: "Mestre da lei", spouse: "Não informado", tribe: "Não informado", lineage: "Fariseu respeitado" },
+                    estevao: { name: "Estêvão", who: "Primeiro mártir cristão", spouse: "Não informado", tribe: "Não informado", lineage: "Diácono" },
+                    felipeev: { name: "Filipe (evangelista)", who: "Um dos sete", spouse: "Não informado", tribe: "Não informado", lineage: "Pai de quatro filhas" },
+                    aquila: { name: "Áquila", who: "Cooperador de Paulo", spouse: "Priscila", tribe: "Judeu", lineage: "Natural do Ponto" },
+                    priscila: { name: "Priscila", who: "Cooperadora no ensino", spouse: "Áquila", tribe: "Judia", lineage: "Esposa de Áquila" },
+                    apolo: { name: "Apolo", who: "Pregador eloquente", spouse: "Não informado", tribe: "Judeu", lineage: "Natural de Alexandria" },
+                    filemom: { name: "Filemom", who: "Líder cristão", spouse: "Áfia (provável)", tribe: "Não informado", lineage: "Igreja em sua casa" },
+                    onesimo: { name: "Onésimo", who: "Servo convertido", spouse: "Não informado", tribe: "Não informado", lineage: "Relacionado a Filemom" },
+                    silas: { name: "Silas", who: "Companheiro missionário de Paulo", spouse: "Não informado", tribe: "Judeu", lineage: "Líder da igreja" },
+                    lucio: { name: "Lúcio", who: "Cristão citado por Paulo", spouse: "Não informado", tribe: "Não informado", lineage: "Cooperador" }
+                };
+
+                const CHARACTER_ALIASES = {
+                    abrão: "abraao", abrao: "abraao", abraao: "abraao", sarai: "sara", jacob: "jaco",
+                    moises: "moises", miriam: "miria", josé: "jose", jose: "jose",
+                    joao: "joao", joaobatista: "joaobatista", batista: "joaobatista",
+                    judas: "judasiscariotes", iscariotes: "judasiscariotes",
+                    josedoegito: "jose", josepai: "josepai", mariamagdalena: "mariamagdalena", madalena: "mariamagdalena",
+                    simao: "simao", pedro: "pedro", paulo: "paulo", saulo: "paulo",
+                    maria: "maria", jose: "jose", josemaria: "josepai",
+                    joaobatista: "joaobatista", batista: "joaobatista", joaoevangelista: "joao",
+                    isaias: "isaias", jeremias: "jeremias", ezequiel: "ezequiel", daniel: "daniel",
+                    osias: "osias", amos: "amos", jonas: "jonas", miquias: "miquias", zacarias: "zacarias",
+                    josearimateia: "josearimateia", josefdearimateia: "josearimateia",
+                    filipeevangelista: "felipeev", felipe: "filipe",
+                    aquila: "aquila", priscila: "priscila", apolo: "apolo", silvano: "silas",
+                    saul: "saul", davi: "davi", salomao: "salomao", roboao: "roboao", jeroboao: "jeroboao"
+                };
+
+                const BIBLICAL_PLACES = {
+                    eden: { name: "Éden", type: "Jardim", region: "Origem da humanidade", notes: "Lugar da criação e queda" },
+                    arca: { name: "Arca", type: "Estrutura/embarcação", region: "Dilúvio", notes: "Arca de Noé" },
+                    babel: { name: "Babel", type: "Cidade", region: "Sinar (Mesopotâmia)", notes: "Torre de Babel" },
+                    ur: { name: "Ur", type: "Cidade", region: "Caldeia", notes: "Terra de origem de Abraão" },
+                    hara: { name: "Harã", type: "Cidade", region: "Mesopotâmia", notes: "Parada de Abraão" },
+                    canaa: { name: "Canaã", type: "Região/Terra", region: "Levante", notes: "Terra prometida" },
+                    belem: { name: "Belém", type: "Cidade", region: "Judá", notes: "Cidade de Davi e nascimento de Jesus" },
+                    hebron: { name: "Hebrom", type: "Cidade", region: "Judá", notes: "Residência de patriarcas" },
+                    betel: { name: "Betel", type: "Cidade", region: "Efraim", notes: "Jacó teve visão" },
+                    beerseba: { name: "Berseba", type: "Cidade", region: "Neguebe", notes: "Marco sul de Israel" },
+                    sodoma: { name: "Sodoma", type: "Cidade", region: "Vale do Jordão", notes: "Destruída com Gomorra" },
+                    gomorra: { name: "Gomorra", type: "Cidade", region: "Vale do Jordão", notes: "Destruída por juízo" },
+                    egito: { name: "Egito", type: "Nação", region: "Nordeste da África", notes: "Escravidão e êxodo" },
+                    gosen: { name: "Gósen", type: "Região", region: "Delta do Nilo", notes: "Morada dos hebreus no Egito" },
+                    sinai: { name: "Sinai", type: "Monte/Região", region: "Península do Sinai", notes: "Entrega da Lei" },
+                    horebe: { name: "Horebe", type: "Monte", region: "Sinai", notes: "Outro nome associado ao Sinai" },
+                    marvermelho: { name: "Mar Vermelho", type: "Mar", region: "Entre África e Arábia", notes: "Travessia do êxodo" },
+                    jordao: { name: "Jordão", type: "Rio", region: "Israel/Jordânia", notes: "Travessia de Israel e batismo de Jesus" },
+                    jerico: { name: "Jericó", type: "Cidade", region: "Vale do Jordão", notes: "Primeira conquista em Canaã" },
+                    ai: { name: "Ai", type: "Cidade", region: "Canaã central", notes: "Conquista em Josué" },
+                    jerusalem: { name: "Jerusalém", type: "Cidade", region: "Judá", notes: "Capital espiritual e política" },
+                    siao: { name: "Sião", type: "Monte/Cidade", region: "Jerusalém", notes: "Símbolo do povo de Deus" },
+                    templo: { name: "Templo", type: "Lugar de culto", region: "Jerusalém", notes: "Templo de Salomão/segundo templo" },
+                    samaria: { name: "Samaria", type: "Cidade/Região", region: "Reino do Norte", notes: "Capital de Israel do norte" },
+                    galileia: { name: "Galileia", type: "Região", region: "Norte de Israel", notes: "Ministério de Jesus" },
+                    judeia: { name: "Judeia", type: "Região", region: "Sul de Israel", notes: "Inclui Jerusalém e Belém" },
+                    pereia: { name: "Pereia", type: "Região", region: "Leste do Jordão", notes: "Área do ministério tardio" },
+                    decapole: { name: "Decápolis", type: "Região urbana", region: "Leste/Nordeste", notes: "Liga de dez cidades" },
+                    nazare: { name: "Nazaré", type: "Cidade", region: "Galileia", notes: "Infância de Jesus" },
+                    cafarnaum: { name: "Cafarnaum", type: "Cidade", region: "Galileia", notes: "Base de ministério de Jesus" },
+                    cana: { name: "Caná", type: "Cidade", region: "Galileia", notes: "Primeiro milagre de Jesus" },
+                    betania: { name: "Betânia", type: "Povoado", region: "Perto de Jerusalém", notes: "Casa de Marta, Maria e Lázaro" },
+                    betesda: { name: "Betesda", type: "Tanque/Lugar", region: "Jerusalém", notes: "Cura do paralítico" },
+                    silo: { name: "Siló", type: "Cidade/Santuário", region: "Efraim", notes: "Tabernáculo por longo período" },
+                    damasco: { name: "Damasco", type: "Cidade", region: "Síria", notes: "Conversão de Paulo no caminho" },
+                    antioquia: { name: "Antioquia", type: "Cidade", region: "Síria", notes: "Centro missionário da igreja" },
+                    filipos: { name: "Filipos", type: "Cidade", region: "Macedônia", notes: "Primeira igreja europeia de Paulo" },
+                    tessalonica: { name: "Tessalônica", type: "Cidade", region: "Macedônia", notes: "Igreja das epístolas aos tessalonicenses" },
+                    bereia: { name: "Bereia", type: "Cidade", region: "Macedônia", notes: "Judeus examinavam as Escrituras" },
+                    atenas: { name: "Atenas", type: "Cidade", region: "Grécia", notes: "Discurso no Areópago" },
+                    corinto: { name: "Corinto", type: "Cidade", region: "Acaia", notes: "Igreja com duas epístolas" },
+                    efeso: { name: "Éfeso", type: "Cidade", region: "Ásia Menor", notes: "Igreja importante no NT" },
+                    colossos: { name: "Colossos", type: "Cidade", region: "Ásia Menor", notes: "Destinatária da carta aos colossenses" },
+                    laodiceia: { name: "Laodiceia", type: "Cidade", region: "Ásia Menor", notes: "Igreja citada em Apocalipse" },
+                    esmirna: { name: "Esmirna", type: "Cidade", region: "Ásia Menor", notes: "Igreja do Apocalipse" },
+                    pergamo: { name: "Pérgamo", type: "Cidade", region: "Ásia Menor", notes: "Igreja do Apocalipse" },
+                    sardes: { name: "Sardes", type: "Cidade", region: "Ásia Menor", notes: "Igreja do Apocalipse" },
+                    filadelfia: { name: "Filadélfia", type: "Cidade", region: "Ásia Menor", notes: "Igreja do Apocalipse" },
+                    tiro: { name: "Tiro", type: "Cidade", region: "Fenícia", notes: "Cidade litorânea" },
+                    sidom: { name: "Sidom", type: "Cidade", region: "Fenícia", notes: "Cidade litorânea" },
+                    ninive: { name: "Nínive", type: "Cidade", region: "Assíria", notes: "Destino da missão de Jonas" },
+                    babilonia: { name: "Babilônia", type: "Cidade/Império", region: "Mesopotâmia", notes: "Exílio de Judá" },
+                    persia: { name: "Pérsia", type: "Império", region: "Irã antigo", notes: "Império de Ciro" },
+                    susa: { name: "Susã", type: "Cidade", region: "Pérsia", notes: "Cenário de Ester e Neemias" },
+                    media: { name: "Média", type: "Região", region: "Império Medo-Persa", notes: "Associada à Pérsia" },
+                    assiria: { name: "Assíria", type: "Império", region: "Mesopotâmia", notes: "Potência do AT" },
+                    capadocia: { name: "Capadócia", type: "Região", region: "Ásia Menor", notes: "Citada em Atos e 1 Pedro" },
+                    galacia: { name: "Galácia", type: "Região", region: "Ásia Menor", notes: "Destinatária da carta aos gálatas" },
+                    panfilia: { name: "Panfília", type: "Região", region: "Ásia Menor", notes: "Viagens missionárias" },
+                    bitinia: { name: "Bitínia", type: "Região", region: "Ásia Menor", notes: "Cit. em 1 Pedro" },
+                    chipre: { name: "Chipre", type: "Ilha", region: "Mediterrâneo", notes: "Primeira viagem missionária" },
+                    creta: { name: "Creta", type: "Ilha", region: "Mediterrâneo", notes: "Missão de Tito" },
+                    malta: { name: "Malta", type: "Ilha", region: "Mediterrâneo", notes: "Naufrágio de Paulo" },
+                    patmos: { name: "Patmos", type: "Ilha", region: "Egeu", notes: "João recebeu o Apocalipse" },
+                    roma: { name: "Roma", type: "Cidade/Império", region: "Itália", notes: "Destino de Paulo" },
+                    espanha: { name: "Espanha", type: "Região", region: "Europa", notes: "Destino missionário almejado por Paulo" },
+                    egon: { name: "Mar da Galileia", type: "Lago", region: "Galileia", notes: "Também chamado Tiberíades/Genesaré" },
+                    tiberiades: { name: "Tiberíades", type: "Cidade/Lago associado", region: "Galileia", notes: "Margens do mar da Galileia" },
+                    genesaré: { name: "Genesaré", type: "Planície/Lago", region: "Galileia", notes: "Área junto ao lago" },
+                    olivais: { name: "Monte das Oliveiras", type: "Monte", region: "Jerusalém", notes: "Oração e ascensão" },
+                    golgota: { name: "Gólgota", type: "Lugar", region: "Jerusalém", notes: "Crucificação de Jesus" },
+                    getsemani: { name: "Getsêmani", type: "Jardim", region: "Monte das Oliveiras", notes: "Agonia de Jesus" },
+                    sinedrio: { name: "Sinédrio", type: "Conselho/Lugar institucional", region: "Jerusalém", notes: "Tribunal judaico" },
+                    areopago: { name: "Areópago", type: "Local cívico", region: "Atenas", notes: "Discurso de Paulo" },
+                    armagedom: { name: "Armagedom", type: "Lugar simbólico/vale", region: "Meguido", notes: "Batalha final (Apocalipse)" },
+                    megido: { name: "Meguido", type: "Cidade/vale", region: "Norte de Israel", notes: "Origem do termo Armagedom" }
+                };
+
+                const PLACE_ALIASES = {
+                    jerusalen: "jerusalem", jerusalem: "jerusalem", sion: "siao", siom: "siao",
+                    nazaret: "nazare", cafarnao: "cafarnaum", capernaum: "cafarnaum", canaada: "cana",
+                    marvermelho: "marvermelho", marvermelha: "marvermelho", jordao: "jordao",
+                    juda: "judeia", judea: "judeia", galilea: "galileia", samaria: "samaria",
+                    damasco: "damasco", antioquia: "antioquia", efeso: "efeso", filipos: "filipos",
+                    tessalonica: "tessalonica", corinto: "corinto", roma: "roma", babilonia: "babilonia",
+                    egito: "egito", persia: "persia", assiria: "assiria", ninive: "ninive", susa: "susa",
+                    betania: "betania", betel: "betel", belem: "belem", hebron: "hebron", berseba: "beerseba",
+                    golgota: "golgota", getsemani: "getsemani", olivais: "olivais", areopago: "areopago",
+                    patmos: "patmos", creta: "creta", chipre: "chipre", malta: "malta",
+                    megido: "megido", armagedon: "armagedom", armagedom: "armagedom",
+                    mar: "egon", tiberiades: "tiberiades", genesare: "genesaré", genesarete: "genesaré"
+                };
+
+                const CHAPTERS_BY_BOOK = {
+                    "Genesis": 50, "Exodus": 40, "Leviticus": 27, "Numbers": 36, "Deuteronomy": 34,
+                    "Joshua": 24, "Judges": 21, "Ruth": 4, "1 Samuel": 31, "2 Samuel": 24,
+                    "1 Kings": 22, "2 Kings": 25, "1 Chronicles": 29, "2 Chronicles": 36, "Ezra": 10,
+                    "Nehemiah": 13, "Esther": 10, "Job": 42, "Psalms": 150, "Proverbs": 31,
+                    "Ecclesiastes": 12, "Song of Solomon": 8, "Isaiah": 66, "Jeremiah": 52,
+                    "Lamentations": 5, "Ezekiel": 48, "Daniel": 12, "Hosea": 14, "Joel": 3,
+                    "Amos": 9, "Obadiah": 1, "Jonah": 4, "Micah": 7, "Nahum": 3,
+                    "Habakkuk": 3, "Zephaniah": 3, "Haggai": 2, "Zechariah": 14, "Malachi": 4,
+                    "Matthew": 28, "Mark": 16, "Luke": 24, "John": 21, "Acts": 28,
+                    "Romans": 16, "1 Corinthians": 16, "2 Corinthians": 13, "Galatians": 6,
+                    "Ephesians": 6, "Philippians": 4, "Colossians": 4, "1 Thessalonians": 5,
+                    "2 Thessalonians": 3, "1 Timothy": 6, "2 Timothy": 4, "Titus": 3,
+                    "Philemon": 1, "Hebrews": 13, "James": 5, "1 Peter": 5, "2 Peter": 3,
+                    "1 John": 5, "2 John": 1, "3 John": 1, "Jude": 1, "Revelation": 22
+                };
+
+                const englishToPortugueseMap = Object.entries(bookMap).reduce((acc, [pt, en]) => {
+                    acc[en] = pt;
+                    return acc;
+                }, {});
+
+                const STORAGE_KEYS = {
+                    cache: "megaBibleCache",
+                    favorites: "megaBibleFavorites",
+                    notes: "megaBibleNotes",
+                    history: "megaBibleHistory",
+                    downloadProgress: "megaBibleDownloadProgress"
+                };
+
+                const IDB_CONFIG = {
+                    dbName: "megaBibleDatabase",
+                    dbVersion: 1,
+                    storeName: "chapters"
+                };
+
+                const DOWNLOAD_CONCURRENCY = 4;
+                const DOWNLOAD_STATUS_UPDATE_EVERY = 12;
+
+                const readingPlans = {
+                    evangelhos: {
+                        title: "Evangelhos em 30 dias",
+                        description: "Percorra Mateus a João em leituras diárias de três capítulos.",
+                        items: [
+                            "Dia 1 — Mateus 1-3",
+                            "Dia 5 — Mateus 13-15",
+                            "Dia 10 — Marcos 1-3",
+                            "Dia 15 — Lucas 5-7",
+                            "Dia 20 — Lucas 20-22",
+                            "Dia 25 — João 11-13",
+                            "Dia 30 — João 19-21"
+                        ]
+                    },
+                    sabedoria: {
+                        title: "Sabedoria em 31 dias",
+                        description: "Um capítulo de Provérbios por dia + destaques de Eclesiastes e Jó.",
+                        items: [
+                            "Dia 1 — Provérbios 1",
+                            "Dia 8 — Provérbios 8",
+                            "Dia 16 — Provérbios 16",
+                            "Dia 24 — Provérbios 24",
+                            "Dia 28 — Eclesiastes 3",
+                            "Dia 30 — Jó 28",
+                            "Dia 31 — Provérbios 31"
+                        ]
+                    },
+                    cartas: {
+                        title: "Cartas essenciais em 45 dias",
+                        description: "Romanos, Coríntios, Gálatas, Efésios, Filipenses e Colossenses em ritmo moderado.",
+                        items: [
+                            "Dias 1-7 — Romanos 1-14",
+                            "Dias 8-15 — 1 Coríntios 1-16",
+                            "Dias 16-22 — 2 Coríntios 1-13",
+                            "Dias 23-27 — Gálatas 1-6",
+                            "Dias 28-32 — Efésios 1-6",
+                            "Dias 33-37 — Filipenses 1-4",
+                            "Dias 38-45 — Colossenses 1-4 + Filemom"
+                        ]
+                    }
+                };
+
+                const lookupForm = document.getElementById("lookupForm");
+                const versionSelect = document.getElementById("version");
+                const bookSelect = document.getElementById("book");
+                const chapterInput = document.getElementById("chapter");
+                const verseInput = document.getElementById("verse");
+                const bookChapterHint = document.getElementById("bookChapterHint");
+                const downloadCurrentVersionBtn = document.getElementById("downloadCurrentVersionBtn");
+                const downloadAllVersionsBtn = document.getElementById("downloadAllVersionsBtn");
+                const cancelDownloadBtn = document.getElementById("cancelDownloadBtn");
+                const downloadStatus = document.getElementById("downloadStatus");
+                const downloadProgressBar = document.getElementById("downloadProgressBar");
+                const resultTitle = document.getElementById("resultTitle");
+                const verseContent = document.getElementById("verseContent");
+                const resultMeta = document.getElementById("resultMeta");
+                const resultActions = document.getElementById("resultActions");
+                const copyBtn = document.getElementById("copyBtn");
+                const lexTooltip = document.getElementById("lexTooltip");
+                const cacheCount = document.getElementById("cacheCount");
+                const installAppBtn = document.getElementById("installAppBtn");
+                const installAppHint = document.getElementById("installAppHint");
+
+                const state = {
+                    currentReference: null,
+                    currentData: null,
+                    currentVersion: null,
+                    download: {
+                        active: false,
+                        cancelRequested: false,
+                        total: 0,
+                        completed: 0,
+                        success: 0,
+                        failed: 0,
+                        rateLimited: 0,
+                        notFound: 0,
+                        current: ""
+                    }
+                };
+
+                let bibleDbPromise = null;
+                let activeDownloadControllers = new Set();
+                let deferredInstallPrompt = null;
+
+                const safeParse = (value, fallback) => {
+                    try {
+                        return value ? JSON.parse(value) : fallback;
+                    } catch (err) {
+                        return fallback;
+                    }
+                };
+
+                const getCache = () => safeParse(localStorage.getItem(STORAGE_KEYS.cache), {});
+                const setCache = (cache) => localStorage.setItem(STORAGE_KEYS.cache, JSON.stringify(cache));
+                const getFavorites = () => safeParse(localStorage.getItem(STORAGE_KEYS.favorites), []);
+                const setFavorites = (list) => localStorage.setItem(STORAGE_KEYS.favorites, JSON.stringify(list));
+                const getNotes = () => safeParse(localStorage.getItem(STORAGE_KEYS.notes), {});
+                const setNotes = (notes) => localStorage.setItem(STORAGE_KEYS.notes, JSON.stringify(notes));
+                const getHistory = () => safeParse(localStorage.getItem(STORAGE_KEYS.history), []);
+                const setHistory = (items) => localStorage.setItem(STORAGE_KEYS.history, JSON.stringify(items.slice(0, 12)));
+                const getDownloadProgress = () => safeParse(localStorage.getItem(STORAGE_KEYS.downloadProgress), {});
+                const setDownloadProgress = (value) => localStorage.setItem(STORAGE_KEYS.downloadProgress, JSON.stringify(value));
+
+                const openBibleDb = () => {
+                    if (typeof indexedDB === "undefined") {
+                        return Promise.resolve(null);
+                    }
+                    if (bibleDbPromise) {
+                        return bibleDbPromise;
+                    }
+
+                    bibleDbPromise = new Promise((resolve, reject) => {
+                        const request = indexedDB.open(IDB_CONFIG.dbName, IDB_CONFIG.dbVersion);
+
+                        request.onupgradeneeded = () => {
+                            const db = request.result;
+                            if (!db.objectStoreNames.contains(IDB_CONFIG.storeName)) {
+                                const store = db.createObjectStore(IDB_CONFIG.storeName, { keyPath: "id" });
+                                store.createIndex("version", "version", { unique: false });
+                            }
+                        };
+
+                        request.onsuccess = () => resolve(request.result);
+                        request.onerror = () => reject(request.error);
+                    });
+
+                    return bibleDbPromise;
+                };
+
+                const idbGetChapter = async (id) => {
+                    const db = await openBibleDb();
+                    if (!db) return null;
+
+                    return new Promise((resolve, reject) => {
+                        const tx = db.transaction(IDB_CONFIG.storeName, "readonly");
+                        const store = tx.objectStore(IDB_CONFIG.storeName);
+                        const req = store.get(id);
+                        req.onsuccess = () => resolve(req.result ?? null);
+                        req.onerror = () => reject(req.error);
+                    });
+                };
+
+                const idbSetChapter = async (entry) => {
+                    const db = await openBibleDb();
+                    if (!db) return;
+
+                    await new Promise((resolve, reject) => {
+                        const tx = db.transaction(IDB_CONFIG.storeName, "readwrite");
+                        tx.oncomplete = () => resolve();
+                        tx.onerror = () => reject(tx.error);
+                        tx.objectStore(IDB_CONFIG.storeName).put(entry);
+                    });
+                };
+
+                const idbDeleteChapter = async (id) => {
+                    const db = await openBibleDb();
+                    if (!db) return;
+
+                    await new Promise((resolve, reject) => {
+                        const tx = db.transaction(IDB_CONFIG.storeName, "readwrite");
+                        tx.oncomplete = () => resolve();
+                        tx.onerror = () => reject(tx.error);
+                        tx.objectStore(IDB_CONFIG.storeName).delete(id);
+                    });
+                };
+
+                const idbClearAllChapters = async () => {
+                    const db = await openBibleDb();
+                    if (!db) return;
+
+                    await new Promise((resolve, reject) => {
+                        const tx = db.transaction(IDB_CONFIG.storeName, "readwrite");
+                        tx.oncomplete = () => resolve();
+                        tx.onerror = () => reject(tx.error);
+                        tx.objectStore(IDB_CONFIG.storeName).clear();
+                    });
+                };
+
+                const idbCountAll = async () => {
+                    const db = await openBibleDb();
+                    if (!db) return 0;
+
+                    return new Promise((resolve, reject) => {
+                        const tx = db.transaction(IDB_CONFIG.storeName, "readonly");
+                        const store = tx.objectStore(IDB_CONFIG.storeName);
+                        const req = store.count();
+                        req.onsuccess = () => resolve(req.result ?? 0);
+                        req.onerror = () => reject(req.error);
+                    });
+                };
+
+                const idbCountByVersion = async (version) => {
+                    const db = await openBibleDb();
+                    if (!db) return 0;
+
+                    return new Promise((resolve, reject) => {
+                        const tx = db.transaction(IDB_CONFIG.storeName, "readonly");
+                        const index = tx.objectStore(IDB_CONFIG.storeName).index("version");
+                        const req = index.count(version);
+                        req.onsuccess = () => resolve(req.result ?? 0);
+                        req.onerror = () => reject(req.error);
+                    });
+                };
+
+                const updateCounters = async () => {
+                    const localCount = Object.keys(getCache()).length;
+                    let indexedCount = 0;
+                    try {
+                        indexedCount = await idbCountAll();
+                    } catch (_) {
+                        indexedCount = 0;
+                    }
+                    cacheCount.textContent = String(Math.max(localCount, indexedCount));
+                };
+
+                const formatReference = (data, fallbackVerse) => {
+                    if (data?.verses?.length) {
+                        const verseSample = data.verses[0];
+                        const suffix = fallbackVerse ? `:${fallbackVerse}` : "";
+                        return `${verseSample.book_name} ${verseSample.chapter}${suffix}`;
+                    }
+                    return data?.reference ?? "Referência não disponível";
+                };
+
+                const normalizeWordToken = (word) =>
+                    String(word || "")
+                        .toLowerCase()
+                        .normalize("NFD")
+                        .replace(/[\u0300-\u036f]/g, "")
+                        .replace(/[^a-z0-9]/g, "")
+                        .trim();
+
+                const getOriginalLanguageForCurrentBook = () => {
+                    const englishBook = state.currentReference?.englishBook;
+                    if (!englishBook) return "he";
+                    return OT_BOOKS.has(englishBook) ? "he" : "gr";
+                };
+
+                const resolveLexiconForToken = (token) => {
+                    const key = normalizeWordToken(token);
+                    if (!key) return null;
+
+                    const candidateKeys = [
+                        key,
+                        LEXICON_ALIASES[key],
+                        key.endsWith("s") ? key.slice(0, -1) : "",
+                        key.endsWith("es") ? key.slice(0, -2) : ""
+                    ].filter(Boolean);
+
+                    let row = null;
+                    for (const k of candidateKeys) {
+                        const mapped = LEXICON_ALIASES[k] ?? k;
+                        row = LEXICON_BY_PT[mapped] ?? null;
+                        if (row) break;
+                    }
+
+                    if (!row) return null;
+
+                    const lang = getOriginalLanguageForCurrentBook();
+                    return row[lang] ?? row.he ?? row.gr ?? null;
+                };
+
+                const resolveCharacterForToken = (token) => {
+                    const key = normalizeWordToken(token);
+                    if (!key || key.length < 3) return null;
+
+                    const candidates = [
+                        key,
+                        CHARACTER_ALIASES[key],
+                        key.endsWith("s") ? key.slice(0, -1) : "",
+                        key.endsWith("es") ? key.slice(0, -2) : ""
+                    ].filter(Boolean);
+
+                    for (const item of candidates) {
+                        const mapped = CHARACTER_ALIASES[item] ?? item;
+                        const character = BIBLICAL_CHARACTERS[mapped];
+                        if (character) return character;
+                    }
+
+                    return null;
+                };
+
+                const resolvePlaceForToken = (token) => {
+                    const key = normalizeWordToken(token);
+                    if (!key || key.length < 3) return null;
+
+                    const candidates = [
+                        key,
+                        PLACE_ALIASES[key],
+                        key.endsWith("s") ? key.slice(0, -1) : "",
+                        key.endsWith("es") ? key.slice(0, -2) : ""
+                    ].filter(Boolean);
+
+                    for (const item of candidates) {
+                        const mapped = PLACE_ALIASES[item] ?? item;
+                        const place = BIBLICAL_PLACES[mapped];
+                        if (place) return place;
+                    }
+
+                    return null;
+                };
+
+                const renderWordsWithLexicon = (text) => {
+                    const parts = String(text || "").split(/(\s+)/);
+                    return parts
+                        .map((part) => {
+                            if (!part || /^\s+$/.test(part)) return part;
+                            const token = normalizeWordToken(part);
+                            if (!token) return part;
+                            const hasCharacter = Boolean(resolveCharacterForToken(token));
+                            const hasPlace = Boolean(resolvePlaceForToken(token));
+                            const hasLexicon = Boolean(resolveLexiconForToken(token));
+                            const hasTranslatedInfo = hasCharacter || hasPlace || hasLexicon;
+                            return `<span class="word-token${hasTranslatedInfo ? " translated-term" : ""}" data-word="${token}">${part}</span>`;
+                        })
+                        .join("");
+                };
+
+                const formatVersesHTML = (data, highlightVerse) => {
+                    if (!data?.verses?.length) {
+                        return renderWordsWithLexicon(data?.text ?? "Texto não disponível.");
+                    }
+                    return data.verses
+                        .map((v) => {
+                            const highlighted = highlightVerse && Number(highlightVerse) === Number(v.verse);
+                            return `<span class="verse-line${highlighted ? " highlight" : ""}"><b>${v.verse}</b>${renderWordsWithLexicon(v.text.trim())}</span>`;
+                        })
+                        .join("");
+                };
+
+                const parseReference = (reference) => {
+                    if (!reference || typeof reference !== "string") return null;
+                    const normalized = reference.trim();
+                    const match = normalized.match(/^(.*)\s(\d+)(?::(\d+))?$/);
+                    if (!match) return null;
+
+                    const [, rawBook, chapterStr, verseStr] = match;
+                    const englishBook = rawBook.trim();
+                    const portugueseBook = englishToPortugueseMap[englishBook] ?? englishBook;
+                    return {
+                        book: portugueseBook,
+                        chapter: chapterStr,
+                        verse: verseStr ?? ""
+                    };
+                };
+
+                const buildCacheKey = (version, bookKey, chapter) => `${version}|${bookKey}|${chapter}`;
+
+                const getSelectedBookChapterLimit = () => {
+                    const portugueseBook = bookSelect.value;
+                    const englishBook = bookMap[portugueseBook];
+                    if (!englishBook) {
+                        return { portugueseBook: "", englishBook: "", maxChapter: 0 };
+                    }
+                    return {
+                        portugueseBook,
+                        englishBook,
+                        maxChapter: CHAPTERS_BY_BOOK[englishBook] ?? 0
+                    };
+                };
+
+                const decorateBookOptionsWithChapterCount = () => {
+                    Array.from(bookSelect.options).forEach((option) => {
+                        if (!option.value) return;
+                        if (option.dataset.decorated === "1") return;
+
+                        const englishBook = bookMap[option.value];
+                        const maxChapter = CHAPTERS_BY_BOOK[englishBook] ?? 0;
+                        if (!maxChapter) return;
+
+                        option.textContent = `${option.textContent} (${maxChapter} cap.)`;
+                        option.dataset.decorated = "1";
+                    });
+                };
+
+                const updateBookChapterHint = () => {
+                    const { portugueseBook, maxChapter } = getSelectedBookChapterLimit();
+                    if (!portugueseBook || !maxChapter) {
+                        bookChapterHint.textContent = "Selecione um livro para ver a quantidade de capítulos.";
+                        return;
+                    }
+                    bookChapterHint.textContent = `${portugueseBook} tem ${maxChapter} capítulos.`;
+                };
+
+                const populateChapterOptions = () => {
+                    const { maxChapter } = getSelectedBookChapterLimit();
+                    const current = Number(chapterInput.value);
+
+                    chapterInput.innerHTML = '<option value="">Selecione o capítulo</option>';
+                    for (let n = 1; n <= maxChapter; n += 1) {
+                        const option = document.createElement("option");
+                        option.value = String(n);
+                        option.textContent = String(n);
+                        if (n === current) option.selected = true;
+                        chapterInput.appendChild(option);
+                    }
+                };
+
+                const showLexTooltip = (entry, x, y) => {
+                    const langLabel = getOriginalLanguageForCurrentBook() === "he" ? "Hebraico" : "Grego";
+                    lexTooltip.innerHTML = `
+                        <div class="lex-title">${langLabel}</div>
+                        <div><strong>Original:</strong> ${entry.original}</div>
+                        <div><strong>Transliteração:</strong> ${entry.translit}</div>
+                        <div><strong>Significado:</strong> ${entry.meaning}</div>
+                    `;
+                    lexTooltip.style.display = "block";
+                    lexTooltip.style.left = `${Math.min(x + 14, window.innerWidth - 340)}px`;
+                    lexTooltip.style.top = `${Math.min(y + 14, window.innerHeight - 150)}px`;
+                };
+
+                const showCharacterTooltip = (character, x, y) => {
+                    lexTooltip.innerHTML = `
+                        <div class="lex-title">Personagem bíblico</div>
+                        <div><strong>Nome:</strong> ${character.name}</div>
+                        <div><strong>Quem era:</strong> ${character.who}</div>
+                        <div><strong>Cônjuge:</strong> ${character.spouse}</div>
+                        <div><strong>Tribo:</strong> ${character.tribe}</div>
+                        <div><strong>Descendência:</strong> ${character.lineage}</div>
+                    `;
+                    lexTooltip.style.display = "block";
+                    lexTooltip.style.left = `${Math.min(x + 14, window.innerWidth - 340)}px`;
+                    lexTooltip.style.top = `${Math.min(y + 14, window.innerHeight - 170)}px`;
+                };
+
+                const showPlaceTooltip = (place, x, y) => {
+                    lexTooltip.innerHTML = `
+                        <div class="lex-title">Lugar bíblico</div>
+                        <div><strong>Nome:</strong> ${place.name}</div>
+                        <div><strong>Tipo:</strong> ${place.type}</div>
+                        <div><strong>Região:</strong> ${place.region}</div>
+                        <div><strong>Descrição:</strong> ${place.notes}</div>
+                    `;
+                    lexTooltip.style.display = "block";
+                    lexTooltip.style.left = `${Math.min(x + 14, window.innerWidth - 340)}px`;
+                    lexTooltip.style.top = `${Math.min(y + 14, window.innerHeight - 160)}px`;
+                };
+
+                const hideLexTooltip = () => {
+                    lexTooltip.style.display = "none";
+                };
+
+                const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+                const fetchJsonWithResilience = async (url, attempts = 3) => {
+                    let lastStatus = 0;
+
+                    for (let i = 0; i < attempts; i += 1) {
+                        try {
+                            const response = await fetch(url);
+                            lastStatus = response.status;
+
+                            if (response.ok) {
+                                return { ok: true, status: response.status, data: await response.json() };
+                            }
+
+                            const retriable = response.status === 429 || response.status >= 500;
+                            if (!retriable) {
+                                return { ok: false, status: response.status, data: null };
+                            }
+                        } catch (_) {
+                            lastStatus = 0;
+                        }
+
+                        await wait(500 + (i * 700));
+                    }
+
+                    return { ok: false, status: lastStatus, data: null };
+                };
+
+                const normalizeBookToken = (name) =>
+                    String(name || "")
+                        .normalize("NFD")
+                        .replace(/[\u0300-\u036f]/g, "")
+                        .replace(/\s+/g, " ")
+                        .trim();
+
+                const buildBookCandidates = (englishBook, portugueseBook) => {
+                    const baseAliases = bookApiAliases[englishBook] ?? [englishBook];
+                    const raw = [
+                        englishBook,
+                        ...baseAliases,
+                        portugueseBook,
+                        normalizeBookToken(portugueseBook)
+                    ].filter(Boolean);
+
+                    return Array.from(new Set(raw));
+                };
+
+                const persistChapter = async ({ version, book, chapter, data, toLocalStorage = true }) => {
+                    const cacheKey = buildCacheKey(version, book, chapter);
+                    await idbSetChapter({
+                        id: cacheKey,
+                        version,
+                        book,
+                        chapter,
+                        data,
+                        updatedAt: Date.now()
+                    });
+
+                    if (toLocalStorage) {
+                        try {
+                            const cache = getCache();
+                            cache[cacheKey] = data;
+                            setCache(cache);
+                        } catch (_) {
+                            // Ignora limite de armazenamento do localStorage.
+                        }
+                    }
+                };
+
+                const extractTextForLanguageCheck = (data) => {
+                    if (!data) return "";
+                    if (Array.isArray(data.verses) && data.verses.length) {
+                        return data.verses.slice(0, 12).map((v) => String(v.text || "")).join(" ");
+                    }
+                    return String(data.text || "");
+                };
+
+                const isLikelyEnglish = (data) => {
+                    const text = extractTextForLanguageCheck(data).toLowerCase();
+                    if (!text) return false;
+
+                    const englishHits = [" the ", " and ", " of ", " to ", " that ", " shall ", " lord ", " god "]
+                        .reduce((acc, token) => acc + (text.includes(token) ? 1 : 0), 0);
+                    const portugueseHits = [" de ", " que ", " não ", " para ", " senhor ", " deus ", " por "]
+                        .reduce((acc, token) => acc + (text.includes(token) ? 1 : 0), 0);
+
+                    return englishHits >= 3 && portugueseHits <= 1;
+                };
+
+                const fetchPassage = async (version, book, chapter, portugueseBook = null) => {
+                    const cacheKey = buildCacheKey(version, book, chapter);
+                    const indexed = await idbGetChapter(cacheKey);
+                    if (indexed?.data) {
+                        if (!isLikelyEnglish(indexed.data)) {
+                            return { data: indexed.data, fromCache: true };
+                        }
+                        await idbDeleteChapter(cacheKey);
+                    }
+
+                    const cache = getCache();
+                    if (cache[cacheKey]) {
+                        if (!isLikelyEnglish(cache[cacheKey])) {
+                            await persistChapter({ version, book, chapter, data: cache[cacheKey], toLocalStorage: false });
+                            return { data: cache[cacheKey], fromCache: true };
+                        }
+                        delete cache[cacheKey];
+                        setCache(cache);
+                    }
+
+                    const apiVersion = apiVersionCodeMap[version] ?? version;
+                    const bookCandidates = buildBookCandidates(book, portugueseBook);
+                    const translationCandidates = [apiVersion];
+                    const seenStatuses = [];
+
+                    let data = null;
+                    let found = false;
+
+                    for (const bookName of bookCandidates) {
+                        for (const tr of translationCandidates) {
+                            const suffix = tr ? `?translation=${encodeURIComponent(tr)}` : "";
+                            const url = `https://bible-api.com/${encodeURIComponent(bookName)}%20${chapter}${suffix}`;
+
+                            const result = await fetchJsonWithResilience(url, 3);
+                            if (!result.ok || !result.data) {
+                                if (result.status) seenStatuses.push(result.status);
+                                continue;
+                            }
+
+                            data = result.data;
+                            if ((data?.verses?.length || data?.text) && !isLikelyEnglish(data)) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (found) break;
+                    }
+
+                    if (!found || !data) {
+                        const hasTemporaryFailure = seenStatuses.some((s) => s === 429 || s >= 500);
+                        const hasNetworkFailure = seenStatuses.length === 0;
+                        if (hasTemporaryFailure || hasNetworkFailure) {
+                            throw new Error("A fonte bíblica está instável no momento. Tente novamente em alguns segundos.");
+                        }
+                        throw new Error("Esse livro/capítulo não retornou conteúdo na fonte atual. Tente outro capítulo do mesmo livro.");
+                    }
+
+                    await persistChapter({ version, book, chapter, data });
+                    updateCounters();
+                    return { data, fromCache: false };
+                };
+
+                const displayPassage = (data, version, book, englishBook, chapter, verse) => {
+                    state.currentReference = { book, englishBook, chapter, verse };
+                    state.currentData = data;
+                    state.currentVersion = version;
+                    hideLexTooltip();
+                    const reference = formatReference(data, verse);
+
+                    resultTitle.textContent = reference;
+                    verseContent.innerHTML = formatVersesHTML(data, verse);
+                    resultMeta.style.display = "inline-flex";
+                    resultMeta.textContent = `${versionsMeta[version]?.label ?? "NVI"} • conteúdo carregado automaticamente`;
+                    resultActions.style.display = "flex";
+                };
+
+                const handleLookup = async (event) => {
+                    event.preventDefault();
+                    const version = versionSelect.value;
+                    const book = bookSelect.value;
+                    const chapter = Number(chapterInput.value);
+                    const verse = verseInput.value ? Number(verseInput.value) : undefined;
+
+                    if (!book || !chapter) {
+                        alert("Selecione livro e capítulo válidos.");
+                        return;
+                    }
+
+                    const englishBook = bookMap[book];
+                    if (!englishBook) {
+                        alert("Livro não encontrado na base em inglês.");
+                        return;
+                    }
+
+                    const maxChapter = CHAPTERS_BY_BOOK[englishBook];
+                    if (maxChapter && chapter > maxChapter) {
+                        alert(`Capítulo inválido para ${book}. Máximo: ${maxChapter}.`);
+                        return;
+                    }
+
+                    resultTitle.textContent = "Carregando...";
+                    verseContent.textContent = "Buscando o texto na versão escolhida.";
+                    resultMeta.style.display = "none";
+
+                    try {
+                        const { data } = await fetchPassage(version, englishBook, chapter, book);
+                        displayPassage(data, version, book, englishBook, chapter, verse);
+                    } catch (error) {
+                        resultTitle.textContent = "Erro ao carregar";
+                        verseContent.textContent = error.message;
+                        resultMeta.style.display = "none";
+                    }
+                };
+
+                const copyToClipboard = () => {
+                    if (!state.currentData) {
+                        alert("Carregue uma passagem antes de copiar.");
+                        return;
+                    }
+                    const reference = formatReference(state.currentData, state.currentReference?.verse);
+                    const text = verseContent.innerText;
+                    navigator.clipboard.writeText(`${reference}\n${text}`).then(() => {
+                        copyBtn.textContent = "Copiado!";
+                        setTimeout(() => (copyBtn.textContent = "Copiar texto"), 1800);
+                    }).catch(() => alert("Não foi possível copiar."));
+                };
+
+                const handleCompare = async () => {
+                    if (!state.currentReference) {
+                        alert("Carregue uma referência antes de comparar.");
+                        return;
+                    }
+                    const checked = Array.from(document.querySelectorAll('input[name="parallelVersion"]:checked')).map((el) => el.value);
+                    if (!checked.length) {
+                        alert("Selecione ao menos uma versão para comparar.");
+                        return;
+                    }
+                    parallelResults.innerHTML = '<div class="empty-state">Carregando comparações...</div>';
+
+                    try {
+                        const results = await Promise.all(
+                            checked.map(async (version) => {
+                                try {
+                                    const { data } = await fetchPassage(
+                                        version,
+                                        state.currentReference.englishBook,
+                                        state.currentReference.chapter,
+                                        state.currentReference.book
+                                    );
+                                    return { version, data };
+                                } catch (error) {
+                                    return { version, error: error.message };
+                                }
+                            })
+                        );
+
+                        parallelResults.innerHTML = results
+                            .map((entry) => {
+                                if (entry.error) {
+                                    return `<div class="parallel-card"><h3>${versionsMeta[entry.version]?.label ?? "NVI"}</h3><p style="color:#dc2626;">${entry.error}</p></div>`;
+                                }
+                                const reference = formatReference(entry.data, state.currentReference.verse);
+                                return `
+                                    <div class="parallel-card">
+                                        <h3>${versionsMeta[entry.version]?.label ?? "NVI"}</h3>
+                                        <small>${entry.data.translation_name}</small>
+                                        <p class="tag">${reference}</p>
+                                        <div>${formatVersesHTML(entry.data, state.currentReference.verse)}</div>
+                                    </div>
+                                `;
+                            })
+                            .join("");
+                    } catch (error) {
+                        parallelResults.innerHTML = `<div class="empty-state">${error.message}</div>`;
+                    }
+                };
+
+                const handleClearCache = () => {
+                    if (confirm("Deseja remover todos os capítulos armazenados no cache?")) {
+                        Promise.resolve()
+                            .then(async () => {
+                                setCache({});
+                                setDownloadProgress({});
+                                await idbClearAllChapters();
+                                updateCounters();
+                                updateDownloadStatus("Cache local e banco offline foram limpos.", 0);
+                                alert("Cache limpo com sucesso.");
+                            })
+                            .catch(() => {
+                                alert("Não foi possível limpar completamente o cache offline.");
+                            });
+                    }
+                };
+
+                const listAllChapterTargets = (versions) => {
+                    const targets = [];
+                    Object.values(bookMap).forEach((englishBook) => {
+                        const total = CHAPTERS_BY_BOOK[englishBook] ?? 0;
+                        for (let chapter = 1; chapter <= total; chapter += 1) {
+                            versions.forEach((version) => {
+                                targets.push({ version, englishBook, chapter });
+                            });
+                        }
+                    });
+                    return targets;
+                };
+
+                const updateDownloadStatus = (text, percent) => {
+                    downloadStatus.textContent = text;
+                    const safe = Number.isFinite(percent) ? Math.max(0, Math.min(100, percent)) : 0;
+                    downloadProgressBar.style.width = `${safe}%`;
+                };
+
+                const refreshDownloadedVersionSummary = async () => {
+                    try {
+                        const [n] = await Promise.all([
+                            idbCountByVersion("nvi")
+                        ]);
+                        const previous = getDownloadProgress();
+                        setDownloadProgress({
+                            ...previous,
+                            nvi: n,
+                            updatedAt: Date.now()
+                        });
+                    } catch (_) {
+                        // sem ação
+                    }
+                };
+
+                const renderStoredDownloadSummary = () => {
+                    const progress = getDownloadProgress();
+                    const n = progress.nvi ?? 0;
+                    const hasAny = n;
+                    if (!hasAny) {
+                        updateDownloadStatus("Nenhum download em andamento.", 0);
+                        return;
+                    }
+                    updateDownloadStatus(
+                        `NVI salva localmente: ${n}/1189 capítulos`,
+                        Math.round((n / 1189) * 100)
+                    );
+                };
+
+                const fetchChapterWithRetry = async (version, englishBook, chapter, retries = 3, signal) => {
+                    const url = `https://bible-api.com/${encodeURIComponent(englishBook)}%20${chapter}?translation=${version}`;
+                    let lastError = null;
+
+                    for (let i = 0; i <= retries; i += 1) {
+                        try {
+                            const response = await fetch(url, { signal });
+                            if (!response.ok) {
+                                throw new Error(`Falha HTTP ${response.status}`);
+                            }
+                            return await response.json();
+                        } catch (error) {
+                            lastError = error;
+                            if (error?.name === "AbortError") {
+                                throw error;
+                            }
+                            const message = String(error?.message || "");
+                            const isRateLimit = message.includes("429");
+                            const backoff = isRateLimit ? (1200 * (i + 1)) : (350 + i * 450);
+                            await wait(backoff);
+                        }
+                    }
+
+                    throw lastError ?? new Error("Falha ao baixar capítulo");
+                };
+
+                const probeVersionStatus = async (version) => {
+                    const apiVersion = apiVersionCodeMap[version] ?? version;
+                    const url = `https://bible-api.com/John%201?translation=${apiVersion}`;
+                    try {
+                        const response = await fetch(url);
+                        return response.status;
+                    } catch (_) {
+                        return 0;
+                    }
+                };
+
+                const startCompleteDownload = async (versions) => {
+                    if (state.download.active) {
+                        alert("Já existe um download em andamento.");
+                        return;
+                    }
+
+                    state.download.active = true;
+                    state.download.cancelRequested = false;
+                    state.download.completed = 0;
+                    state.download.success = 0;
+                    state.download.failed = 0;
+                    state.download.rateLimited = 0;
+                    state.download.notFound = 0;
+
+                    const supportedVersions = [];
+                    const unsupportedVersions = [];
+
+                    for (const version of versions) {
+                        const status = await probeVersionStatus(version);
+                        if (status === 404) {
+                            unsupportedVersions.push(version);
+                        } else {
+                            supportedVersions.push(version);
+                        }
+                    }
+
+                    if (unsupportedVersions.length) {
+                        const labels = unsupportedVersions.map((v) => versionsMeta[v]?.label || v).join(", ");
+                        alert(`Estas versões não existem nessa API e foram ignoradas: ${labels}.`);
+                    }
+
+                    if (!supportedVersions.length) {
+                        state.download.active = false;
+                        alert("Nenhuma versão suportada para download completo nesta API.");
+                        return;
+                    }
+
+                    const targets = listAllChapterTargets(supportedVersions);
+                    state.download.total = targets.length;
+
+                    updateDownloadStatus("Preparando download completo...", 0);
+
+                    try {
+                        let cursor = 0;
+                        activeDownloadControllers = new Set();
+
+                        const reportProgress = (force = false) => {
+                            if (!force && state.download.completed % DOWNLOAD_STATUS_UPDATE_EVERY !== 0 && state.download.completed !== state.download.total) {
+                                return;
+                            }
+                            const percent = Math.round((state.download.completed / state.download.total) * 100);
+                            updateDownloadStatus(
+                                `Baixando: ${state.download.current} • ${state.download.completed}/${state.download.total} • falhas: ${state.download.failed} (429: ${state.download.rateLimited}, 404: ${state.download.notFound})`,
+                                percent
+                            );
+                        };
+
+                        const worker = async () => {
+                            while (true) {
+                                if (state.download.cancelRequested) {
+                                    return;
+                                }
+
+                                const i = cursor;
+                                cursor += 1;
+                                if (i >= targets.length) {
+                                    return;
+                                }
+
+                                const target = targets[i];
+                                const cacheKey = buildCacheKey(target.version, target.englishBook, target.chapter);
+                                const existing = await idbGetChapter(cacheKey);
+
+                                state.download.current = `${versionsMeta[target.version]?.label ?? "NVI"} ${target.englishBook} ${target.chapter}`;
+
+                                if (!existing?.data) {
+                                    const controller = new AbortController();
+                                    activeDownloadControllers.add(controller);
+
+                                    try {
+                                        const data = await fetchChapterWithRetry(
+                                            apiVersionCodeMap[target.version] ?? target.version,
+                                            target.englishBook,
+                                            target.chapter,
+                                            1,
+                                            controller.signal
+                                        );
+                                        await persistChapter({
+                                            version: target.version,
+                                            book: target.englishBook,
+                                            chapter: target.chapter,
+                                            data,
+                                            toLocalStorage: false
+                                        });
+                                        state.download.success += 1;
+                                    } catch (error) {
+                                        if (error?.name !== "AbortError") {
+                                            const message = String(error?.message || "");
+                                            if (message.includes("429")) state.download.rateLimited += 1;
+                                            if (message.includes("404")) state.download.notFound += 1;
+                                            state.download.failed += 1;
+                                        }
+                                    } finally {
+                                        activeDownloadControllers.delete(controller);
+                                    }
+                                } else {
+                                    state.download.success += 1;
+                                }
+
+                                state.download.completed += 1;
+                                reportProgress();
+                            }
+                        };
+
+                        const workerCount = Math.min(DOWNLOAD_CONCURRENCY, targets.length);
+                        const workers = Array.from({ length: workerCount }, () => worker());
+                        await Promise.all(workers);
+
+                        reportProgress(true);
+
+                        await refreshDownloadedVersionSummary();
+                        updateCounters();
+
+                        if (state.download.cancelRequested) {
+                            renderStoredDownloadSummary();
+                            alert("Download cancelado. O que já foi baixado permanece disponível offline.");
+                        } else {
+                            renderStoredDownloadSummary();
+                            alert("Download concluído. Bíblia completa adicionada para as versões selecionadas.");
+                        }
+                    } finally {
+                        state.download.active = false;
+                        state.download.cancelRequested = false;
+                        activeDownloadControllers.forEach((controller) => controller.abort());
+                        activeDownloadControllers.clear();
+                    }
+                };
+
+                const handleDownloadCurrentVersion = async () => {
+                    await startCompleteDownload([versionSelect.value]);
+                };
+
+                const handleDownloadAllVersions = async () => {
+                    await startCompleteDownload(["nvi"]);
+                };
+
+                const handleCancelDownload = () => {
+                    if (!state.download.active) {
+                        alert("Não há download em andamento.");
+                        return;
+                    }
+                    state.download.cancelRequested = true;
+                    activeDownloadControllers.forEach((controller) => controller.abort());
+                    updateDownloadStatus("Cancelando download...", (state.download.completed / state.download.total) * 100);
+                };
+
+                const setupPwaInstall = () => {
+                    const isStandalone = window.matchMedia && window.matchMedia("(display-mode: standalone)").matches;
+                    if (isStandalone || window.navigator.standalone === true) {
+                        installAppBtn.style.display = "none";
+                        installAppHint.textContent = "App já instalado no dispositivo.";
+                    }
+
+                    window.addEventListener("beforeinstallprompt", (event) => {
+                        event.preventDefault();
+                        deferredInstallPrompt = event;
+                        installAppBtn.style.display = "inline-block";
+                        installAppHint.textContent = "Toque no botão para instalar no celular.";
+                    });
+
+                    installAppBtn.addEventListener("click", async () => {
+                        if (!deferredInstallPrompt) {
+                            installAppHint.textContent = "Se o botão não aparecer, use o menu do navegador e toque em 'Adicionar à tela inicial'.";
+                            return;
+                        }
+
+                        deferredInstallPrompt.prompt();
+                        const result = await deferredInstallPrompt.userChoice;
+                        if (result.outcome === "accepted") {
+                            installAppHint.textContent = "Instalação iniciada.";
+                            installAppBtn.style.display = "none";
+                        }
+                        deferredInstallPrompt = null;
+                    });
+
+                    window.addEventListener("appinstalled", () => {
+                        installAppHint.textContent = "App instalado com sucesso no celular.";
+                        installAppBtn.style.display = "none";
+                    });
+
+                    if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
+                        installAppHint.textContent = "No iPhone/iPad: Compartilhar > Adicionar à Tela de Início.";
+                    }
+
+                    if ("serviceWorker" in navigator) {
+                        window.addEventListener("load", () => {
+                            navigator.serviceWorker.register("./sw.js").catch(() => {
+                                installAppHint.textContent = "Instalação disponível quando abrir via HTTPS.";
+                            });
+                        });
+                    }
+                };
+
+                lookupForm.addEventListener("submit", handleLookup);
+                bookSelect.addEventListener("change", () => {
+                    const { maxChapter } = getSelectedBookChapterLimit();
+                    if (Number(chapterInput.value) > maxChapter) {
+                        chapterInput.value = "";
+                    }
+                    updateBookChapterHint();
+                    populateChapterOptions();
+                });
+                verseContent.addEventListener("mouseover", (event) => {
+                    const target = event.target.closest(".word-token");
+                    if (!target) return;
+                    const token = target.dataset.word;
+
+                    const character = resolveCharacterForToken(token);
+                    if (character) {
+                        showCharacterTooltip(character, event.clientX, event.clientY);
+                        return;
+                    }
+
+                    const place = resolvePlaceForToken(token);
+                    if (place) {
+                        showPlaceTooltip(place, event.clientX, event.clientY);
+                        return;
+                    }
+
+                    const entry = resolveLexiconForToken(token);
+                    if (!entry) {
+                        hideLexTooltip();
+                        return;
+                    }
+                    showLexTooltip(entry, event.clientX, event.clientY);
+                });
+                verseContent.addEventListener("mousemove", (event) => {
+                    if (lexTooltip.style.display === "none") return;
+                    lexTooltip.style.left = `${Math.min(event.clientX + 14, window.innerWidth - 340)}px`;
+                    lexTooltip.style.top = `${Math.min(event.clientY + 14, window.innerHeight - 150)}px`;
+                });
+                verseContent.addEventListener("mouseout", (event) => {
+                    const goingTo = event.relatedTarget;
+                    if (goingTo && goingTo.closest && goingTo.closest(".word-token")) return;
+                    hideLexTooltip();
+                });
+                copyBtn.addEventListener("click", copyToClipboard);
+                downloadCurrentVersionBtn.addEventListener("click", handleDownloadCurrentVersion);
+                downloadAllVersionsBtn.addEventListener("click", handleDownloadAllVersions);
+                cancelDownloadBtn.addEventListener("click", handleCancelDownload);
+
+                decorateBookOptionsWithChapterCount();
+                updateBookChapterHint();
+                populateChapterOptions();
+                setupPwaInstall();
+                updateCounters();
+                refreshDownloadedVersionSummary().then(renderStoredDownloadSummary).catch(renderStoredDownloadSummary);
+            </script>
+        </body>
+        </html>

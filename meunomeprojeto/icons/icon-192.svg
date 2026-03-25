@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192" role="img" aria-label="Estudos Bíblicos">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1f7ae0"/>
+      <stop offset="100%" stop-color="#1556a8"/>
+    </linearGradient>
+  </defs>
+  <rect width="192" height="192" rx="38" fill="url(#bg)"/>
+  <path d="M46 52h74c10 0 18 8 18 18v76H64c-10 0-18-8-18-18V52z" fill="#ffffff" opacity="0.95"/>
+  <path d="M64 52v94c0 10 8 18 18 18h64V70c0-10-8-18-18-18H64z" fill="#e6f0ff"/>
+  <path d="M98 72v72M62 108h72" stroke="#1f7ae0" stroke-width="10" stroke-linecap="round"/>
+</svg>
